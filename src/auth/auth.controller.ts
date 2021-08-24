@@ -1,16 +1,9 @@
-import {
-  Controller,
-  Get,
-  Req,
-  Res,
-  UnauthorizedException,
-  UseGuards,
-} from '@nestjs/common';
+import { Controller, Get, Req, Res, UseGuards } from '@nestjs/common';
 import { Request, Response } from 'express';
 import { User } from 'src/user/user.entity';
-import { AuthenticationGuard } from './Auth.guard';
+import { AuthenticationGuard } from './guards/Auth.guard';
 import { CurrentUser } from './current-user.decorator';
-import { GoogleAuthGuard } from './GoogleAuth.guard';
+import { GoogleAuthGuard } from './guards/GoogleAuth.guard';
 
 @Controller('auth')
 export class AuthController {
@@ -32,10 +25,6 @@ export class AuthController {
   @Get('/google/callback')
   @UseGuards(GoogleAuthGuard)
   callback(@Req() req: Request, @Res() res: Response) {
-    console.log('callback');
-    // console.log(req.user);
-    // res.redirect('http://localhost:3000/dashboard');
-    // return JSON.stringify(req.user);
     res.redirect('/auth/whoami');
   }
 
@@ -46,7 +35,10 @@ export class AuthController {
    */
   @Get('whoami')
   @UseGuards(AuthenticationGuard)
-  whoami(@Req() req: Request, @CurrentUser() user: User) {
+  whoami(
+    // @Req() req: Request,
+    @CurrentUser() user: User,
+  ) {
     // console.log('whoami');
     // if (!req.user) {
     //   throw new UnauthorizedException();
