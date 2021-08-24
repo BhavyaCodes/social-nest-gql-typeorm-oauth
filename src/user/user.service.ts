@@ -17,9 +17,13 @@ export class UserService {
     googleId: string;
     email: string;
     name: string;
-    imageUrl: string;
+    imageUrl?: string;
   }): Promise<User> {
     const createdUser = this.userRepo.create(options);
     return this.userRepo.save(createdUser);
+  }
+
+  async findUserByUserId(userId: number): Promise<User | undefined> {
+    return this.userRepo.findOne({ id: userId });
   }
 }

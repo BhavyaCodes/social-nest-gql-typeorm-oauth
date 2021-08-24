@@ -47,6 +47,7 @@ export class AuthController {
     return user;
   }
 
+  // @UseGuards(AuthenticationGuard)
   @Get('logout')
   logout(@Req() req: Request) {
     req.logOut();

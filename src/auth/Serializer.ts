@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { PassportSerializer } from '@nestjs/passport';
 import { VerifyCallback } from 'passport-google-oauth20';
 import { UserService } from 'src/user/user.service';
@@ -15,6 +15,8 @@ export class SessionSerializer extends PassportSerializer {
 
   async deserializeUser(user: any, done: VerifyCallback) {
     const userDB = await this.userService.findUserByGoogleId(user.googleId);
-    return userDB ? done(null, userDB) : done(null, null);
+    return userDB
+      ? done(null, userDB)
+      : done(new NotFoundException('User not found'), undefined);
   }
 }

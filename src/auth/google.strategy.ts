@@ -22,7 +22,8 @@ export class GoogleStrategy extends PassportStrategy(Strategy) {
     profile: Profile,
     done: VerifyCallback,
   ) {
-    const { id, displayName, emails, photos } = profile;
+    const { id, displayName } = profile;
+    // const { id, displayName, emails, photos } = profile;
 
     console.log(profile);
 
@@ -32,16 +33,23 @@ export class GoogleStrategy extends PassportStrategy(Strategy) {
       return done(null, foundUser);
     }
 
+    // const createdUser = await this.userService.createUserWithGoogle({
+    //   googleId: id,
+    //   name: displayName,
+    //   email: emails[0].value,
+    //   imageUrl: photos[0].value,
+    // });
+
     const createdUser = await this.userService.createUserWithGoogle({
       googleId: id,
       name: displayName,
-      email: emails[0].value,
-      imageUrl: photos[0].value,
+      email: profile._json.email,
+      imageUrl: profile._json.picture,
     });
 
     if (createdUser) {
       return done(null, createdUser);
     }
-    done(null, null);
+    done(null, undefined);
   }
 }
