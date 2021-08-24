@@ -7,7 +7,9 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { Request, Response } from 'express';
+import { User } from 'src/user/user.entity';
 import { AuthenticationGuard } from './Auth.guard';
+import { CurrentUser } from './current-user.decorator';
 import { GoogleAuthGuard } from './GoogleAuth.guard';
 
 @Controller('auth')
@@ -44,12 +46,13 @@ export class AuthController {
    */
   @Get('whoami')
   @UseGuards(AuthenticationGuard)
-  whoami(@Req() req: Request) {
+  whoami(@Req() req: Request, @CurrentUser() user: User) {
     // console.log('whoami');
     // if (!req.user) {
     //   throw new UnauthorizedException();
     // }
-    return req.user;
+    // return req.user;
+    return user;
   }
 
   @Get('logout')
