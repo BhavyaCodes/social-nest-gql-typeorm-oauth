@@ -1,5 +1,13 @@
-import { Controller, Get, Req, Res, UseGuards } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Req,
+  Res,
+  UnauthorizedException,
+  UseGuards,
+} from '@nestjs/common';
 import { Request, Response } from 'express';
+import { AuthenticationGuard } from './Auth.guard';
 import { GoogleAuthGuard } from './GoogleAuth.guard';
 
 @Controller('auth')
@@ -21,22 +29,27 @@ export class AuthController {
    */
   @Get('/google/callback')
   @UseGuards(GoogleAuthGuard)
-  callback(@Req() req: Request) {
+  callback(@Req() req: Request, @Res() res: Response) {
     console.log('callback');
     // console.log(req.user);
     // res.redirect('http://localhost:3000/dashboard');
     // return JSON.stringify(req.user);
-    return 'ok';
+    res.redirect('/auth/whoami');
   }
 
   /**
-   * GET /auth/status
-   * Retrieve the auth status
+   * returns current logged in user info
+   * @param req
+   * @returns
    */
-  @Get('status')
-  // @UseGuards(GoogleAuthGuard)
-  status(@Req() req: Request) {
-    return { user: req.user || null };
+  @Get('whoami')
+  @UseGuards(AuthenticationGuard)
+  whoami(@Req() req: Request) {
+    // console.log('whoami');
+    // if (!req.user) {
+    //   throw new UnauthorizedException();
+    // }
+    return req.user;
   }
 
   @Get('logout')
