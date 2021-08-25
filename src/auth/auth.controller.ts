@@ -2,7 +2,7 @@ import { Controller, Get, Req, Res, UseGuards } from '@nestjs/common';
 import { Request, Response } from 'express';
 import { User } from 'src/user/user.entity';
 import { AuthenticationGuard } from './guards/Auth.guard';
-import { CurrentUser } from './current-user.decorator';
+import { CurrentUser } from './decorators/current-user.decorator';
 import { GoogleAuthGuard } from './guards/GoogleAuth.guard';
 
 @Controller('auth')
@@ -14,7 +14,6 @@ export class AuthController {
   @Get('/google')
   @UseGuards(GoogleAuthGuard)
   login() {
-    console.log('/login');
     return {};
   }
 
@@ -39,7 +38,6 @@ export class AuthController {
     // @Req() req: Request,
     @CurrentUser() user: User,
   ) {
-    // console.log('whoami');
     // if (!req.user) {
     //   throw new UnauthorizedException();
     // }

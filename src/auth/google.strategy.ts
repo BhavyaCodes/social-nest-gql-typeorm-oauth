@@ -12,7 +12,6 @@ export class GoogleStrategy extends PassportStrategy(Strategy) {
       callbackURL: 'http://localhost:5000/auth/google/callback',
       scope: ['email', 'profile'],
       // proxy: true,
-      // prompt: 'select_account',
     });
   }
 
@@ -23,22 +22,12 @@ export class GoogleStrategy extends PassportStrategy(Strategy) {
     done: VerifyCallback,
   ) {
     const { id, displayName } = profile;
-    // const { id, displayName, emails, photos } = profile;
-
-    console.log(profile);
 
     const foundUser = await this.userService.findUserByGoogleId(id);
 
     if (foundUser) {
       return done(null, foundUser);
     }
-
-    // const createdUser = await this.userService.createUserWithGoogle({
-    //   googleId: id,
-    //   name: displayName,
-    //   email: emails[0].value,
-    //   imageUrl: photos[0].value,
-    // });
 
     const createdUser = await this.userService.createUserWithGoogle({
       googleId: id,

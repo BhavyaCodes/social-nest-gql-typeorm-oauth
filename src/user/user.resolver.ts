@@ -1,9 +1,12 @@
-import { NotFoundException } from '@nestjs/common';
+import { NotFoundException, UseGuards } from '@nestjs/common';
 import { Resolver, Query, Args } from '@nestjs/graphql';
+import { CurrentUserGraphQL } from 'src/auth/decorators/graphql-current-user.decorator';
+import { GraphQLAuthGuard } from 'src/auth/guards/GraphqlAuth.guard';
 import { GetUserProfileByIdInput } from './dto/get-user-profile-by-id.input';
 import { User } from './user.entity';
 import { UserService } from './user.service';
 
+// @Resolver(() => User)
 @Resolver(() => User)
 export class UserResolver {
   constructor(private readonly userService: UserService) {}
@@ -19,6 +22,12 @@ export class UserResolver {
     if (!user) {
       throw new NotFoundException();
     }
+    return user;
+  }
+
+  @Query(() => User)
+  @UseGuards(GraphQLAuthGuard)
+  async getCurrentLoggedInUser(@CurrentUserGraphQL() user: User) {
     return user;
   }
 }

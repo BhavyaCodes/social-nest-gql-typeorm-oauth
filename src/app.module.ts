@@ -20,6 +20,7 @@ import { join } from 'path';
       debug: false,
       playground: true,
       autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
+      cors: { origin: '*', credentials: true },
     }),
   ],
   controllers: [AppController],
