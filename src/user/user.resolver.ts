@@ -35,7 +35,6 @@ export class UserResolver {
 
   @ResolveField((_returns) => [Post])
   posts(@Parent() user: User): Promise<Post[]> {
-    console.log(user);
     return this.userService.getPostsByUserId(user.id);
   }
 }
