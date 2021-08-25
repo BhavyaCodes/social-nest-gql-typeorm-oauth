@@ -3,7 +3,6 @@ import {
   Query,
   Mutation,
   Args,
-  Int,
   ResolveField,
   Parent,
 } from '@nestjs/graphql';
@@ -28,8 +27,6 @@ export class PostResolver {
   ) {
     return this.postService.create(createPostInput, user);
   }
-  // @ResolveField((_returns) => User)
-  // user(@Parent() post: Post): Promise
 
   @Query(() => [Post], { name: 'allPosts' })
   findAll() {
