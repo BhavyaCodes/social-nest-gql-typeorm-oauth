@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from 'src/user/user.entity';
 import { Repository } from 'typeorm';
@@ -10,30 +10,34 @@ import { Post } from './entities/post.entity';
 export class PostService {
   constructor(
     @InjectRepository(Post) private readonly postRepo: Repository<Post>,
+    @InjectRepository(User) private readonly userRepo: Repository<User>,
   ) {}
   create(createPostInput: CreatePostInput, user: User): Promise<Post> {
     const newPost = this.postRepo.create({ ...createPostInput, user });
     return this.postRepo.save(newPost);
   }
 
-  async findAllPosts(): Promise<Post[]> {
-    // return this.postRepo.find({});
-    const posts = await this.postRepo.find({});
-    console.log(posts);
-    console.log(posts[0].user);
-    // console.log(posts[0].user_id);
-    return posts;
+  findAllPosts(): Promise<Post[]> {
+    return this.postRepo.find({});
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} post`;
+  async getUser(userId: number): Promise<User> {
+    const user = await this.userRepo.findOne(userId);
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+    return user;
   }
 
-  update(id: number, updatePostInput: UpdatePostInput) {
-    return `This action updates a #${id} post`;
-  }
+  // findOne(id: number) {
+  //   return `This action returns a #${id} post`;
+  // }
 
-  remove(id: number) {
-    return `This action removes a #${id} post`;
-  }
+  // update(id: number, updatePostInput: UpdatePostInput) {
+  //   return `This action updates a #${id} post`;
+  // }
+
+  // remove(id: number) {
+  //   return `This action removes a #${id} post`;
+  // }
 }

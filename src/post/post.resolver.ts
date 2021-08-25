@@ -36,10 +36,10 @@ export class PostResolver {
     return this.postService.findAllPosts();
   }
 
-  // @ResolveField((_returns) => User)
-  // user(@Parent() post: Post): Promise<User>{
-  //   return this.postService.getUser(post.user)
-  // }
+  @ResolveField((_returns) => User)
+  user(@Parent() post: Post): Promise<User> {
+    return this.postService.getUser(post.userId);
+  }
 
   // @Query(() => Post, { name: 'post' })
   // findOne(@Args('id', { type: () => Int }) id: number) {
