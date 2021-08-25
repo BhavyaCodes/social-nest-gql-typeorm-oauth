@@ -1,11 +1,12 @@
-import { Field, Int, ObjectType } from '@nestjs/graphql';
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Field, ID, ObjectType } from '@nestjs/graphql';
+import { Post } from 'src/post/entities/post.entity';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
 @ObjectType()
 export class User {
   @PrimaryGeneratedColumn()
-  @Field(() => Int)
+  @Field(() => ID, { nullable: false })
   id: number;
 
   @Column({ name: 'google_id', unique: true, nullable: false })
@@ -22,4 +23,8 @@ export class User {
   @Column({ nullable: true })
   @Field({ nullable: true })
   imageUrl: string;
+
+  @OneToMany(() => Post, (post) => post.user)
+  @Field((_type) => [Post], { nullable: true })
+  posts?: Post[];
 }

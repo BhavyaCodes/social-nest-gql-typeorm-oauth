@@ -2,18 +2,44 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-type User {
+type Post {
+  """Id of the post"""
   id: Int!
+  content: String!
+  user: User!
+}
+
+type User {
+  id: ID!
   name: String!
   email: String!
   imageUrl: String
+  posts: [Post!]
 }
 
 type Query {
   user(getUserProfileById: GetUserProfileByIdInput!): User!
   getCurrentLoggedInUser: User!
+  post(id: Int!): Post!
 }
 
 input GetUserProfileByIdInput {
   userId: Int!
+}
+
+type Mutation {
+  createPost(createPostInput: CreatePostInput!): Post!
+  updatePost(updatePostInput: UpdatePostInput!): Post!
+  removePost(id: Int!): Post!
+}
+
+input CreatePostInput {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+input UpdatePostInput {
+  """Example field (placeholder)"""
+  exampleField: Int
+  id: Int!
 }
