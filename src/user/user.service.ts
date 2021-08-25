@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { Post } from 'src/post/entities/post.entity';
 import { Repository } from 'typeorm';
 import { User } from './user.entity';
 
@@ -7,6 +8,7 @@ import { User } from './user.entity';
 export class UserService {
   constructor(
     @InjectRepository(User) private readonly userRepo: Repository<User>,
+    @InjectRepository(Post) private readonly postRepo: Repository<Post>,
   ) {}
 
   findUserByGoogleId(googleId: string): Promise<User | undefined> {
@@ -25,5 +27,11 @@ export class UserService {
 
   async findUserByUserId(userId: number): Promise<User | undefined> {
     return this.userRepo.findOne({ id: userId });
+  }
+
+  async getPostsByUserId(userId: number): Promise<Post[]> {
+    const posts = await this.postRepo.find({ userId });
+    console.log('posts', posts);
+    return posts;
   }
 }

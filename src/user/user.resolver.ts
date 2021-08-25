@@ -1,7 +1,9 @@
 import { NotFoundException, UseGuards } from '@nestjs/common';
-import { Resolver, Query, Args } from '@nestjs/graphql';
+import { Resolver, Query, Args, ResolveField, Parent } from '@nestjs/graphql';
 import { CurrentUserGraphQL } from 'src/auth/decorators/graphql-current-user.decorator';
 import { GraphQLAuthGuard } from 'src/auth/guards/GraphqlAuth.guard';
+import { Post } from 'src/post/entities/post.entity';
+import { PostService } from 'src/post/post.service';
 import { GetUserProfileByIdInput } from './dto/get-user-profile-by-id.input';
 import { User } from './user.entity';
 import { UserService } from './user.service';
@@ -29,5 +31,11 @@ export class UserResolver {
   @UseGuards(GraphQLAuthGuard)
   async getCurrentLoggedInUser(@CurrentUserGraphQL() user: User) {
     return user;
+  }
+
+  @ResolveField((_returns) => [Post])
+  posts(@Parent() user: User): Promise<Post[]> {
+    console.log(user);
+    return this.userService.getPostsByUserId(user.id);
   }
 }
