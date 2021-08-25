@@ -16,8 +16,13 @@ export class PostService {
     return this.postRepo.save(newPost);
   }
 
-  findAll() {
-    return `This action returns all post`;
+  async findAllPosts(): Promise<Post[]> {
+    // return this.postRepo.find({});
+    const posts = await this.postRepo.find({});
+    console.log(posts);
+    console.log(posts[0].user);
+    // console.log(posts[0].user_id);
+    return posts;
   }
 
   findOne(id: number) {
