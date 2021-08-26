@@ -1,6 +1,6 @@
 import {
   Resolver,
-  Query,
+  // Query,
   Mutation,
   Args,
   Int,
