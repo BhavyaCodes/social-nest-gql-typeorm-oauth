@@ -1,4 +1,5 @@
 import { ObjectType, Field, Int, GraphQLISODateTime } from '@nestjs/graphql';
+import { Post } from 'src/post/entities/post.entity';
 import { User } from 'src/user/user.entity';
 import {
   Column,
@@ -27,4 +28,12 @@ export class Like {
   @CreateDateColumn({ nullable: false })
   @Field(() => GraphQLISODateTime, { nullable: false })
   createdDate: Date;
+
+  @Column({ nullable: false, name: 'post_id' })
+  postId: number;
+
+  @Field(() => Post, { nullable: false })
+  @ManyToOne(() => Post, (post) => post.likes, { nullable: false })
+  @JoinColumn({ name: 'post_id' })
+  post: Post;
 }

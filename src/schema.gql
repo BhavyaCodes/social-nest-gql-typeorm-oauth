@@ -2,8 +2,10 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-type Like {
+type Post {
+  """Id of the post"""
   id: Int!
+  content: String!
   user: User!
   createdDate: DateTime!
 }
@@ -13,12 +15,11 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 """
 scalar DateTime
 
-type Post {
-  """Id of the post"""
+type Like {
   id: Int!
-  content: String!
   user: User!
   createdDate: DateTime!
+  post: Post!
 }
 
 type User {
@@ -34,7 +35,6 @@ type Query {
   getCurrentLoggedInUser: User!
   allPosts: [Post!]!
   post(id: Int!): Post!
-  like(id: Int!): Like!
 }
 
 input GetUserProfileByIdInput {
@@ -43,23 +43,10 @@ input GetUserProfileByIdInput {
 
 type Mutation {
   createPost(createPostInput: CreatePostInput!): Post!
-  createLike(createLikeInput: CreateLikeInput!): Like!
-  updateLike(updateLikeInput: UpdateLikeInput!): Like!
-  removeLike(id: Int!): Like!
+  likePost(postId: Int!): Like!
 }
 
 input CreatePostInput {
   """Text Content of the post"""
   content: String!
-}
-
-input CreateLikeInput {
-  """Example field (placeholder)"""
-  exampleField: Int!
-}
-
-input UpdateLikeInput {
-  """Example field (placeholder)"""
-  exampleField: Int
-  id: Int!
 }
