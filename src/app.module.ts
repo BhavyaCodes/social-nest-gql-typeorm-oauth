@@ -9,6 +9,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { GraphQLModule } from '@nestjs/graphql';
 import { join } from 'path';
 import { PostModule } from './post/post.module';
+import { LikeModule } from './like/like.module';
 
 @Module({
   imports: [
@@ -24,6 +25,7 @@ import { PostModule } from './post/post.module';
       cors: { origin: '*', credentials: true },
     }),
     PostModule,
+    LikeModule,
   ],
   controllers: [AppController],
   providers: [AppService],
