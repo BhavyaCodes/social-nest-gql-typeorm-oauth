@@ -20,6 +20,7 @@ type Like {
   id: Int!
   user: User!
   createdDate: DateTime!
+  post: Post!
 }
 
 type User {
