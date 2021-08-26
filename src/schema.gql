@@ -8,6 +8,7 @@ type Post {
   content: String!
   user: User!
   createdDate: DateTime!
+  likes: [Like!]!
 }
 
 """
@@ -19,7 +20,6 @@ type Like {
   id: Int!
   user: User!
   createdDate: DateTime!
-  post: Post!
 }
 
 type User {

@@ -15,6 +15,7 @@ import { GraphQLAuthGuard } from 'src/auth/guards/GraphqlAuth.guard';
 import { UseGuards } from '@nestjs/common';
 import { CurrentUserGraphQL } from 'src/auth/decorators/graphql-current-user.decorator';
 import { User } from 'src/user/user.entity';
+import { Like } from 'src/like/entities/like.entity';
 
 @Resolver(() => Post)
 export class PostResolver {
@@ -42,6 +43,11 @@ export class PostResolver {
   @Query(() => Post, { name: 'post' })
   findOne(@Args('id', { type: () => Int }) id: number) {
     return this.postService.findOne(id);
+  }
+
+  @ResolveField((_returns) => [Like])
+  likes(@Parent() post: Post): Promise<Like[]> {
+    return this.postService.getLikes(post.id);
   }
 
   // @Mutation(() => Post)

@@ -32,7 +32,7 @@ export class Like {
   @Column({ nullable: false, name: 'post_id' })
   postId: number;
 
-  @Field(() => Post, { nullable: false })
+  // @Field(() => Post, { nullable: false })
   @ManyToOne(() => Post, (post) => post.likes, { nullable: false })
   @JoinColumn({ name: 'post_id' })
   post: Post;

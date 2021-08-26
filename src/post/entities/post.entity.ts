@@ -35,5 +35,6 @@ export class Post {
   createdDate: Date;
 
   @OneToMany(() => Like, (like) => like.post)
+  @Field(() => [Like])
   likes: Like[];
 }

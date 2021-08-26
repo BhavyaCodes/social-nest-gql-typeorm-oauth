@@ -1,5 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { Like } from 'src/like/entities/like.entity';
 import { User } from 'src/user/user.entity';
 import { Repository } from 'typeorm';
 import { CreatePostInput } from './dto/create-post.input';
@@ -11,6 +12,7 @@ export class PostService {
   constructor(
     @InjectRepository(Post) private readonly postRepo: Repository<Post>,
     @InjectRepository(User) private readonly userRepo: Repository<User>,
+    @InjectRepository(Like) private readonly likeRepo: Repository<Like>,
   ) {}
   create(createPostInput: CreatePostInput, user: User): Promise<Post> {
     const newPost = this.postRepo.create({ ...createPostInput, user });
@@ -31,6 +33,10 @@ export class PostService {
 
   findOne(id: number): Promise<Post> {
     return this.postRepo.findOneOrFail(id);
+  }
+
+  getLikes(postId: number): Promise<Like[]> {
+    return this.likeRepo.find({ postId });
   }
 
   // update(id: number, updatePostInput: UpdatePostInput) {
