@@ -7,7 +7,13 @@ type Post {
   id: Int!
   content: String!
   user: User!
+  createdDate: DateTime!
 }
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
 
 type User {
   id: ID!
@@ -21,6 +27,7 @@ type Query {
   user(getUserProfileById: GetUserProfileByIdInput!): User!
   getCurrentLoggedInUser: User!
   allPosts: [Post!]!
+  post(id: Int!): Post!
 }
 
 input GetUserProfileByIdInput {

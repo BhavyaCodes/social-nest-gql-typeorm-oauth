@@ -29,9 +29,9 @@ export class PostService {
     return user;
   }
 
-  // findOne(id: number) {
-  //   return `This action returns a #${id} post`;
-  // }
+  findOne(id: number): Promise<Post> {
+    return this.postRepo.findOneOrFail(id);
+  }
 
   // update(id: number, updatePostInput: UpdatePostInput) {
   //   return `This action updates a #${id} post`;

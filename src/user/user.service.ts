@@ -31,7 +31,6 @@ export class UserService {
 
   async getPostsByUserId(userId: number): Promise<Post[]> {
     const posts = await this.postRepo.find({ userId });
-    console.log('posts', posts);
     return posts;
   }
 }

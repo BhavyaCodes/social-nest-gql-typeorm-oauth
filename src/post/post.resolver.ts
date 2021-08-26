@@ -5,6 +5,7 @@ import {
   Args,
   ResolveField,
   Parent,
+  Int,
 } from '@nestjs/graphql';
 import { PostService } from './post.service';
 import { Post } from './entities/post.entity';
@@ -38,10 +39,10 @@ export class PostResolver {
     return this.postService.getUser(post.userId);
   }
 
-  // @Query(() => Post, { name: 'post' })
-  // findOne(@Args('id', { type: () => Int }) id: number) {
-  //   return this.postService.findOne(id);
-  // }
+  @Query(() => Post, { name: 'post' })
+  findOne(@Args('id', { type: () => Int }) id: number) {
+    return this.postService.findOne(id);
+  }
 
   // @Mutation(() => Post)
   // updatePost(@Args('updatePostInput') updatePostInput: UpdatePostInput) {
