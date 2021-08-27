@@ -1,4 +1,5 @@
-import { QueryResolvers, MutationResolvers } from './type-defs.graphqls';
+// import { QueryResolvers, MutationResolvers } from './type-defs.graphqls';
+import { MutationResolvers, QueryResolvers } from '../__generated__/__types__';
 import { ResolverContext } from './apollo';
 
 const userProfile = {
