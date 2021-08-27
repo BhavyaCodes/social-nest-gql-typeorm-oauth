@@ -24,7 +24,8 @@ export class AuthController {
   @Get('/google/callback')
   @UseGuards(GoogleAuthGuard)
   callback(@Req() req: Request, @Res() res: Response) {
-    res.redirect('/auth/whoami');
+    // res.redirect('/auth/whoami');
+    res.redirect('http://localhost:3000/whoami');
   }
 
   /**
@@ -47,7 +48,8 @@ export class AuthController {
 
   // @UseGuards(AuthenticationGuard)
   @Get('logout')
-  logout(@Req() req: Request) {
+  logout(@Req() req: Request, @Res() res: Response) {
     req.logOut();
+    res.redirect('http://localhost:3000/whoami');
   }
 }
