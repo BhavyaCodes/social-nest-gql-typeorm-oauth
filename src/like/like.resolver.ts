@@ -1,6 +1,6 @@
 import {
   Resolver,
-  Query,
+  // Query,
   Mutation,
   Args,
   Int,
@@ -13,6 +13,7 @@ import { UseGuards } from '@nestjs/common';
 import { GraphQLAuthGuard } from 'src/auth/guards/GraphqlAuth.guard';
 import { CurrentUserGraphQL } from 'src/auth/decorators/graphql-current-user.decorator';
 import { User } from 'src/user/user.entity';
+import { Post } from 'src/post/entities/post.entity';
 // import { CreateLikeInput } from './dto/create-like.input';
 // import { UpdateLikeInput } from './dto/update-like.input';
 
@@ -32,6 +33,11 @@ export class LikeResolver {
   @ResolveField((_returns) => User)
   user(@Parent() like: Like): Promise<User> {
     return this.likeService.getUser(like.userId);
+  }
+
+  @ResolveField((_returns) => Post)
+  post(@Parent() like: Like): Promise<Post> {
+    return this.likeService.getPost(like.postId);
   }
 
   // @Query(() => [Like], { name: 'like' })

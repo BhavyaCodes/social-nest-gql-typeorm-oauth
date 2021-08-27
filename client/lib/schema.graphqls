@@ -3,7 +3,9 @@
 # ------------------------------------------------------
 
 type Post {
-  """Id of the post"""
+  """
+  Id of the post
+  """
   id: Int!
   content: String!
   user: User!
@@ -48,6 +50,8 @@ type Mutation {
 }
 
 input CreatePostInput {
-  """Text Content of the post"""
+  """
+  Text Content of the post
+  """
   content: String!
 }

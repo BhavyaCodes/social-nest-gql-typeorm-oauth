@@ -1,5 +1,6 @@
 import { ConflictException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { Post } from 'src/post/entities/post.entity';
 import { User } from 'src/user/user.entity';
 import { Repository } from 'typeorm';
 import { Like } from './entities/like.entity';
@@ -13,6 +14,8 @@ export class LikeService {
     private readonly likeRepo: Repository<Like>,
     @InjectRepository(User)
     private readonly userRepo: Repository<User>,
+    @InjectRepository(Post)
+    private readonly postRepo: Repository<Post>,
   ) {}
   async likePost(postId: number, userId: number): Promise<Like> {
     // const alreadyLiked = this.likeRepo.update({ userId });
@@ -30,6 +33,9 @@ export class LikeService {
     return this.userRepo.findOneOrFail(userId);
   }
 
+  getPost(postId: number): Promise<Post> {
+    return this.postRepo.findOneOrFail(postId);
+  }
   // findAll() {
   //   return `This action returns all like`;
   // }
