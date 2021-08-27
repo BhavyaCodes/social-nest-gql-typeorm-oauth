@@ -1,0 +1,57 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type Post {
+  """
+  Id of the post
+  """
+  id: Int!
+  content: String!
+  user: User!
+  createdDate: DateTime!
+  likes: [Like!]!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type Like {
+  id: Int!
+  user: User!
+  createdDate: DateTime!
+  post: Post!
+}
+
+type User {
+  id: ID!
+  name: String!
+  email: String!
+  imageUrl: String
+  posts: [Post!]
+}
+
+type Query {
+  user(getUserProfileById: GetUserProfileByIdInput!): User!
+  getCurrentLoggedInUser: User!
+  allPosts: [Post!]!
+  post(id: Int!): Post!
+}
+
+input GetUserProfileByIdInput {
+  userId: Int!
+}
+
+type Mutation {
+  createPost(createPostInput: CreatePostInput!): Post!
+  likePost(postId: Int!): Like!
+}
+
+input CreatePostInput {
+  """
+  Text Content of the post
+  """
+  content: String!
+}

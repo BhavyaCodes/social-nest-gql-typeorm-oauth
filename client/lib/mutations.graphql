@@ -1,0 +1,14 @@
+mutation CreatePost($createPostCreatePostInput: CreatePostInput!) {
+  createPost(createPostInput: $createPostCreatePostInput) {
+    id
+    content
+    createdDate
+  }
+}
+
+mutation LikePost($likePostPostId: Int!) {
+  likePost(postId: $likePostPostId) {
+    id
+    createdDate
+  }
+}
