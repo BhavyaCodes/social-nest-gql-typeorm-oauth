@@ -5,7 +5,7 @@ import { UserProvider } from '../context/user.context';
 
 export default function App({ Component, pageProps }: AppProps) {
   const apolloClient = new ApolloClient({
-    uri: 'http://localhost:5000',
+    uri: 'http://localhost:5000/graphql',
     cache: new InMemoryCache(),
   });
 
