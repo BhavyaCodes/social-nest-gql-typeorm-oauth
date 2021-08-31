@@ -1,4 +1,6 @@
 import Header from '../components/Header';
+import { initializeApollo } from '../lib/apollo';
+import { GetAllPostsDocument } from '../lib/queries.graphql';
 
 function index() {
   return (

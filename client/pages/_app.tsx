@@ -1,10 +1,13 @@
 import { AppProps } from 'next/app';
-import { ApolloProvider } from '@apollo/client';
-import { useApollo } from '../lib/apollo';
+import { ApolloClient, ApolloProvider, InMemoryCache } from '@apollo/client';
+// import { useApollo } from '../lib/apollo';
 import { UserProvider } from '../context/user.context';
 
 export default function App({ Component, pageProps }: AppProps) {
-  const apolloClient = useApollo(pageProps.initialApolloState);
+  const apolloClient = new ApolloClient({
+    uri: 'http://localhost:5000',
+    cache: new InMemoryCache(),
+  });
 
   return (
     <ApolloProvider client={apolloClient}>
