@@ -33,7 +33,11 @@ export class Like {
   postId: number;
 
   // @Field(() => Post, { nullable: false })
-  @ManyToOne(() => Post, (post) => post.likes, { nullable: false })
+  @ManyToOne(() => Post, (post) => post.likes, {
+    nullable: false,
+    onDelete: 'CASCADE',
+    orphanedRowAction: 'delete',
+  })
   @JoinColumn({ name: 'post_id' })
   post: Post;
 }
