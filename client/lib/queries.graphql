@@ -8,8 +8,6 @@ query GetAllPosts {
       id
       imageUrl
     }
-    likes {
-      id
-    }
+    likeCount
   }
 }

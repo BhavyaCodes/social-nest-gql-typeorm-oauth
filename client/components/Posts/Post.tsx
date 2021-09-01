@@ -3,6 +3,7 @@ interface Post {
     name: string;
   };
   content: string;
+  likeCount: number;
 }
 
 export default function PostComponent({ post }: { post: Post }) {
@@ -10,7 +11,7 @@ export default function PostComponent({ post }: { post: Post }) {
     <div>
       <p>{post.user.name}</p>
       <p>{post.content}</p>
-      {/* <p>{post.likes}</p> */}
+      <p>{post.likeCount}</p>
     </div>
   );
 }

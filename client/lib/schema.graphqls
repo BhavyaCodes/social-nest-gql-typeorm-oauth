@@ -11,6 +11,11 @@ type Post {
   user: User!
   createdDate: DateTime!
   likes: [Like!]!
+
+  """
+  Likes count
+  """
+  likeCount: Int!
 }
 
 """
