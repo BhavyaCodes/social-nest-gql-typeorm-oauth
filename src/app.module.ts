@@ -22,7 +22,14 @@ import { LikeModule } from './like/like.module';
       debug: false,
       playground: true,
       autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
-      cors: { origin: '*', credentials: true },
+      cors: {
+        origin: [
+          'http://localhost:3000',
+          'http://localhost:5000',
+          'https://studio.apollographql.com',
+        ],
+        credentials: false,
+      },
     }),
     PostModule,
     LikeModule,

@@ -50,6 +50,11 @@ export class PostResolver {
     return this.postService.getLikes(post.id);
   }
 
+  @ResolveField((_returns) => [Like])
+  likeCount(@Parent() post: Post): Promise<number> {
+    return this.postService.getLikesCount(post.id);
+  }
+
   // @Mutation(() => Post)
   // updatePost(@Args('updatePostInput') updatePostInput: UpdatePostInput) {
   //   return this.postService.update(updatePostInput.id, updatePostInput);

@@ -39,6 +39,10 @@ export class PostService {
     return this.likeRepo.find({ postId });
   }
 
+  getLikesCount(postId: number): Promise<number> {
+    return this.likeRepo.count({ postId });
+  }
+
   // update(id: number, updatePostInput: UpdatePostInput) {
   //   return `This action updates a #${id} post`;
   // }

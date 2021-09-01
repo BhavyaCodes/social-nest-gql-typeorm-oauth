@@ -9,7 +9,11 @@ import { TypeormStore } from 'connect-typeorm';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
     cors: {
-      origin: ['http://localhost:3000', 'http://localhost:5000'],
+      origin: [
+        'http://localhost:3000',
+        'http://localhost:5000',
+        'https://studio.apollographql.com',
+      ],
       credentials: true,
     },
   });

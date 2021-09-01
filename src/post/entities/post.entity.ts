@@ -37,4 +37,7 @@ export class Post {
   @OneToMany(() => Like, (like) => like.post)
   @Field(() => [Like])
   likes: Like[];
+
+  @Field(() => Int, { nullable: false, description: 'Likes count' })
+  likeCount: number;
 }
