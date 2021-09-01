@@ -7,6 +7,7 @@ import {
   GetAllPostsQueryResult,
 } from '../lib/queries.graphql';
 import { useGetAllPostsQuery } from '../__generated__/lib/queries.graphql';
+import PostForm from '../components/PostForm';
 
 function index() {
   const { loading, error, data } = useGetAllPostsQuery();
@@ -21,6 +22,7 @@ function index() {
   return (
     <div>
       <Header />
+      <PostForm />
       <Posts posts={data.allPosts} />
       Hello Next
     </div>
