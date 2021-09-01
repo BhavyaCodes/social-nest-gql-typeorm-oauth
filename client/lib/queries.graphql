@@ -1,0 +1,15 @@
+query GetAllPosts {
+  allPosts {
+    id
+    content
+    createdDate
+    user {
+      name
+      id
+      imageUrl
+    }
+    likes {
+      id
+    }
+  }
+}
