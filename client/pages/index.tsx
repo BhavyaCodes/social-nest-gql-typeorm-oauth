@@ -11,11 +11,7 @@ import PostForm from '../components/PostForm';
 
 function index() {
   const { loading, error, data } = useGetAllPostsQuery();
-  // const { loading, error, data } =
-  //   useQuery<GetAllPostsQuery>(GetAllPostsDocument);
-  // console.log(loading);
-  // console.log(error);
-  console.log(data);
+
   if (!data) {
     return <p>Loadiasdng...</p>;
   }
