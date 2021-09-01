@@ -1,8 +1,12 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Like } from 'src/like/entities/like.entity';
 import { User } from 'src/user/user.entity';
-import { Repository } from 'typeorm';
+import { DeleteResult, Repository } from 'typeorm';
 import { CreatePostInput } from './dto/create-post.input';
 import { UpdatePostInput } from './dto/update-post.input';
 import { Post } from './entities/post.entity';
@@ -41,6 +45,14 @@ export class PostService {
 
   getLikesCount(postId: number): Promise<number> {
     return this.likeRepo.count({ postId });
+  }
+
+  async deletePost(postId: number, userId: number): Promise<Post> {
+    const postToDelete = await this.postRepo.findOne({ id: postId, userId });
+    if (!postToDelete) {
+      throw new BadRequestException();
+    }
+    return this.postRepo.remove(postToDelete);
   }
 
   // update(id: number, updatePostInput: UpdatePostInput) {

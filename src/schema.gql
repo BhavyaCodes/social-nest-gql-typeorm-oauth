@@ -34,6 +34,10 @@ type User {
   posts: [Post!]
 }
 
+type DeletedItem {
+  id: ID!
+}
+
 type Query {
   user(getUserProfileById: GetUserProfileByIdInput!): User!
   getCurrentLoggedInUser: User!
@@ -47,6 +51,7 @@ input GetUserProfileByIdInput {
 
 type Mutation {
   createPost(createPostInput: CreatePostInput!): Post!
+  deletePost(id: Int!): DeletedItem!
   likePost(postId: Int!): Like!
 }
 

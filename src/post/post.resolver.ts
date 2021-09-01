@@ -16,6 +16,9 @@ import { UseGuards } from '@nestjs/common';
 import { CurrentUserGraphQL } from 'src/auth/decorators/graphql-current-user.decorator';
 import { User } from 'src/user/user.entity';
 import { Like } from 'src/like/entities/like.entity';
+import { DeletedType } from 'src/interfaces/DeletedType';
+import { plainToClass } from 'class-transformer';
+import { DeletedItem } from 'src/entities/DeletedItem.entity';
 
 @Resolver(() => Post)
 export class PostResolver {
@@ -53,6 +56,16 @@ export class PostResolver {
   @ResolveField((_returns) => [Like])
   likeCount(@Parent() post: Post): Promise<number> {
     return this.postService.getLikesCount(post.id);
+  }
+
+  @UseGuards(GraphQLAuthGuard)
+  @Mutation((_returns) => DeletedItem)
+  async deletePost(
+    @Args('id', { type: () => Int }) id: number,
+    @CurrentUserGraphQL() user: User,
+  ): Promise<DeletedItem> {
+    await this.postService.deletePost(id, user.id);
+    return { id };
   }
 
   // @Mutation(() => Post)
