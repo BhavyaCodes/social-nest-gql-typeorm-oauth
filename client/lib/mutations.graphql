@@ -12,3 +12,9 @@ mutation CreatePost($createPostCreatePostInput: CreatePostInput!) {
     likeCount
   }
 }
+
+mutation DeletePost($deletePostId: String!) {
+  deletePost(id: $deletePostId) {
+    id
+  }
+}
