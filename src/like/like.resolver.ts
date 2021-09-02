@@ -6,6 +6,7 @@ import {
   Int,
   ResolveField,
   Parent,
+  ID,
 } from '@nestjs/graphql';
 import { LikeService } from './like.service';
 import { Like } from './entities/like.entity';
@@ -24,7 +25,7 @@ export class LikeResolver {
   @UseGuards(GraphQLAuthGuard)
   @Mutation(() => Like)
   likePost(
-    @Args('postId', { type: () => Int }) postId: number,
+    @Args('postId', { type: () => ID }) postId: string,
     @CurrentUserGraphQL() user: User,
   ) {
     return this.likeService.likePost(postId, user.id);

@@ -17,7 +17,7 @@ export class LikeService {
     @InjectRepository(Post)
     private readonly postRepo: Repository<Post>,
   ) {}
-  async likePost(postId: number, userId: number): Promise<Like> {
+  async likePost(postId: string, userId: string): Promise<Like> {
     // const alreadyLiked = this.likeRepo.update({ userId });
     // return alreadyLiked;
     // return 'This action adds a new like';
@@ -29,11 +29,11 @@ export class LikeService {
     return this.likeRepo.save(createdLike);
   }
 
-  getUser(userId: number): Promise<User> {
+  getUser(userId: string): Promise<User> {
     return this.userRepo.findOneOrFail(userId);
   }
 
-  getPost(postId: number): Promise<Post> {
+  getPost(postId: string): Promise<Post> {
     return this.postRepo.findOneOrFail(postId);
   }
   // findAll() {

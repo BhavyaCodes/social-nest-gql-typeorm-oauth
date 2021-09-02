@@ -1,7 +1,6 @@
-mutation LikePost($likePostPostId: Int!) {
+mutation LikePost($likePostPostId: ID!) {
   likePost(postId: $likePostPostId) {
     id
-    createdDate
   }
 }
 
@@ -9,11 +8,7 @@ mutation CreatePost($createPostCreatePostInput: CreatePostInput!) {
   createPost(createPostInput: $createPostCreatePostInput) {
     id
     content
-    user {
-      id
-      name
-      imageUrl
-    }
+    createdDate
     likeCount
   }
 }
