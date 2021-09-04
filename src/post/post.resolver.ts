@@ -5,6 +5,7 @@ import {
   Args,
   ResolveField,
   Parent,
+  ID,
 } from '@nestjs/graphql';
 import { PostService } from './post.service';
 import { Post } from './entities/post.entity';
@@ -41,7 +42,7 @@ export class PostResolver {
   }
 
   @Query(() => Post, { name: 'post' })
-  findOne(@Args('id', { type: () => String }) id: string) {
+  findOne(@Args('id', { type: () => ID, nullable: false }) id: string) {
     return this.postService.findOne(id);
   }
 
@@ -58,7 +59,7 @@ export class PostResolver {
   @UseGuards(GraphQLAuthGuard)
   @Mutation((_returns) => DeletedItem)
   async deletePost(
-    @Args('id', { type: () => String }) id: string,
+    @Args('id', { type: () => ID, nullable: false }) id: string,
     @CurrentUserGraphQL() user: User,
   ): Promise<DeletedItem> {
     await this.postService.deletePost(id, user.id);
