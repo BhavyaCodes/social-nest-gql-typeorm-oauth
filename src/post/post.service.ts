@@ -1,10 +1,14 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Like } from 'src/like/entities/like.entity';
 import { User } from 'src/user/user.entity';
 import { Repository } from 'typeorm';
 import { CreatePostInput } from './dto/create-post.input';
-import { UpdatePostInput } from './dto/update-post.input';
+// import { UpdatePostInput } from './dto/update-post.input';
 import { Post } from './entities/post.entity';
 
 @Injectable()
@@ -23,7 +27,7 @@ export class PostService {
     return this.postRepo.find({});
   }
 
-  async getUser(userId: number): Promise<User> {
+  async getUser(userId: string): Promise<User> {
     const user = await this.userRepo.findOne(userId);
     if (!user) {
       throw new NotFoundException('User not found');
@@ -31,16 +35,24 @@ export class PostService {
     return user;
   }
 
-  findOne(id: number): Promise<Post> {
+  findOne(id: string): Promise<Post> {
     return this.postRepo.findOneOrFail(id);
   }
 
-  getLikes(postId: number): Promise<Like[]> {
+  getLikes(postId: string): Promise<Like[]> {
     return this.likeRepo.find({ postId });
   }
 
-  getLikesCount(postId: number): Promise<number> {
+  getLikesCount(postId: string): Promise<number> {
     return this.likeRepo.count({ postId });
+  }
+
+  async deletePost(postId: string, userId: string): Promise<Post> {
+    const postToDelete = await this.postRepo.findOne({ id: postId, userId });
+    if (!postToDelete) {
+      throw new BadRequestException();
+    }
+    return this.postRepo.remove(postToDelete);
   }
 
   // update(id: number, updatePostInput: UpdatePostInput) {

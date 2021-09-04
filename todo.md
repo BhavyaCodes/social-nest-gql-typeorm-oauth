@@ -1,3 +1,5 @@
 # To Do
 
-- [ ] update delete effect on postgres
+- [x] update delete effect on postgres
+- [x] test authorization on deletion
+- [x] test cascade on likes when deleting

@@ -12,9 +12,9 @@ import {
 @Entity()
 @ObjectType()
 export class User {
-  @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn('uuid')
   @Field(() => ID, { nullable: false })
-  id: number;
+  id: string;
 
   @Column({ name: 'google_id', unique: true, nullable: false })
   googleId: string;

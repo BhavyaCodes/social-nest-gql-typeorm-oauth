@@ -1,4 +1,4 @@
-import { ObjectType, Field, Int, GraphQLISODateTime } from '@nestjs/graphql';
+import { ObjectType, Field, GraphQLISODateTime, ID } from '@nestjs/graphql';
 import { Post } from 'src/post/entities/post.entity';
 import { User } from 'src/user/user.entity';
 import {
@@ -13,12 +13,12 @@ import {
 @Entity()
 @ObjectType()
 export class Like {
-  @Field(() => Int, { nullable: false })
-  @PrimaryGeneratedColumn()
-  id: number;
+  @Field(() => ID, { nullable: false })
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
   @Column({ nullable: false, name: 'user_id' })
-  userId: number;
+  userId: string;
 
   @Field(() => User, { nullable: false })
   @ManyToOne(() => User, (user) => user.likes, { nullable: false })
@@ -30,10 +30,14 @@ export class Like {
   createdDate: Date;
 
   @Column({ nullable: false, name: 'post_id' })
-  postId: number;
+  postId: string;
 
   // @Field(() => Post, { nullable: false })
-  @ManyToOne(() => Post, (post) => post.likes, { nullable: false })
+  @ManyToOne(() => Post, (post) => post.likes, {
+    nullable: false,
+    onDelete: 'CASCADE',
+    orphanedRowAction: 'delete',
+  })
   @JoinColumn({ name: 'post_id' })
   post: Post;
 }

@@ -25,11 +25,11 @@ export class UserService {
     return this.userRepo.save(createdUser);
   }
 
-  async findUserByUserId(userId: number): Promise<User | undefined> {
+  async findUserByUserId(userId: string): Promise<User | undefined> {
     return this.userRepo.findOne({ id: userId });
   }
 
-  async getPostsByUserId(userId: number): Promise<Post[]> {
+  async getPostsByUserId(userId: string): Promise<Post[]> {
     const posts = await this.postRepo.find({ userId });
     return posts;
   }

@@ -10,7 +10,7 @@ import {
 } from 'react';
 
 interface User {
-  id: number;
+  id: string;
   name: string;
   imageUrl: string;
 }
