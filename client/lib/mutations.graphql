@@ -13,7 +13,7 @@ mutation CreatePost($createPostCreatePostInput: CreatePostInput!) {
   }
 }
 
-mutation DeletePost($deletePostId: String!) {
+mutation DeletePost($deletePostId: ID!) {
   deletePost(id: $deletePostId) {
     id
   }
