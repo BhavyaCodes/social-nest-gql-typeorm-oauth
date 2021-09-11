@@ -7,7 +7,7 @@ type Post {
   id: ID!
   content: String!
   user: User!
-  createdDate: DateTime!
+  createdAt: DateTime!
   likes: [Like!]!
 
   """Likes count"""
@@ -23,7 +23,7 @@ scalar DateTime
 type Like {
   id: ID!
   user: User!
-  createdDate: DateTime!
+  createdAt: DateTime!
   post: Post!
 }
 

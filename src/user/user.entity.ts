@@ -39,5 +39,5 @@ export class User {
   likes: Like[];
 
   @CreateDateColumn({ nullable: false, name: 'created_at' })
-  createdDate: Date;
+  createdAt: Date;
 }

@@ -38,7 +38,7 @@ export class Post {
 
   @CreateDateColumn({ nullable: false, name: 'created_at' })
   @Field(() => GraphQLISODateTime, { nullable: false })
-  createdDate: Date;
+  createdAt: Date;
 
   @OneToMany(() => Like, (like) => like.post)
   @Field(() => [Like])

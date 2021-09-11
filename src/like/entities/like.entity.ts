@@ -27,7 +27,7 @@ export class Like {
 
   @CreateDateColumn({ nullable: false, name: 'created_at' })
   @Field(() => GraphQLISODateTime, { nullable: false })
-  createdDate: Date;
+  createdAt: Date;
 
   @Column({ nullable: false, name: 'post_id' })
   postId: string;
