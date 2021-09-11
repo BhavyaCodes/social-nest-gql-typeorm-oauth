@@ -12,6 +12,7 @@ type Post {
 
   """Likes count"""
   likeCount: Int!
+  hasliked: String
 }
 
 """
@@ -42,6 +43,7 @@ type Query {
   user(getUserProfileById: GetUserProfileByIdInput!): User!
   getCurrentLoggedInUser: User!
   allPosts: [Post!]!
+  allPostsWithLikes: [Post!]!
   post(id: ID!): Post!
 }
 

@@ -32,8 +32,24 @@ export class PostResolver {
   }
 
   @Query(() => [Post], { name: 'allPosts' })
-  findAll() {
+  async findAll(@CurrentUserGraphQL() user: User) {
+    console.log(user);
+    if (user) {
+      const posts = await this.postService.findAllPosts();
+      console.log(posts);
+      return posts;
+
+      // return this.postService.findAllPostsWithHasLiked(user.id);
+    }
     return this.postService.findAllPosts();
+  }
+
+  @Query(() => [Post], { name: 'allPostsWithLikes' })
+  async findAllWithHasLiked() {
+    const result = await this.postService.findAllPostsWithHasLiked(
+      '8f8f448b-d47c-4055-9080-f1a186174e26',
+    );
+    return result;
   }
 
   @ResolveField((_returns) => User)

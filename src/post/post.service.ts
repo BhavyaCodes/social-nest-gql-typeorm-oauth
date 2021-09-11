@@ -24,6 +24,75 @@ export class PostService {
   }
 
   findAllPosts(): Promise<Post[]> {
+    // return this.postRepo.find({});
+
+    return this.postRepo.query(`
+    SELECT 
+    p.id,
+    p.content,
+    p.user_id AS "userId", 
+    p.created_at AS "createdAt",
+    COALESCE(l.likes_count::INTEGER, 0::INTEGER) AS "likesCount" 
+  FROM posts AS p
+    LEFT JOIN (
+      SELECT post_id,
+        COUNT(*) AS likes_count
+      FROM likes
+      GROUP BY post_id 
+    ) AS l ON p.id = l.post_id;`);
+    // console.log(
+    //   this.postRepo
+    //     .createQueryBuilder('p')
+    //     .select([
+    //       'p.id',
+    //       'p.content',
+    //       'p.user_id',
+    //       'p.created_at',
+    //       'COALESCE(l.likes_count, 0) as likes_count',
+    //     ])
+    //     .leftJoinAndSelect(
+    //       (qb) =>
+    //         qb
+    //           .select(['l.post_id', 'COUNT(*) as likes_count'])
+    //           .from(Like, 'l')
+    //           .groupBy('l.post_id'),
+    //       'l',
+    //       'p.id = l.post_id',
+    //     )
+    //     .getQuery(),
+    // );
+
+    // return this.postRepo
+    //   .createQueryBuilder('p')
+    //   .select([
+    //     'p.id',
+    //     'p.content',
+    //     'p.user_id',
+    //     'p.created_at',
+    //     'COALESCE(l.likes_count, 0) as likes_count',
+    //   ])
+    //   .leftJoinAndSelect(
+    //     (qb) =>
+    //       qb
+    //         .select(['l.post_id', 'COUNT(*) as likes_count'])
+    //         .from(Like, 'l')
+    //         .groupBy('l.post_id'),
+    //     'l',
+    //     'p.id = l.post_id',
+    //   )
+    //   .getMany();
+  }
+
+  findAllPostsWithHasLiked(_userId: string) {
+    // return (
+    //   this.postRepo
+    //     .createQueryBuilder('posts')
+    //     .leftJoinAndSelect('post', 'likes')
+    //     // .where('likes.user_id = :userId', { userId })
+    //     // .orWhere('likes.id IS NULL')
+    //     .printSql()
+    //     .getMany()
+    // );
     return this.postRepo.find({});
   }
 

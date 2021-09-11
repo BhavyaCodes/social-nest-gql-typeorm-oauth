@@ -17,7 +17,7 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
-@Entity()
+@Entity({ name: 'posts' })
 @ObjectType()
 export class Post {
   @Field(() => ID, { description: 'Id of the post', nullable: false })
@@ -36,14 +36,20 @@ export class Post {
   @JoinColumn({ name: 'user_id' })
   user: User;
 
-  @CreateDateColumn({ nullable: false })
+  @CreateDateColumn({ nullable: false, name: 'created_at' })
   @Field(() => GraphQLISODateTime, { nullable: false })
   createdDate: Date;
 
   @OneToMany(() => Like, (like) => like.post)
   @Field(() => [Like])
-  likes: Like[];
+  likes?: Like[];
 
-  @Field(() => Int, { nullable: false, description: 'Likes count' })
+  @Field(() => Int, {
+    nullable: false,
+    description: 'Likes count',
+  })
   likeCount: number;
+
+  @Field(() => String, { nullable: true })
+  hasliked?: string | null;
 }
