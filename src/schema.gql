@@ -6,6 +6,7 @@ type Post {
   """Id of the post"""
   id: ID!
   content: String!
+  userId: ID!
   user: User!
   createdAt: DateTime!
   likes: [Like!]!
@@ -30,7 +31,6 @@ type Like {
 type User {
   id: ID!
   name: String!
-  email: String!
   imageUrl: String
   posts: [Post!]
 }
@@ -42,8 +42,9 @@ type DeletedItem {
 type Query {
   user(getUserProfileById: GetUserProfileByIdInput!): User!
   getCurrentLoggedInUser: User!
-  allPosts: [Post!]!
-  allPostsWithLikes: [Post!]!
+
+  """gets all posts with a likesCount field with int value"""
+  allPostsWithLikeCount: [Post!]!
   post(id: ID!): Post!
 }
 

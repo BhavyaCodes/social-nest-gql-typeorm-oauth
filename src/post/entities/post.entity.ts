@@ -29,6 +29,7 @@ export class Post {
   content: string;
 
   @Column({ nullable: false, name: 'user_id' })
+  @Field(() => ID, { nullable: false })
   userId: string;
 
   @Field(() => User, { nullable: false })

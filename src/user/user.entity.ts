@@ -24,7 +24,6 @@ export class User {
   name: string;
 
   @Column({ nullable: false })
-  @Field()
   email: string;
 
   @Column({ nullable: true, name: 'image_url' })
