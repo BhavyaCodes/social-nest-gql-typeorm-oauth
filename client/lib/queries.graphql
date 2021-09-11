@@ -1,5 +1,5 @@
 query GetAllPosts {
-  allPosts {
+  allPostsWithLikeCount {
     id
     content
     user {
@@ -7,7 +7,7 @@ query GetAllPosts {
       name
       imageUrl
     }
-    createdDate
+    createdAt
     likeCount
   }
 }

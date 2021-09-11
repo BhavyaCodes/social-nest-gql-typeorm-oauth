@@ -8,14 +8,16 @@ type Post {
   """
   id: ID!
   content: String!
+  userId: ID!
   user: User!
-  createdDate: DateTime!
+  createdAt: DateTime!
   likes: [Like!]!
 
   """
   Likes count
   """
   likeCount: Int!
+  hasLiked: String
 }
 
 """
@@ -26,14 +28,13 @@ scalar DateTime
 type Like {
   id: ID!
   user: User!
-  createdDate: DateTime!
+  createdAt: DateTime!
   post: Post!
 }
 
 type User {
   id: ID!
   name: String!
-  email: String!
   imageUrl: String
   posts: [Post!]
 }
@@ -45,7 +46,11 @@ type DeletedItem {
 type Query {
   user(getUserProfileById: GetUserProfileByIdInput!): User!
   getCurrentLoggedInUser: User!
-  allPosts: [Post!]!
+
+  """
+  gets all posts with a likesCount field with int value
+  """
+  allPostsWithLikeCount: [Post!]!
   post(id: ID!): Post!
 }
 
