@@ -12,7 +12,7 @@ type Post {
 
   """Likes count"""
   likeCount: Int!
-  hasliked: String
+  hasLiked: String
 }
 
 """
