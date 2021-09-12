@@ -10,7 +10,7 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
-@Entity()
+@Entity({ name: 'likes' })
 @ObjectType()
 export class Like {
   @Field(() => ID, { nullable: false })
@@ -25,9 +25,9 @@ export class Like {
   @JoinColumn({ name: 'user_id' })
   user: User;
 
-  @CreateDateColumn({ nullable: false })
+  @CreateDateColumn({ nullable: false, name: 'created_at' })
   @Field(() => GraphQLISODateTime, { nullable: false })
-  createdDate: Date;
+  createdAt: Date;
 
   @Column({ nullable: false, name: 'post_id' })
   postId: string;

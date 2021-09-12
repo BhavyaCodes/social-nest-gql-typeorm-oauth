@@ -19,7 +19,7 @@ function index() {
     <div>
       <Header />
       <PostForm />
-      <Posts posts={data.allPosts} />
+      <Posts posts={data.allPostsWithLikeCount} />
       Hello Next
     </div>
   );

@@ -6,7 +6,7 @@ import PostComponent from './Post';
 export default function Posts({
   posts,
 }: {
-  posts: GetAllPostsQuery['allPosts'];
+  posts: GetAllPostsQuery['allPostsWithLikeCount'];
 }) {
   const renderPosts = () =>
     posts.map((post) => <PostComponent key={post.id} post={post} />);

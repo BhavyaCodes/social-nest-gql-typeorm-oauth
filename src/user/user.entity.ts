@@ -9,7 +9,7 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
-@Entity()
+@Entity({ name: 'users' })
 @ObjectType()
 export class User {
   @PrimaryGeneratedColumn('uuid')
@@ -24,10 +24,9 @@ export class User {
   name: string;
 
   @Column({ nullable: false })
-  @Field()
   email: string;
 
-  @Column({ nullable: true })
+  @Column({ nullable: true, name: 'image_url' })
   @Field({ nullable: true })
   imageUrl: string;
 
@@ -38,6 +37,6 @@ export class User {
   @OneToMany(() => Like, (like) => like.user)
   likes: Like[];
 
-  @CreateDateColumn({ nullable: false })
-  createdDate: Date;
+  @CreateDateColumn({ nullable: false, name: 'created_at' })
+  createdAt: Date;
 }

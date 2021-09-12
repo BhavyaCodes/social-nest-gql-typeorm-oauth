@@ -31,10 +31,26 @@ export class PostResolver {
     return this.postService.create(createPostInput, user);
   }
 
-  @Query(() => [Post], { name: 'allPosts' })
-  findAll() {
-    return this.postService.findAllPosts();
+  @Query(() => [Post], {
+    name: 'allPostsWithLikeCount',
+    description: 'gets all posts with a likesCount field with int value',
+  })
+  async findAll(@CurrentUserGraphQL() user: User) {
+    if (user) {
+      const posts = await this.postService.findAllPosts();
+      return posts;
+    }
+    const posts = await this.postService.findAllPosts();
+    return posts;
   }
+
+  // @Query(() => [Post], { name: 'allPostsWithLikes' })
+  // async findAllWithHasLiked() {
+  //   const result = await this.postService.findAllPostsWithHasLiked(
+  //     '8f8f448b-d47c-4055-9080-f1a186174e26',
+  //   );
+  //   return result;
+  // }
 
   @ResolveField((_returns) => User)
   user(@Parent() post: Post): Promise<User> {

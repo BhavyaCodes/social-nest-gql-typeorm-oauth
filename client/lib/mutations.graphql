@@ -8,7 +8,7 @@ mutation CreatePost($createPostCreatePostInput: CreatePostInput!) {
   createPost(createPostInput: $createPostCreatePostInput) {
     id
     content
-    createdDate
+    createdAt
     likeCount
   }
 }

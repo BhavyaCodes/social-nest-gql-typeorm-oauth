@@ -15,6 +15,7 @@ switch (process.env.NODE_ENV) {
       synchronize: true,
       username: 'postgres',
       password: 'example',
+      // logging: true,
     });
     break;
   case 'test':

@@ -10,6 +10,7 @@ import { Repository } from 'typeorm';
 import { CreatePostInput } from './dto/create-post.input';
 // import { UpdatePostInput } from './dto/update-post.input';
 import { Post } from './entities/post.entity';
+import { PostWithLikesCount } from './interfaces';
 
 @Injectable()
 export class PostService {
@@ -23,7 +24,34 @@ export class PostService {
     return this.postRepo.save(newPost);
   }
 
-  findAllPosts(): Promise<Post[]> {
+  // findAllPosts(): Promise<Post[]> {
+  findAllPosts(): Promise<PostWithLikesCount[]> {
+    return this.postRepo.query(`
+    SELECT 
+      p.id,
+      p.content,
+      p.user_id AS "userId", 
+      p.created_at AS "createdAt",
+      COALESCE(l.likes_count::INTEGER, 0::INTEGER) AS "likesCount" 
+    FROM posts AS p
+      LEFT JOIN (
+        SELECT post_id,
+          COUNT(*) AS likes_count
+        FROM likes
+        GROUP BY post_id 
+    ) AS l ON p.id = l.post_id;`);
+  }
+
+  findAllPostsWithHasLiked(_userId: string) {
+    // return (
+    //   this.postRepo
+    //     .createQueryBuilder('posts')
+    //     .leftJoinAndSelect('post', 'likes')
+    //     // .where('likes.user_id = :userId', { userId })
+    //     // .orWhere('likes.id IS NULL')
+    //     .printSql()
+    //     .getMany()
+    // );
     return this.postRepo.find({});
   }
 
