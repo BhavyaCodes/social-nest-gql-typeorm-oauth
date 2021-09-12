@@ -10,7 +10,10 @@ import { Repository } from 'typeorm';
 import { CreatePostInput } from './dto/create-post.input';
 // import { UpdatePostInput } from './dto/update-post.input';
 import { Post } from './entities/post.entity';
-import { PostWithLikesCount } from './interfaces';
+import {
+  PostWithLikesCount,
+  PostWithLikesCountAndHasLiked,
+} from './interfaces';
 
 @Injectable()
 export class PostService {
@@ -42,8 +45,11 @@ export class PostService {
     ) AS l ON p.id = l.post_id;`);
   }
 
-  findAllPostsWithHasLiked(userId: string) {
-    return this.postRepo.query(`
+  findAllPostsWithHasLiked(
+    userId: string,
+  ): Promise<PostWithLikesCountAndHasLiked[]> {
+    return this.postRepo.query(
+      `
     SELECT 
       p.id,
       p.content,
@@ -62,8 +68,10 @@ export class PostService {
         SELECT likes.post_id,
           true AS has_liked
         FROM likes
-        WHERE user_id = '${userId}'
-      ) AS l2 ON p.id = l2.post_id;`);
+        WHERE user_id = $1
+      ) AS l2 ON p.id = l2.post_id;`,
+      [userId],
+    );
   }
 
   async getUser(userId: string): Promise<User> {

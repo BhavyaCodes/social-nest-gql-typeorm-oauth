@@ -17,7 +17,7 @@ type Post {
   Likes count
   """
   likeCount: Int!
-  hasLiked: String
+  hasLiked: Boolean
 }
 
 """
@@ -50,7 +50,7 @@ type Query {
   """
   gets all posts with a likesCount field with int value
   """
-  allPostsWithLikeCount: [Post!]!
+  getAllPosts: [Post!]!
   post(id: ID!): Post!
 }
 
