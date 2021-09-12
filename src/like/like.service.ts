@@ -33,9 +33,9 @@ export class LikeService {
     return this.userRepo.findOneOrFail(userId);
   }
 
-  getPost(postId: string): Promise<Post> {
-    return this.postRepo.findOneOrFail(postId);
-  }
+  // getPost(postId: string): Promise<Post> {
+  //   return this.postRepo.findOneOrFail(postId);
+  // }
   // findAll() {
   //   return `This action returns all like`;
   // }

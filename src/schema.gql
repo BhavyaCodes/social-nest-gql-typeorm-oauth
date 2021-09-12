@@ -45,6 +45,8 @@ type Query {
 
   """gets all posts with a likesCount field with int value"""
   getAllPosts: [Post!]!
+
+  """gets single post by id"""
   post(id: ID!): Post!
 }
 

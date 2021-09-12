@@ -57,8 +57,14 @@ export class PostResolver {
     return this.postService.getUser(post.userId);
   }
 
-  @Query(() => Post, { name: 'post' })
-  findOne(@Args('id', { type: () => ID, nullable: false }) id: string) {
+  @Query(() => Post, { name: 'post', description: 'gets single post by id' })
+  findOne(
+    @Args('id', { type: () => ID, nullable: false }) id: string,
+    @CurrentUserGraphQL() user: User,
+  ) {
+    if (user) {
+      return this.postService.findOneWithHasLiked(id, user.id);
+    }
     return this.postService.findOne(id);
   }
 

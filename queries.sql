@@ -41,3 +41,22 @@ FROM posts AS p
 		FROM likes
 		WHERE user_id = '15d6f60d-48ed-4a7c-9db7-7c883c22cc62'
 	) AS l2 ON p.id = l2.post_id;
+-- 
+-- Get Single Post with hasLiked
+-- 
+SELECT p.id AS id,
+	content,
+	p.user_id AS "userId",
+	p.created_at AS "createdAt",
+	COALESCE(l.has_liked, false)
+FROM posts AS p
+	LEFT JOIN (
+		SELECT true::boolean AS has_liked,
+			post_id,
+			user_id
+		FROM likes
+	) AS l ON (
+		l.post_id = p.id
+		AND l.user_id = '9b2676d0-e55f-4f65-8606-e10e92b8190b'
+	)
+WHERE p.id = '68b17ed4-da57-478f-9565-228b609e76a9'

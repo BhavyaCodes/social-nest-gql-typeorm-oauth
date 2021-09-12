@@ -9,5 +9,6 @@ import { Like } from 'src/like/entities/like.entity';
 @Module({
   imports: [TypeOrmModule.forFeature([Post, User, Like])],
   providers: [PostResolver, PostService],
+  exports: [PostService],
 })
 export class PostModule {}

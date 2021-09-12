@@ -3,7 +3,6 @@ import {
   // Query,
   Mutation,
   Args,
-  Int,
   ResolveField,
   Parent,
   ID,
@@ -15,12 +14,16 @@ import { GraphQLAuthGuard } from 'src/auth/guards/GraphqlAuth.guard';
 import { CurrentUserGraphQL } from 'src/auth/decorators/graphql-current-user.decorator';
 import { User } from 'src/user/user.entity';
 import { Post } from 'src/post/entities/post.entity';
+import { PostService } from 'src/post/post.service';
 // import { CreateLikeInput } from './dto/create-like.input';
 // import { UpdateLikeInput } from './dto/update-like.input';
 
 @Resolver(() => Like)
 export class LikeResolver {
-  constructor(private readonly likeService: LikeService) {}
+  constructor(
+    private readonly likeService: LikeService,
+    private readonly postService: PostService,
+  ) {}
 
   @UseGuards(GraphQLAuthGuard)
   @Mutation(() => Like)
@@ -37,8 +40,9 @@ export class LikeResolver {
   }
 
   @ResolveField((_returns) => Post)
-  post(@Parent() like: Like): Promise<Post> {
-    return this.likeService.getPost(like.postId);
+  post(@Parent() like: Like, @CurrentUserGraphQL() user: User): Promise<Post> {
+    // return this.likeService.getPost(like.postId);
+    return this.postService.findOneWithHasLiked(like.postId, user.id);
   }
 
   // @Query(() => [Like], { name: 'like' })

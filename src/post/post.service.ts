@@ -86,6 +86,31 @@ export class PostService {
     return this.postRepo.findOneOrFail(id);
   }
 
+  async findOneWithHasLiked(postId: string, userId: string): Promise<any> {
+    const result = await this.postRepo.query(
+      `
+      SELECT p.id AS id,
+        content,
+        p.user_id AS "userId",
+        p.created_at AS "createdAt",
+        COALESCE(l.has_liked, false) AS "hasLiked"
+      FROM posts AS p
+        LEFT JOIN (
+          SELECT true::boolean AS has_liked,
+            post_id,
+            user_id
+          FROM likes
+        ) AS l ON (
+          l.post_id = p.id
+          AND l.user_id = $1
+        )
+      WHERE p.id = $2
+    `,
+      [userId, postId],
+    );
+    return result[0];
+  }
+
   getLikes(postId: string): Promise<Like[]> {
     return this.likeRepo.find({ postId });
   }
