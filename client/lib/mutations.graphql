@@ -1,4 +1,4 @@
-mutation LikePost($likePostPostId: ID!) {
+mutation Mutation($likePostPostId: ID!) {
   likePost(postId: $likePostPostId) {
     id
   }
