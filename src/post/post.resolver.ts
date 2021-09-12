@@ -36,7 +36,6 @@ export class PostResolver {
     description: 'gets all posts with a likesCount field with int value',
   })
   async findAll(@CurrentUserGraphQL() user: User) {
-    console.log(user);
     if (user) {
       const posts = await this.postService.findAllPosts();
       return posts;

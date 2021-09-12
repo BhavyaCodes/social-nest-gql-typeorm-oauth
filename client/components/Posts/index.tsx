@@ -8,7 +8,6 @@ export default function Posts({
 }: {
   posts: GetAllPostsQuery['allPostsWithLikeCount'];
 }) {
-  console.log(posts);
   const renderPosts = () =>
     posts.map((post) => <PostComponent key={post.id} post={post} />);
 

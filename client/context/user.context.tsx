@@ -31,7 +31,6 @@ export function UserProvider({ children }: { children: ReactElement }) {
       .get<User>(`${apiBaseUrl}/auth/whoami`, { withCredentials: true })
       .then((res) => setUser(res.data))
       .catch((e) => {
-        // console.log(e);
         setUser(null);
       });
   }, []);

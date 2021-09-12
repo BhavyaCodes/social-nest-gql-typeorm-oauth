@@ -24,7 +24,7 @@ export default function PostComponent({ post }: { post: Post }) {
       },
       refetchQueries: [GetAllPostsDocument],
     })
-      .then((data) => console.log(data))
+      .then((data) => {})
       .catch((e) => console.log(e));
   };
 
