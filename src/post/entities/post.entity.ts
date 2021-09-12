@@ -51,6 +51,6 @@ export class Post {
   })
   likeCount: number;
 
-  @Field(() => String, { nullable: true })
-  hasLiked?: string | null;
+  @Field(() => Boolean, { nullable: true })
+  hasLiked?: boolean | null;
 }
