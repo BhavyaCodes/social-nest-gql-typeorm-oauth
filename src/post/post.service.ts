@@ -86,6 +86,7 @@ export class PostService {
     return this.postRepo.findOneOrFail(id);
   }
 
+  //TODO: this may be refactored later
   async findOneWithHasLiked(postId: string, userId: string): Promise<any> {
     const result = await this.postRepo.query(
       `

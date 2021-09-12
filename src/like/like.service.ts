@@ -8,8 +8,6 @@ import { Post } from 'src/post/entities/post.entity';
 import { User } from 'src/user/user.entity';
 import { Repository } from 'typeorm';
 import { Like } from './entities/like.entity';
-// import { CreateLikeInput } from './dto/create-like.input';
-// import { UpdateLikeInput } from './dto/update-like.input';
 
 @Injectable()
 export class LikeService {
@@ -36,8 +34,6 @@ export class LikeService {
       throw new BadRequestException('Post not liked');
     }
     const removedLikeDoc = await this.likeRepo.remove(likeDoc);
-    // console.log({ ...removedLikeDoc, id: postId });
-    // return {id:  }
     return { ...removedLikeDoc, id: postId };
   }
 
@@ -45,9 +41,6 @@ export class LikeService {
     return this.userRepo.findOneOrFail(userId);
   }
 
-  // getPost(postId: string): Promise<Post> {
-  //   return this.postRepo.findOneOrFail(postId);
-  // }
   // findAll() {
   //   return `This action returns all like`;
   // }

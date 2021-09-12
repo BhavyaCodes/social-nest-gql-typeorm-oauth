@@ -1,6 +1,5 @@
 import {
   Resolver,
-  // Query,
   Mutation,
   Args,
   ResolveField,
@@ -15,7 +14,6 @@ import { CurrentUserGraphQL } from 'src/auth/decorators/graphql-current-user.dec
 import { User } from 'src/user/user.entity';
 import { Post } from 'src/post/entities/post.entity';
 import { PostService } from 'src/post/post.service';
-// import { DeletedLike } from 'src/entities/DeletedLike.object';
 
 @Resolver(() => Like)
 export class LikeResolver {
