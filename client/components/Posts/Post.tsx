@@ -1,5 +1,9 @@
 import { getUser } from '../../context/user.context';
-import { useDeletePostMutation } from '../../__generated__/lib/mutations.graphql';
+import {
+  useDeletePostMutation,
+  useLikePostMutation,
+  useUnlikePostMutation,
+} from '../../__generated__/lib/mutations.graphql';
 import { GetAllPostsDocument } from '../../__generated__/lib/queries.graphql';
 import { GetAllPostsQuery } from '../../__generated__/lib/queries.graphql';
 
@@ -10,6 +14,8 @@ export default function PostComponent({
 }) {
   const { user } = getUser();
   const [deletePostMutation] = useDeletePostMutation();
+  const [likePostMutation] = useLikePostMutation();
+  const [unLikePostMutation] = useUnlikePostMutation();
 
   const deletePost = () => {
     console.log(post.id);
@@ -23,6 +29,26 @@ export default function PostComponent({
       .catch((e) => console.log(e));
   };
 
+  const handleLike = () => {
+    likePostMutation({
+      variables: {
+        likePostPostId: post.id,
+      },
+    })
+      .then((data) => console.log(data))
+      .catch((e) => console.log(e));
+  };
+
+  const handleUnLike = () => {
+    unLikePostMutation({
+      variables: {
+        unLikePostPostId: post.id,
+      },
+    })
+      .then((data) => console.log(data))
+      .catch((e) => console.log(e));
+  };
+
   return (
     <div style={{ border: '2px solid black' }}>
       <p>{post.user.name}</p>
@@ -32,6 +58,12 @@ export default function PostComponent({
         <button onClick={deletePost}>Delete Post</button>
       )}
       <p>hasLiked: {JSON.stringify(post.hasLiked)}</p>
+      {post.hasLiked === false && (
+        <button onClick={handleLike}>Like Post</button>
+      )}
+      {post.hasLiked === true && (
+        <button onClick={handleUnLike}>Unlike Post</button>
+      )}
     </div>
   );
 }

@@ -1,6 +1,43 @@
-mutation LikePost($likePostPostId: ID!) {
+# mutation LikePost($likePostPostId: ID!) {
+#   likePost(postId: $likePostPostId) {
+#     id
+#   }
+# }
+
+mutation likePost($likePostPostId: ID!) {
   likePost(postId: $likePostPostId) {
     id
+    post {
+      id
+      content
+      userId
+      user {
+        id
+        name
+        imageUrl
+      }
+      likeCount
+      hasLiked
+    }
+  }
+}
+
+mutation UnlikePost($unLikePostPostId: ID!) {
+  unLikePost(postId: $unLikePostPostId) {
+    id
+    post {
+      id
+      content
+      userId
+      user {
+        id
+        name
+        imageUrl
+      }
+      likeCount
+      hasLiked
+      createdAt
+    }
   }
 }
 
