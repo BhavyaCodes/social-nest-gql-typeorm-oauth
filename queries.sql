@@ -59,4 +59,29 @@ FROM posts AS p
 		l.post_id = p.id
 		AND l.user_id = '9b2676d0-e55f-4f65-8606-e10e92b8190b'
 	)
-WHERE p.id = '68b17ed4-da57-478f-9565-228b609e76a9'
+WHERE p.id = '68b17ed4-da57-478f-9565-228b609e76a9';
+--
+--FETCHING posts with pagination
+--
+SELECT p.id,
+	p.content,
+	p.user_id AS "userId",
+	p.created_at AS "createdAt",
+	COALESCE(l.likes_count::INTEGER, 0::INTEGER) AS "likesCount",
+	COALESCE(l2.has_liked::BOOLEAN, false::BOOLEAN) AS "hasLiked"
+FROM posts AS p
+	LEFT JOIN (
+		SELECT post_id,
+			COUNT(*) as likes_count
+		FROM likes
+		GROUP BY post_id
+	) AS l ON p.id = l.post_id
+	LEFT JOIN (
+		SELECT likes.post_id,
+			true AS has_liked
+		FROM likes
+		WHERE user_id = $1
+	) AS l2 ON p.id = l2.post_id
+WHERE (p.created_at < $2::TIMESTAMP)
+ORDER BY p.created_at DESC
+LIMIT(2);
