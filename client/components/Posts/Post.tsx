@@ -14,6 +14,7 @@ export default function PostComponent({
   const { user } = getUser();
   const [deletePostMutation] = useDeletePostMutation();
   const [likePostMutation] = useLikePostMutation();
+  // const [likePostMutation2] = useLikePost2
 
   const deletePost = () => {
     console.log(post.id);
@@ -27,6 +28,16 @@ export default function PostComponent({
       .catch((e) => console.log(e));
   };
 
+  const handleLike = () => {
+    likePostMutation({
+      variables: {
+        likePostPostId: post.id,
+      },
+    })
+      .then((data) => console.log(data))
+      .catch((e) => console.log(e));
+  };
+
   return (
     <div style={{ border: '2px solid black' }}>
       <p>{post.user.name}</p>
@@ -36,8 +47,17 @@ export default function PostComponent({
         <button onClick={deletePost}>Delete Post</button>
       )}
       <p>hasLiked: {JSON.stringify(post.hasLiked)}</p>
-      {console.log(post.hasLiked)}
-      {post.hasLiked === false && <button>Like Post</button>}
+      {post.hasLiked === false ? (
+        <button onClick={handleLike}>Like Post</button>
+      ) : (
+        <button
+          onClick={() => {
+            console.log('unlike');
+          }}
+        >
+          Unlike Post
+        </button>
+      )}
     </div>
   );
 }
