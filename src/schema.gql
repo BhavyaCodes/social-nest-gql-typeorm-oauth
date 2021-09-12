@@ -58,6 +58,7 @@ type Mutation {
   createPost(createPostInput: CreatePostInput!): Post!
   deletePost(id: ID!): DeletedItem!
   likePost(postId: ID!): Like!
+  unLikePost(postId: ID!): Like!
 }
 
 input CreatePostInput {

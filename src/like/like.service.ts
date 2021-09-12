@@ -1,4 +1,8 @@
-import { ConflictException, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  ConflictException,
+  Injectable,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Post } from 'src/post/entities/post.entity';
 import { User } from 'src/user/user.entity';
@@ -18,15 +22,23 @@ export class LikeService {
     private readonly postRepo: Repository<Post>,
   ) {}
   async likePost(postId: string, userId: string): Promise<Like> {
-    // const alreadyLiked = this.likeRepo.update({ userId });
-    // return alreadyLiked;
-    // return 'This action adds a new like';
     const alreadyExists = await this.likeRepo.findOne({ userId, postId });
     if (alreadyExists) {
       throw new ConflictException('Post Already Liked');
     }
     const createdLike = this.likeRepo.create({ userId, postId });
     return this.likeRepo.save(createdLike);
+  }
+
+  async unLikePost(postId: string, userId: string): Promise<any> {
+    const likeDoc = await this.likeRepo.findOne({ userId, postId });
+    if (!likeDoc) {
+      throw new BadRequestException('Post not liked');
+    }
+    const removedLikeDoc = await this.likeRepo.remove(likeDoc);
+    // console.log({ ...removedLikeDoc, id: postId });
+    // return {id:  }
+    return { ...removedLikeDoc, id: postId };
   }
 
   getUser(userId: string): Promise<User> {

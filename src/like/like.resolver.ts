@@ -15,8 +15,7 @@ import { CurrentUserGraphQL } from 'src/auth/decorators/graphql-current-user.dec
 import { User } from 'src/user/user.entity';
 import { Post } from 'src/post/entities/post.entity';
 import { PostService } from 'src/post/post.service';
-// import { CreateLikeInput } from './dto/create-like.input';
-// import { UpdateLikeInput } from './dto/update-like.input';
+// import { DeletedLike } from 'src/entities/DeletedLike.object';
 
 @Resolver(() => Like)
 export class LikeResolver {
@@ -32,6 +31,15 @@ export class LikeResolver {
     @CurrentUserGraphQL() user: User,
   ) {
     return this.likeService.likePost(postId, user.id);
+  }
+
+  @UseGuards(GraphQLAuthGuard)
+  @Mutation(() => Like)
+  unLikePost(
+    @Args('postId', { type: () => ID }) postId: string,
+    @CurrentUserGraphQL() user: User,
+  ) {
+    return this.likeService.unLikePost(postId, user.id);
   }
 
   @ResolveField((_returns) => User)
