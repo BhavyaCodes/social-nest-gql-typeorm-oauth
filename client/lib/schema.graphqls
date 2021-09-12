@@ -51,6 +51,10 @@ type Query {
   gets all posts with a likesCount field with int value
   """
   getAllPosts: [Post!]!
+
+  """
+  gets single post by id
+  """
   post(id: ID!): Post!
 }
 
@@ -62,6 +66,7 @@ type Mutation {
   createPost(createPostInput: CreatePostInput!): Post!
   deletePost(id: ID!): DeletedItem!
   likePost(postId: ID!): Like!
+  unLikePost(postId: ID!): Like!
 }
 
 input CreatePostInput {

@@ -22,6 +22,25 @@ mutation likePost($likePostPostId: ID!) {
   }
 }
 
+mutation UnlikePost($unLikePostPostId: ID!) {
+  unLikePost(postId: $unLikePostPostId) {
+    id
+    post {
+      id
+      content
+      userId
+      user {
+        id
+        name
+        imageUrl
+      }
+      likeCount
+      hasLiked
+      createdAt
+    }
+  }
+}
+
 mutation CreatePost($createPostCreatePostInput: CreatePostInput!) {
   createPost(createPostInput: $createPostCreatePostInput) {
     id
