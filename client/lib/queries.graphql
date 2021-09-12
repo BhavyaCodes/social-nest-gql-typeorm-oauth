@@ -1,5 +1,5 @@
 query GetAllPosts {
-  allPostsWithLikeCount {
+  getAllPosts {
     id
     content
     user {
@@ -9,5 +9,6 @@ query GetAllPosts {
     }
     createdAt
     likeCount
+    hasLiked
   }
 }

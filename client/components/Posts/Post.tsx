@@ -1,18 +1,13 @@
 import { getUser } from '../../context/user.context';
 import { useDeletePostMutation } from '../../__generated__/lib/mutations.graphql';
 import { GetAllPostsDocument } from '../../__generated__/lib/queries.graphql';
+import { GetAllPostsQuery } from '../../__generated__/lib/queries.graphql';
 
-interface Post {
-  id: string;
-  user: {
-    name: string;
-    id: string;
-  };
-  content: string;
-  likeCount: number;
-}
-
-export default function PostComponent({ post }: { post: Post }) {
+export default function PostComponent({
+  post,
+}: {
+  post: GetAllPostsQuery['getAllPosts'][0];
+}) {
   const { user } = getUser();
   const [deletePostMutation] = useDeletePostMutation();
 
@@ -29,13 +24,14 @@ export default function PostComponent({ post }: { post: Post }) {
   };
 
   return (
-    <div>
+    <div style={{ border: '2px solid black' }}>
       <p>{post.user.name}</p>
       <p>{post.content}</p>
-      <p>{post.likeCount}</p>
+      <p>LikeCount: {post.likeCount}</p>
       {user?.id === post.user.id && (
         <button onClick={deletePost}>Delete Post</button>
       )}
+      <p>hasLiked: {JSON.stringify(post.hasLiked)}</p>
     </div>
   );
 }

@@ -10,7 +10,10 @@ import { Repository } from 'typeorm';
 import { CreatePostInput } from './dto/create-post.input';
 // import { UpdatePostInput } from './dto/update-post.input';
 import { Post } from './entities/post.entity';
-import { PostWithLikesCount } from './interfaces';
+import {
+  PostWithLikesCount,
+  PostWithLikesCountAndHasLiked,
+} from './interfaces';
 
 @Injectable()
 export class PostService {
@@ -42,17 +45,33 @@ export class PostService {
     ) AS l ON p.id = l.post_id;`);
   }
 
-  findAllPostsWithHasLiked(_userId: string) {
-    // return (
-    //   this.postRepo
-    //     .createQueryBuilder('posts')
-    //     .leftJoinAndSelect('post', 'likes')
-    //     // .where('likes.user_id = :userId', { userId })
-    //     // .orWhere('likes.id IS NULL')
-    //     .printSql()
-    //     .getMany()
-    // );
-    return this.postRepo.find({});
+  findAllPostsWithHasLiked(
+    userId: string,
+  ): Promise<PostWithLikesCountAndHasLiked[]> {
+    return this.postRepo.query(
+      `
+    SELECT 
+      p.id,
+      p.content,
+      p.user_id AS "userId",
+      p.created_at AS "createdAt",
+      COALESCE(l.likes_count::INTEGER, 0::INTEGER) AS "likesCount",
+      COALESCE(l2.has_liked::BOOLEAN, false::BOOLEAN) AS "hasLiked"
+    FROM posts AS p
+      LEFT JOIN (
+        SELECT post_id,
+          COUNT(*) as likes_count
+        FROM likes
+        GROUP BY post_id
+      ) AS l ON p.id = l.post_id
+      LEFT JOIN (
+        SELECT likes.post_id,
+          true AS has_liked
+        FROM likes
+        WHERE user_id = $1
+      ) AS l2 ON p.id = l2.post_id;`,
+      [userId],
+    );
   }
 
   async getUser(userId: string): Promise<User> {
