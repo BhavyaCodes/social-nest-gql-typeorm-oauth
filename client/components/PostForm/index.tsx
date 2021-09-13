@@ -1,9 +1,6 @@
 import { gql } from '@apollo/client';
 import { FormEvent, useRef } from 'react';
-import {
-  CreatePostDocument,
-  useCreatePostMutation,
-} from '../../__generated__/lib/mutations.graphql';
+import { useCreatePostMutation } from '../../__generated__/lib/mutations.graphql';
 
 export default function PostForm() {
   const inputRef = useRef<HTMLInputElement>(null);
@@ -22,7 +19,6 @@ export default function PostForm() {
             getAllPosts(existingPosts = []) {
               console.log('existing', existingPosts);
               console.log('data', data);
-              //create cache fragment?
               const newPostRef = cache.writeFragment({
                 data: data.createPost,
                 fragment: gql`
@@ -45,8 +41,6 @@ export default function PostForm() {
           },
         });
       },
-      // update(cache, result);,
-      // refetchQueries: [GetAllPostsDocument],
     })
       .then((data) => {})
       .catch((e) => console.log(e));
