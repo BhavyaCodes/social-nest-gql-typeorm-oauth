@@ -37,7 +37,11 @@ export class Post {
   @JoinColumn({ name: 'user_id' })
   user: User;
 
-  @CreateDateColumn({ nullable: false, name: 'created_at' })
+  @CreateDateColumn({
+    nullable: false,
+    name: 'created_at',
+    type: 'timestamptz',
+  })
   @Field(() => GraphQLISODateTime, { nullable: false })
   createdAt: Date;
 

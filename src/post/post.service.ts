@@ -8,7 +8,6 @@ import { Like } from 'src/like/entities/like.entity';
 import { User } from 'src/user/user.entity';
 import { Repository } from 'typeorm';
 import { CreatePostInput } from './dto/create-post.input';
-// import { UpdatePostInput } from './dto/update-post.input';
 import { Post } from './entities/post.entity';
 import {
   PostWithLikesCount,
@@ -27,7 +26,6 @@ export class PostService {
     return this.postRepo.save(newPost);
   }
 
-  // findAllPosts(): Promise<Post[]> {
   findAllPosts(timeStamp: string): Promise<PostWithLikesCount[]> {
     return this.postRepo.query(
       `
