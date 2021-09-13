@@ -44,7 +44,7 @@ type Query {
   getCurrentLoggedInUser: User!
 
   """gets all posts with a likesCount field with int value"""
-  getAllPosts: [Post!]!
+  getAllPosts(timeStamp: String): [Post!]!
 
   """gets single post by id"""
   post(id: ID!): Post!

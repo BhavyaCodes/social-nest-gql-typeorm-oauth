@@ -10,7 +10,6 @@ import {
 import { PostService } from './post.service';
 import { Post } from './entities/post.entity';
 import { CreatePostInput } from './dto/create-post.input';
-// import { UpdatePostInput } from './dto/update-post.input';
 import { GraphQLAuthGuard } from 'src/auth/guards/GraphqlAuth.guard';
 import { UseGuards } from '@nestjs/common';
 import { CurrentUserGraphQL } from 'src/auth/decorators/graphql-current-user.decorator';
@@ -35,22 +34,23 @@ export class PostResolver {
     name: 'getAllPosts',
     description: 'gets all posts with a likesCount field with int value',
   })
-  async findAll(@CurrentUserGraphQL() user: User) {
+  async findAll(
+    @CurrentUserGraphQL() user: User,
+    @Args('timeStamp', { type: () => String, nullable: true })
+    timeStamp: string,
+  ) {
     if (user) {
-      const posts = await this.postService.findAllPostsWithHasLiked(user.id);
+      const posts = await this.postService.findAllPostsWithHasLiked(
+        user.id,
+        timeStamp || '2030-09-10 16:42:02.212072',
+      );
       return posts;
     }
-    const posts = await this.postService.findAllPosts();
+    const posts = await this.postService.findAllPosts(
+      timeStamp || '2030-09-10 16:42:02.212072',
+    );
     return posts;
   }
-
-  // @Query(() => [Post], { name: 'allPostsWithLikes' })
-  // async findAllWithHasLiked() {
-  //   const result = await this.postService.findAllPostsWithHasLiked(
-  //     '8f8f448b-d47c-4055-9080-f1a186174e26',
-  //   );
-  //   return result;
-  // }
 
   @ResolveField((_returns) => User)
   user(@Parent() post: Post): Promise<User> {

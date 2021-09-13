@@ -8,7 +8,6 @@ import { Like } from 'src/like/entities/like.entity';
 import { User } from 'src/user/user.entity';
 import { Repository } from 'typeorm';
 import { CreatePostInput } from './dto/create-post.input';
-// import { UpdatePostInput } from './dto/update-post.input';
 import { Post } from './entities/post.entity';
 import {
   PostWithLikesCount,
@@ -27,9 +26,9 @@ export class PostService {
     return this.postRepo.save(newPost);
   }
 
-  // findAllPosts(): Promise<Post[]> {
-  findAllPosts(): Promise<PostWithLikesCount[]> {
-    return this.postRepo.query(`
+  findAllPosts(timeStamp: string): Promise<PostWithLikesCount[]> {
+    return this.postRepo.query(
+      `
     SELECT 
       p.id,
       p.content,
@@ -42,11 +41,18 @@ export class PostService {
           COUNT(*) AS likes_count
         FROM likes
         GROUP BY post_id 
-    ) AS l ON p.id = l.post_id;`);
+    ) AS l ON p.id = l.post_id
+    WHERE (p.created_at < $1::TIMESTAMP )
+    ORDER BY p.created_at DESC
+    LIMIT(2);
+    `,
+      [timeStamp],
+    );
   }
 
   findAllPostsWithHasLiked(
     userId: string,
+    timeStamp: string,
   ): Promise<PostWithLikesCountAndHasLiked[]> {
     return this.postRepo.query(
       `
@@ -69,8 +75,12 @@ export class PostService {
           true AS has_liked
         FROM likes
         WHERE user_id = $1
-      ) AS l2 ON p.id = l2.post_id;`,
-      [userId],
+      ) AS l2 ON p.id = l2.post_id
+      WHERE (p.created_at < $2::TIMESTAMP )
+      ORDER BY p.created_at DESC
+      LIMIT(2);
+      `,
+      [userId, timeStamp],
     );
   }
 
