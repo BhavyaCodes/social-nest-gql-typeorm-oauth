@@ -1,6 +1,7 @@
 import { useRouter } from 'next/dist/client/router';
 import { useGetUserProfileQuery } from '../../lib/queries.graphql';
 import ProfileHeader from '../../components/ProfileHeader';
+import PostComponent from '../../components/Posts/Post';
 
 export default function ProfilePage() {
   const router = useRouter();
@@ -12,14 +13,19 @@ export default function ProfilePage() {
     },
   });
 
-  console.log(data);
+  const renderPosts = () =>
+    posts.map((post) => <PostComponent key={post.id} post={post} />);
+
   if (loading) {
     return <p>Loading......</p>;
   }
+  const posts = data.user.posts;
+
   if (data) {
     return (
       <div>
         <ProfileHeader imageUrl={data.user.imageUrl} name={data.user.name} />
+        <div>{renderPosts()}</div>
       </div>
     );
   }
