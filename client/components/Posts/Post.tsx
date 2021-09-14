@@ -25,6 +25,7 @@ export default function PostComponent({
       },
       optimisticResponse: {
         deletePost: {
+          __typename: 'DeletedItem',
           id: post.id,
         },
       },
