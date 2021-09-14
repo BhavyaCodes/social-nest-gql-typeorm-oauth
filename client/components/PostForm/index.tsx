@@ -27,7 +27,7 @@ export default function PostForm() {
             name: user.name,
             imageUrl: user.imageUrl,
           },
-          createdAt: new Date(),
+          createdAt: new Date().toISOString(),
           likeCount: 0,
           hasLiked: false,
         },
@@ -36,8 +36,6 @@ export default function PostForm() {
         cache.modify({
           fields: {
             getAllPosts(existingPosts = []) {
-              console.log('existing', existingPosts);
-              console.log('data', data);
               const newPostRef = cache.writeFragment({
                 data: data.createPost,
                 fragment: gql`

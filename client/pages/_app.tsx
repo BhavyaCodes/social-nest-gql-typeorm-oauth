@@ -41,10 +41,6 @@ export default function MyApp(props: MyAppProps) {
   return (
     <ApolloProvider client={apolloClient}>
       <CacheProvider value={emotionCache}>
-        {/* <Head>
-          <title>My page</title>
-          <meta name="viewport" content="initial-scale=1, width=device-width" />
-        </Head> */}
         <UserProvider>
           <ThemeProvider theme={theme}>
             {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}

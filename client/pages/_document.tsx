@@ -9,6 +9,9 @@ export default class MyDocument extends Document {
     return (
       <Html lang="en">
         <Head>
+          <title>My title</title>
+          <meta name="viewport" content="initial-scale=1, width=device-width" />
+
           {/* PWA primary color */}
           <meta name="theme-color" content={theme.palette.primary.main} />
           <link
