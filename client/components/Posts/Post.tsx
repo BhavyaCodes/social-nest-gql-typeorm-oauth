@@ -6,6 +6,7 @@ import {
   useUnlikePostMutation,
 } from '../../__generated__/lib/mutations.graphql';
 import { GetAllPostsQuery } from '../../__generated__/lib/queries.graphql';
+import Avatar from '@mui/material/Avatar';
 
 export default function PostComponent({
   post,
@@ -100,6 +101,7 @@ export default function PostComponent({
 
   return (
     <div style={{ border: '2px solid black' }}>
+      <Avatar alt={post.user.name} src={post.user.imageUrl} />
       <p>{post.user.name}</p>
       <p>{post.content}</p>
       <p>LikeCount: {post.likeCount}</p>
