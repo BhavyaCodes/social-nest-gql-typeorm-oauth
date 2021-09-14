@@ -32,7 +32,24 @@ export class UserResolver {
   }
 
   @ResolveField((_returns) => [Post])
-  posts(@Parent() user: User): Promise<Post[]> {
-    return this.userService.getPostsByUserId(user.id);
+  async posts(
+    @Parent() user: User,
+    @CurrentUserGraphQL() loggedInUser: User,
+    @Args('timeStamp', { type: () => String, nullable: true })
+    timeStamp: string,
+  ): Promise<any> {
+    if (loggedInUser) {
+      const posts = await this.userService.getPostsByUserIdWithHasLiked(
+        loggedInUser.id,
+        timeStamp || '2030-09-10 16:42:02.212072',
+        user.id,
+      );
+      return posts;
+    }
+    const posts = await this.userService.getPostsByUserId(
+      timeStamp || '2030-09-10 16:42:02.212072',
+      user.id,
+    );
+    return posts;
   }
 }
