@@ -23,7 +23,7 @@ export default function Posts({
         onClick={() =>
           fetchMore({
             variables: {
-              getAllPostsTimeStamp: posts[posts.length - 1].createdAt as string,
+              getAllPostsTimeStamp: posts[posts.length - 1]?.createdAt || null,
             },
           })
         }
