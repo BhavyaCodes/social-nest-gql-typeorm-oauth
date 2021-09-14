@@ -1,3 +1,4 @@
+import { v4 as uuidv4 } from 'uuid';
 import { getUser } from '../../context/user.context';
 import {
   useDeletePostMutation,
@@ -22,6 +23,12 @@ export default function PostComponent({
       variables: {
         deletePostId: post.id,
       },
+      optimisticResponse: {
+        deletePost: {
+          __typename: 'DeletedItem',
+          id: post.id,
+        },
+      },
       update(cache, { data }) {
         console.log(data);
         const normalizedId = cache.identify({
@@ -39,6 +46,26 @@ export default function PostComponent({
       variables: {
         likePostPostId: post.id,
       },
+      optimisticResponse: {
+        likePost: {
+          id: uuidv4(),
+          __typename: 'Like',
+          post: {
+            __typename: 'Post',
+            id: post.id,
+            content: post.content,
+            userId: post.user.id,
+            user: {
+              __typename: 'User',
+              id: post.user.id,
+              name: post.user.name,
+              imageUrl: post.user.imageUrl,
+            },
+            likeCount: post.likeCount + 1,
+            hasLiked: true,
+          },
+        },
+      },
     }).catch((e) => console.log(e));
   };
 
@@ -46,6 +73,27 @@ export default function PostComponent({
     unLikePostMutation({
       variables: {
         unLikePostPostId: post.id,
+      },
+      optimisticResponse: {
+        unLikePost: {
+          id: uuidv4(),
+          __typename: 'Like',
+          post: {
+            __typename: 'Post',
+            id: post.id,
+            content: post.content,
+            userId: post.user.id,
+            user: {
+              __typename: 'User',
+              id: post.user.id,
+              name: post.user.name,
+              imageUrl: post.user.imageUrl,
+            },
+            likeCount: post.likeCount - 1,
+            hasLiked: false,
+            createdAt: post.createdAt,
+          },
+        },
       },
     }).catch((e) => console.log(e));
   };
