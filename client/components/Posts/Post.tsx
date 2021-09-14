@@ -68,6 +68,27 @@ export default function PostComponent({
       variables: {
         unLikePostPostId: post.id,
       },
+      optimisticResponse: {
+        unLikePost: {
+          id: uuidv4(),
+          __typename: 'Like',
+          post: {
+            __typename: 'Post',
+            id: post.id,
+            content: post.content,
+            userId: post.user.id,
+            user: {
+              __typename: 'User',
+              id: post.user.id,
+              name: post.user.name,
+              imageUrl: post.user.imageUrl,
+            },
+            likeCount: post.likeCount - 1,
+            hasLiked: false,
+            createdAt: post.createdAt,
+          },
+        },
+      },
     }).catch((e) => console.log(e));
   };
 
