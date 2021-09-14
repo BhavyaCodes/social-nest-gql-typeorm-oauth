@@ -78,6 +78,17 @@ export class PostResolver {
     return this.postService.getLikesCount(post.id);
   }
 
+  @ResolveField((_returns) => [Like])
+  hasLiked(
+    @Parent() post: Post,
+    @CurrentUserGraphQL() user: User,
+  ): Promise<boolean> | null {
+    if (!user) {
+      return null;
+    }
+    return this.postService.hasLiked(post.id, user.id);
+  }
+
   @UseGuards(GraphQLAuthGuard)
   @Mutation((_returns) => DeletedItem)
   async deletePost(

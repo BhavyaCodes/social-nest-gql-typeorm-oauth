@@ -138,6 +138,11 @@ export class PostService {
     return this.postRepo.remove(postToDelete);
   }
 
+  async hasLiked(postId: string, userId: string): Promise<boolean> {
+    const hasLiked = await this.likeRepo.findOne({ postId, userId });
+    return !!hasLiked;
+  }
+
   // update(id: number, updatePostInput: UpdatePostInput) {
   //   return `This action updates a #${id} post`;
   // }

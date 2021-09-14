@@ -45,8 +45,14 @@ mutation CreatePost($createPostCreatePostInput: CreatePostInput!) {
   createPost(createPostInput: $createPostCreatePostInput) {
     id
     content
+    user {
+      id
+      name
+      imageUrl
+    }
     createdAt
     likeCount
+    hasLiked
   }
 }
 
