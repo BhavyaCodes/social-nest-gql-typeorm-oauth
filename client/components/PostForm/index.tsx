@@ -41,9 +41,7 @@ export default function PostForm() {
           },
         });
       },
-    })
-      .then((data) => {})
-      .catch((e) => console.log(e));
+    }).catch((e) => console.log(e));
   };
 
   return (
