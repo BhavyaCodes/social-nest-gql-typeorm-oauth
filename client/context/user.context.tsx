@@ -17,7 +17,7 @@ interface User {
 
 const UserContext = createContext<{
   user: User | null;
-  setUser: Dispatch<SetStateAction<User>>;
+  setUser: Dispatch<SetStateAction<User | null>>;
 } | null>(null);
 
 export function UserProvider({ children }: { children: ReactElement }) {
