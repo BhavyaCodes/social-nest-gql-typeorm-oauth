@@ -23,6 +23,11 @@ export default function PostComponent({
       variables: {
         deletePostId: post.id,
       },
+      optimisticResponse: {
+        deletePost: {
+          id: post.id,
+        },
+      },
       update(cache, { data }) {
         console.log(data);
         const normalizedId = cache.identify({
