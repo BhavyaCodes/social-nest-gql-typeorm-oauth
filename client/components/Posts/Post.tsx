@@ -4,7 +4,6 @@ import {
   useLikePostMutation,
   useUnlikePostMutation,
 } from '../../__generated__/lib/mutations.graphql';
-import { GetAllPostsDocument } from '../../__generated__/lib/queries.graphql';
 import { GetAllPostsQuery } from '../../__generated__/lib/queries.graphql';
 
 export default function PostComponent({
@@ -23,10 +22,16 @@ export default function PostComponent({
       variables: {
         deletePostId: post.id,
       },
-      refetchQueries: [GetAllPostsDocument],
-    })
-      .then((data) => {})
-      .catch((e) => console.log(e));
+      update(cache, { data }) {
+        console.log(data);
+        const normalizedId = cache.identify({
+          id: post.id,
+          __typename: 'Post',
+        });
+        cache.evict({ id: normalizedId });
+        cache.gc();
+      },
+    }).catch((e) => console.log(e));
   };
 
   const handleLike = () => {
@@ -34,9 +39,7 @@ export default function PostComponent({
       variables: {
         likePostPostId: post.id,
       },
-    })
-      .then((data) => console.log(data))
-      .catch((e) => console.log(e));
+    }).catch((e) => console.log(e));
   };
 
   const handleUnLike = () => {
@@ -44,9 +47,7 @@ export default function PostComponent({
       variables: {
         unLikePostPostId: post.id,
       },
-    })
-      .then((data) => console.log(data))
-      .catch((e) => console.log(e));
+    }).catch((e) => console.log(e));
   };
 
   return (
