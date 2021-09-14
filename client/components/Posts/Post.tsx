@@ -7,6 +7,17 @@ import {
 } from '../../__generated__/lib/mutations.graphql';
 import { GetAllPostsQuery } from '../../__generated__/lib/queries.graphql';
 import Avatar from '@mui/material/Avatar';
+import * as React from 'react';
+import Card from '@mui/material/Card';
+import CardHeader from '@mui/material/CardHeader';
+import CardContent from '@mui/material/CardContent';
+import CardActions from '@mui/material/CardActions';
+import IconButton from '@mui/material/IconButton';
+import Typography from '@mui/material/Typography';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import ShareIcon from '@mui/icons-material/Share';
+import MoreVertIcon from '@mui/icons-material/MoreVert';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 
 export default function PostComponent({
   post,
@@ -100,21 +111,57 @@ export default function PostComponent({
   };
 
   return (
-    <div style={{ border: '2px solid black' }}>
-      <Avatar alt={post.user.name} src={post.user.imageUrl} />
-      <p>{post.user.name}</p>
-      <p>{post.content}</p>
+    <Card>
+      <CardHeader
+        avatar={<Avatar alt={post.user.name} src={post.user.imageUrl} />}
+        action={
+          <IconButton aria-label="settings">
+            <MoreVertIcon />
+          </IconButton>
+        }
+        title={post.user.name}
+        subheader={post.createdAt}
+      />
+      <CardContent>
+        <Typography variant="body2" color="text.secondary">
+          {post.content}
+        </Typography>
+      </CardContent>
+      <CardActions disableSpacing>
+        {user ? (
+          <IconButton
+            aria-label={post.hasLiked ? 'Like Post' : 'unlike Post'}
+            onClick={post.hasLiked ? handleUnLike : handleLike}
+          >
+            {post.hasLiked ? (
+              <FavoriteIcon color="error" />
+            ) : (
+              <FavoriteBorderIcon />
+            )}
+          </IconButton>
+        ) : (
+          <IconButton
+            aria-label="Like Post"
+            onClick={() => alert('please login first')}
+          >
+            <FavoriteBorderIcon />
+          </IconButton>
+        )}
+        <IconButton aria-label="share">
+          <ShareIcon />
+        </IconButton>
+      </CardActions>
       <p>LikeCount: {post.likeCount}</p>
       {user?.id === post.user.id && (
         <button onClick={deletePost}>Delete Post</button>
       )}
-      <p>hasLiked: {JSON.stringify(post.hasLiked)}</p>
+      {/* <p>hasLiked: {JSON.stringify(post.hasLiked)}</p>
       {post.hasLiked === false && (
         <button onClick={handleLike}>Like Post</button>
       )}
       {post.hasLiked === true && (
         <button onClick={handleUnLike}>Unlike Post</button>
-      )}
-    </div>
+      )} */}
+    </Card>
   );
 }
