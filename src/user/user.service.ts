@@ -87,7 +87,7 @@ export class UserService {
         FROM likes
         WHERE user_id = $1
       ) AS l2 ON p.id = l2.post_id
-      WHERE (p.created_at < $2::TIMESTAMP fAND p.user_id = $3 )
+      WHERE (p.created_at < $2::TIMESTAMP AND p.user_id = $3 )
       ORDER BY p.created_at DESC
       LIMIT(2);
       `,

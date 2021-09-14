@@ -12,3 +12,26 @@ query GetAllPosts($getAllPostsTimeStamp: String) {
     hasLiked
   }
 }
+
+query getUserProfile(
+  $userGetUserProfileById: GetUserProfileByIdInput!
+  $postsTimeStamp: String
+) {
+  user(getUserProfileById: $userGetUserProfileById) {
+    id
+    name
+    imageUrl
+    posts(timeStamp: $postsTimeStamp) {
+      id
+      content
+      user {
+        id
+        name
+        imageUrl
+      }
+      createdAt
+      likeCount
+      hasLiked
+    }
+  }
+}
