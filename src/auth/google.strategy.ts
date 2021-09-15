@@ -14,7 +14,11 @@ export class GoogleStrategy extends PassportStrategy(Strategy) {
       clientID: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
       // callbackURL: 'http://localhost:5000/auth/google/callback',
-      callbackURL: '/auth/google/callback',
+      callbackURL: `${
+        configService.get('NODE_ENV') === 'production'
+          ? 'https://whispering-falls-42804.herokuapp.com'
+          : 'http://localhost:5000'
+      }/auth/google/callback`,
 
       scope: ['email', 'profile'],
       // proxy: true,
