@@ -32,22 +32,27 @@ export class PostResolver {
 
   @Query(() => [Post], {
     name: 'getAllPosts',
-    description: 'gets all posts with a likesCount field with int value',
+    description:
+      'gets all posts with a likesCount field with int value, provide userId to filter posts by given userId',
   })
   async findAll(
-    @CurrentUserGraphQL() user: User,
+    @CurrentUserGraphQL() currentUser: User,
     @Args('timeStamp', { type: () => String, nullable: true })
     timeStamp: string,
+    @Args('userId', { type: () => String, nullable: true })
+    userId?: string | null,
   ) {
-    if (user) {
+    if (currentUser) {
       const posts = await this.postService.findAllPostsWithHasLiked(
-        user.id,
+        currentUser.id,
         timeStamp || '2030-09-10 16:42:02.212072',
+        userId,
       );
       return posts;
     }
     const posts = await this.postService.findAllPosts(
       timeStamp || '2030-09-10 16:42:02.212072',
+      userId,
     );
     return posts;
   }

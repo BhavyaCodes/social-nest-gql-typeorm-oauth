@@ -50,7 +50,7 @@ type Query {
   """
   gets all posts with a likesCount field with int value
   """
-  getAllPosts(timeStamp: String): [Post!]!
+  getAllPosts(userId: String, timeStamp: String): [Post!]!
 
   """
   gets single post by id
