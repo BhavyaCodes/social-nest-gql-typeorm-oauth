@@ -18,12 +18,14 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import ShareIcon from '@mui/icons-material/Share';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import { useRouter } from 'next/dist/client/router';
 
 export default function PostComponent({
   post,
 }: {
   post: GetAllPostsQuery['getAllPosts'][0];
 }) {
+  const router = useRouter();
   const { user } = getUser();
   const [deletePostMutation] = useDeletePostMutation();
   const [likePostMutation] = useLikePostMutation();
@@ -113,7 +115,13 @@ export default function PostComponent({
   return (
     <Card>
       <CardHeader
-        avatar={<Avatar alt={post.user.name} src={post.user.imageUrl} />}
+        avatar={
+          <Avatar
+            onClick={() => router.push(`/profile/${post.user.id}`)}
+            alt={post.user.name}
+            src={post.user.imageUrl}
+          />
+        }
         action={
           <IconButton aria-label="settings">
             <MoreVertIcon />

@@ -13,27 +13,37 @@ export type ResolverContext = {
   res?: ServerResponse;
 };
 
-function createIsomorphLink(context: ResolverContext = {}) {
-  if (typeof window === 'undefined') {
-    const { SchemaLink } = require('@apollo/client/link/schema');
-    const { schema } = require('./schema');
-    return new SchemaLink({ schema, context });
-  } else {
-    const { HttpLink } = require('@apollo/client');
-    return new HttpLink({
-      // uri: '/api/graphql',
-      uri: `${process.env.NEXT_PUBLIC_API_BASE_URL}/graphql`,
-      // credentials: 'same-origin',
-      credentials: true,
-    });
-  }
-}
-
 function createApolloClient(context?: ResolverContext) {
   return new ApolloClient({
     ssrMode: typeof window === 'undefined',
-    link: createIsomorphLink(context),
-    cache: new InMemoryCache(),
+    // link: createIsomorphLink(context),
+    uri: 'http://localhost:5000/graphql',
+    credentials: 'include',
+    cache: new InMemoryCache({
+      typePolicies: {
+        Query: {
+          fields: {
+            getAllPosts: {
+              keyArgs: false,
+              merge(existing = [], incoming) {
+                return [...existing, ...incoming];
+              },
+            },
+            // user: {
+            //   keyArgs: false,
+            //   merge(existing = {}, incoming) {
+            //     console.log('----', existing);
+            //     console.log('----', incoming);
+            //     return existing;
+            //     // if (!existing.posts) {
+            //     //   return existing;
+            //     // }
+            //   },
+            // },
+          },
+        },
+      },
+    }),
   });
 }
 

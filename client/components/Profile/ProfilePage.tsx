@@ -2,10 +2,7 @@ import { useRouter } from 'next/dist/client/router';
 
 import ProfileHeader from '../../components/Profile/ProfileHeader';
 import Posts from '../../components/Profile/ProfilePosts';
-import {
-  useGetAllPostsQuery,
-  useGetUserProfileQuery,
-} from '../../__generated__/lib/queries.graphql';
+import { useGetUserProfileQuery } from '../../__generated__/lib/queries.graphql';
 import Header from '../../components/Header';
 
 export default function ProfilePage() {

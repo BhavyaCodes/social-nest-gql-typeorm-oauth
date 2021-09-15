@@ -44,7 +44,7 @@ type DeletedItem {
 }
 
 type Query {
-  user(getUserProfileById: GetUserProfileByIdInput!): User!
+  getUserProfile(getUserProfileById: String!): User!
   getCurrentLoggedInUser: User!
 
   """
@@ -56,10 +56,6 @@ type Query {
   gets single post by id
   """
   post(id: ID!): Post!
-}
-
-input GetUserProfileByIdInput {
-  userId: ID!
 }
 
 type Mutation {

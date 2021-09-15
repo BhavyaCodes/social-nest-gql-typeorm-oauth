@@ -13,11 +13,11 @@ query GetAllPosts($getAllPostsTimeStamp: String) {
   }
 }
 
-query getUserProfile(
-  $userGetUserProfileById: GetUserProfileByIdInput!
+query GetUserProfile(
+  $getUserProfileGetUserProfileById: String!
   $postsTimeStamp: String
 ) {
-  user(getUserProfileById: $userGetUserProfileById) {
+  getUserProfile(getUserProfileById: $getUserProfileGetUserProfileById) {
     id
     name
     imageUrl
