@@ -22,7 +22,7 @@ async function bootstrap() {
   app.use(
     session({
       cookie: { maxAge: 86400000 },
-      secret: 'asdfgsdgighuidfghdiugdf',
+      secret: process.env.COOKIE_KEY || 'asdfgsdgighuidfghdiugdf',
       resave: false,
       saveUninitialized: false,
       store: new TypeormStore().connect(sessionRepo),
