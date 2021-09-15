@@ -1,12 +1,10 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { GetProfileWithPostsQuery } from '../../lib/queries.graphql';
 import PostComponent from '../Posts/Post';
 import { FetchMoreQueryOptions } from '@apollo/client';
 import {
   GetAllPostsFromUserDocument,
   GetAllPostsFromUserQueryVariables,
-  GetAllPostsQueryVariables,
-  useGetAllPostsFromUserQuery,
 } from '../../__generated__/lib/queries.graphql';
 export default function Posts({
   posts,
@@ -19,10 +17,6 @@ export default function Posts({
     fetchMoreQueryOptions: FetchMoreQueryOptions<GetAllPostsFromUserQueryVariables>,
   ) => void;
 }) {
-  // const [getAllPostsTimeStamp, setGetAllPostsTimeStamp] = useState<
-  //   null | string
-  // >(null);
-
   const renderPosts = () =>
     posts.map((post) => (
       <PostComponent key={post.id} post={{ ...post, user }} />

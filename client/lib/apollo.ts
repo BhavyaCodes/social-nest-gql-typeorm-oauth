@@ -16,7 +16,6 @@ export type ResolverContext = {
 function createApolloClient(context?: ResolverContext) {
   return new ApolloClient({
     ssrMode: typeof window === 'undefined',
-    // link: createIsomorphLink(context),
     uri: 'http://localhost:5000/graphql',
     credentials: 'include',
     cache: new InMemoryCache({
@@ -24,31 +23,11 @@ function createApolloClient(context?: ResolverContext) {
         Query: {
           fields: {
             getAllPosts: {
-              keyArgs: [
-                // 'getAllPostsUserId',
-                // 'getUserProfileGetUserProfileById',
-                'userId',
-                // 'getUserProfileById',
-              ],
-              // keyArgs: 'type',
-
+              keyArgs: ['userId'],
               merge(existing = [], incoming) {
-                console.log('existing', existing);
-                console.log('incoming', incoming);
                 return [...existing, ...incoming];
               },
             },
-            // user: {
-            //   keyArgs: false,
-            //   merge(existing = {}, incoming) {
-            //     console.log('----', existing);
-            //     console.log('----', incoming);
-            //     return existing;
-            //     // if (!existing.posts) {
-            //     //   return existing;
-            //     // }
-            //   },
-            // },
           },
         },
       },

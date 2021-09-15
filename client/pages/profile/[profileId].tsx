@@ -2,11 +2,7 @@ import { useRouter } from 'next/dist/client/router';
 
 import ProfileHeader from '../../components/Profile/ProfileHeader';
 import ProfilePosts from '../../components/Profile/ProfilePosts';
-import {
-  useGetAllPostsFromUserLazyQuery,
-  useGetAllPostsLazyQuery,
-  useGetProfileWithPostsQuery,
-} from '../../__generated__/lib/queries.graphql';
+import { useGetProfileWithPostsQuery } from '../../__generated__/lib/queries.graphql';
 import Header from '../../components/Header';
 
 export default function ProfilePage() {
@@ -20,15 +16,6 @@ export default function ProfilePage() {
       getAllPostsUserId: profileId as string,
     },
   });
-
-  // const [getAllPostsFromUser, { data: postsData, fetchMore: postsFetchMore }] =
-  //   useGetAllPostsFromUserLazyQuery({
-  //     variables: {
-  //       getAllPostsTimeStamp:
-  //         data.getAllPosts[data.getAllPosts.length - 1].createdAt || null,
-  //       getAllPostsUserId: profileId as string,
-  //     },
-  //   });
 
   if (!data) {
     return <p>Loading......</p>;
