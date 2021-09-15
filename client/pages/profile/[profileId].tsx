@@ -1,20 +1,19 @@
 import { useRouter } from 'next/dist/client/router';
 
 import ProfileHeader from '../../components/Profile/ProfileHeader';
-import Posts from '../../components/Profile/ProfilePosts';
-import {
-  useGetAllPostsQuery,
-  useGetUserProfileQuery,
-} from '../../__generated__/lib/queries.graphql';
+import ProfilePosts from '../../components/Profile/ProfilePosts';
+import { useGetProfileWithPostsQuery } from '../../__generated__/lib/queries.graphql';
 import Header from '../../components/Header';
 
 export default function ProfilePage() {
   const router = useRouter();
   const { profileId } = router.query;
-  const { loading, error, data, fetchMore } = useGetUserProfileQuery({
+
+  const { loading, error, data, fetchMore } = useGetProfileWithPostsQuery({
     variables: {
       getUserProfileGetUserProfileById: profileId as string,
-      postsTimeStamp: null,
+      getAllPostsTimeStamp: null,
+      getAllPostsUserId: profileId as string,
     },
   });
 
@@ -25,7 +24,7 @@ export default function ProfilePage() {
   if (loading) {
     return <p>Loading......</p>;
   }
-  const { posts } = data.getUserProfile;
+  const posts = data.getAllPosts;
 
   return (
     <div>
@@ -34,7 +33,11 @@ export default function ProfilePage() {
         imageUrl={data.getUserProfile.imageUrl}
         name={data.getUserProfile.name}
       />
-      <Posts posts={posts} fetchMore={fetchMore} />
+      <ProfilePosts
+        posts={posts}
+        user={data.getUserProfile}
+        fetchMore={fetchMore}
+      />
     </div>
   );
 }

@@ -35,3 +35,22 @@ query GetUserProfile(
     }
   }
 }
+
+query GetProfileWithPosts(
+  $getUserProfileGetUserProfileById: String!
+  $getAllPostsUserId: String
+  $getAllPostsTimeStamp: String
+) {
+  getUserProfile(getUserProfileById: $getUserProfileGetUserProfileById) {
+    id
+    name
+    imageUrl
+  }
+  getAllPosts(userId: $getAllPostsUserId, timeStamp: $getAllPostsTimeStamp) {
+    id
+    content
+    createdAt
+    hasLiked
+    likeCount
+  }
+}

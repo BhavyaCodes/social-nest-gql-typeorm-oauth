@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
-import { GetUserProfileQuery } from '../../__generated__/lib/queries.graphql';
+import { GetProfileWithPostsQuery } from '../../lib/queries.graphql';
 import PostComponent from '../Posts/Post';
 
 export default function Posts({
   posts,
   fetchMore,
+  user,
 }: {
-  posts: GetUserProfileQuery['getUserProfile']['posts'];
+  posts: GetProfileWithPostsQuery['getAllPosts'];
+  user: GetProfileWithPostsQuery['getUserProfile'];
   fetchMore: Function;
 }) {
   const [profilePostsTimeStamp, setProfilePostsTimeStamp] = useState<
@@ -14,18 +16,21 @@ export default function Posts({
   >(null);
 
   const renderPosts = () =>
-    posts.map((post) => <PostComponent key={post.id} post={post} />);
+    posts.map((post) => (
+      <PostComponent key={post.id} post={{ ...post, user }} />
+    ));
 
   return (
     <>
       <div>{renderPosts()}</div>
       <button
         onClick={() =>
-          fetchMore({
-            variables: {
-              profilePostsTimeStamp: posts[posts.length - 1]?.createdAt || null,
-            },
-          })
+          // fetchMore({
+          //   variables: {
+          //     profilePostsTimeStamp: posts[posts.length - 1]?.createdAt || null,
+          //   },
+          // })
+          console.log('fetch more')
         }
       >
         Load More
