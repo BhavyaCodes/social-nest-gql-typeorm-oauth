@@ -1,5 +1,5 @@
 import { AppProps } from 'next/app';
-import { ApolloClient, ApolloProvider, InMemoryCache } from '@apollo/client';
+import { ApolloProvider } from '@apollo/client';
 import { UserProvider } from '../context/user.context';
 import createEmotionCache from '../src/createEmotionCache';
 import { EmotionCache } from '@emotion/cache';
@@ -9,6 +9,7 @@ import { Head } from 'next/document';
 import theme from '../src/theme';
 import { CssBaseline } from '@mui/material';
 import Layout from '../components/Layout';
+import { useApollo } from '../lib/apollo';
 
 // Client-side cache, shared for the whole session of the user in the browser.
 const clientSideEmotionCache = createEmotionCache();
@@ -19,24 +20,7 @@ interface MyAppProps extends AppProps {
 
 export default function MyApp(props: MyAppProps) {
   const { Component, emotionCache = clientSideEmotionCache, pageProps } = props;
-  const apolloClient = new ApolloClient({
-    uri: 'http://localhost:5000/graphql',
-    cache: new InMemoryCache({
-      typePolicies: {
-        Query: {
-          fields: {
-            getAllPosts: {
-              keyArgs: false,
-              merge(existing = [], incoming) {
-                return [...existing, ...incoming];
-              },
-            },
-          },
-        },
-      },
-    }),
-    credentials: 'include',
-  });
+  const apolloClient = useApollo(props.pageProps.initialApolloState);
 
   return (
     <ApolloProvider client={apolloClient}>

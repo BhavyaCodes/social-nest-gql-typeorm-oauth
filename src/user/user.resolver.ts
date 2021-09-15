@@ -3,7 +3,7 @@ import { Resolver, Query, Args, ResolveField, Parent } from '@nestjs/graphql';
 import { CurrentUserGraphQL } from 'src/auth/decorators/graphql-current-user.decorator';
 import { GraphQLAuthGuard } from 'src/auth/guards/GraphqlAuth.guard';
 import { Post } from 'src/post/entities/post.entity';
-import { GetUserProfileByIdInput } from './dto/get-user-profile-by-id.input';
+// import { GetUserProfileByIdInput } from './dto/get-user-profile-by-id.input';
 import { User } from './user.entity';
 import { UserService } from './user.service';
 
@@ -11,14 +11,12 @@ import { UserService } from './user.service';
 export class UserResolver {
   constructor(private readonly userService: UserService) {}
 
-  @Query(() => User, { name: 'user' })
+  @Query(() => User, { name: 'getUserProfile' })
   async getUserProfile(
     @Args('getUserProfileById')
-    getUserProfileByIdInput: GetUserProfileByIdInput,
+    profileId: string,
   ): Promise<User> {
-    const user = await this.userService.findUserByUserId(
-      getUserProfileByIdInput.userId,
-    );
+    const user = await this.userService.findUserByUserId(profileId);
     if (!user) {
       throw new NotFoundException();
     }
