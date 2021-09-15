@@ -33,7 +33,9 @@ export class GoogleStrategy extends PassportStrategy(Strategy) {
   ) {
     const { id, displayName } = profile;
 
+    console.log(profile);
     const foundUser = await this.userService.findUserByGoogleId(id);
+    console.log(foundUser);
 
     if (foundUser) {
       return done(null, foundUser);
