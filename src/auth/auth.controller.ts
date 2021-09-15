@@ -4,9 +4,11 @@ import { User } from 'src/user/user.entity';
 import { AuthenticationGuard } from './guards/Auth.guard';
 import { CurrentUser } from './decorators/current-user.decorator';
 import { GoogleAuthGuard } from './guards/GoogleAuth.guard';
+import { ConfigService } from '@nestjs/config';
 
 @Controller('auth')
 export class AuthController {
+  constructor(private readonly configService: ConfigService) {}
   /**
    * GET /auth/google
    * This is the route the user will visit to authenticate
@@ -25,7 +27,7 @@ export class AuthController {
   @UseGuards(GoogleAuthGuard)
   callback(@Req() req: Request, @Res() res: Response) {
     // res.redirect('/auth/whoami');
-    res.redirect('http://localhost:3000');
+    res.redirect(this.configService.get('CLIENT_URL') as string);
   }
 
   /**
@@ -50,6 +52,6 @@ export class AuthController {
   @Get('logout')
   logout(@Req() req: Request, @Res() res: Response) {
     req.logOut();
-    res.redirect('http://localhost:3000');
+    res.redirect(this.configService.get('CLIENT_URL') as string);
   }
 }
