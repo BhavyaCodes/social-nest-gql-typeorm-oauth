@@ -26,7 +26,33 @@ export class PostService {
     return this.postRepo.save(newPost);
   }
 
-  findAllPosts(timeStamp: string): Promise<PostWithLikesCount[]> {
+  findAllPosts(
+    timeStamp: string,
+    userId?: string | null,
+  ): Promise<PostWithLikesCount[]> {
+    if (userId) {
+      return this.postRepo.query(
+        `
+      SELECT 
+        p.id,
+        p.content,
+        p.user_id AS "userId", 
+        p.created_at AS "createdAt",
+        COALESCE(l.likes_count::INTEGER, 0::INTEGER) AS "likesCount" 
+      FROM posts AS p
+        LEFT JOIN (
+          SELECT post_id,
+            COUNT(*) AS likes_count
+          FROM likes
+          GROUP BY post_id 
+      ) AS l ON p.id = l.post_id
+      WHERE (p.created_at < $1::TIMESTAMP AND p.user_id = $2 )
+      ORDER BY p.created_at DESC
+      LIMIT(2);
+      `,
+        [timeStamp, userId],
+      );
+    }
     return this.postRepo.query(
       `
     SELECT 
@@ -51,9 +77,40 @@ export class PostService {
   }
 
   findAllPostsWithHasLiked(
-    userId: string,
+    currentUser: string,
     timeStamp: string,
+    userId?: string | null,
   ): Promise<PostWithLikesCountAndHasLiked[]> {
+    if (userId) {
+      return this.postRepo.query(
+        `
+      SELECT 
+        p.id,
+        p.content,
+        p.user_id AS "userId",
+        p.created_at AS "createdAt",
+        COALESCE(l.likes_count::INTEGER, 0::INTEGER) AS "likesCount",
+        COALESCE(l2.has_liked::BOOLEAN, false::BOOLEAN) AS "hasLiked"
+      FROM posts AS p
+        LEFT JOIN (
+          SELECT post_id,
+            COUNT(*) as likes_count
+          FROM likes
+          GROUP BY post_id
+        ) AS l ON p.id = l.post_id
+        LEFT JOIN (
+          SELECT likes.post_id,
+            true AS has_liked
+          FROM likes
+          WHERE user_id = $1
+        ) AS l2 ON p.id = l2.post_id
+        WHERE (p.created_at < $2::TIMESTAMP AND p.user_id = $3)
+        ORDER BY p.created_at DESC
+        LIMIT(2);
+        `,
+        [currentUser, timeStamp, userId],
+      );
+    }
     return this.postRepo.query(
       `
     SELECT 
@@ -80,7 +137,7 @@ export class PostService {
       ORDER BY p.created_at DESC
       LIMIT(2);
       `,
-      [userId, timeStamp],
+      [currentUser, timeStamp],
     );
   }
 

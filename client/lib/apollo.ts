@@ -24,8 +24,17 @@ function createApolloClient(context?: ResolverContext) {
         Query: {
           fields: {
             getAllPosts: {
-              keyArgs: false,
+              keyArgs: [
+                // 'getAllPostsUserId',
+                // 'getUserProfileGetUserProfileById',
+                'userId',
+                // 'getUserProfileById',
+              ],
+              // keyArgs: 'type',
+
               merge(existing = [], incoming) {
+                console.log('existing', existing);
+                console.log('incoming', incoming);
                 return [...existing, ...incoming];
               },
             },

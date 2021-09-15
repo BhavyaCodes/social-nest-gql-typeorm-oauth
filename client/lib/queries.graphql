@@ -13,6 +13,24 @@ query GetAllPosts($getAllPostsTimeStamp: String) {
   }
 }
 
+query GetAllPostsFromUser(
+  $getAllPostsTimeStamp: String
+  $getAllPostsUserId: String
+) {
+  getAllPosts(timeStamp: $getAllPostsTimeStamp, userId: $getAllPostsUserId) {
+    id
+    content
+    user {
+      id
+      name
+      imageUrl
+    }
+    createdAt
+    likeCount
+    hasLiked
+  }
+}
+
 query GetUserProfile(
   $getUserProfileGetUserProfileById: String!
   $postsTimeStamp: String
@@ -33,5 +51,24 @@ query GetUserProfile(
       likeCount
       hasLiked
     }
+  }
+}
+
+query GetProfileWithPosts(
+  $getUserProfileGetUserProfileById: String!
+  $getAllPostsUserId: String
+  $getAllPostsTimeStamp: String
+) {
+  getUserProfile(getUserProfileById: $getUserProfileGetUserProfileById) {
+    id
+    name
+    imageUrl
+  }
+  getAllPosts(userId: $getAllPostsUserId, timeStamp: $getAllPostsTimeStamp) {
+    id
+    content
+    createdAt
+    hasLiked
+    likeCount
   }
 }
