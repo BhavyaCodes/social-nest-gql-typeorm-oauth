@@ -21,7 +21,13 @@ async function bootstrap() {
   const sessionRepo = getRepository(AuthSession);
   app.use(
     session({
-      cookie: { maxAge: 86400000 },
+      cookie: {
+        maxAge: 86400000,
+        domain:
+          process.env.NODE_ENV === 'development'
+            ? 'http://localhost:3000'
+            : 'https://social-nest-gql-typeorm-oauth.vercel.app',
+      },
       secret: process.env.COOKIE_KEY || 'asdfgsdgighuidfghdiugdf',
       resave: false,
       saveUninitialized: false,
