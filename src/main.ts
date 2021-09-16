@@ -25,8 +25,9 @@ async function bootstrap() {
     session({
       cookie: {
         maxAge: 86400000,
-        sameSite: 'none',
-        secure: process.env.NODE_ENV !== 'development',
+        sameSite: process.env.NODE_ENV === 'development' ? true : 'none',
+        // sameSite: 'lax',
+        secure: process.env.NODE_ENV === 'development' ? false : true,
 
         // domain:
         //   process.env.NODE_ENV === 'development'
