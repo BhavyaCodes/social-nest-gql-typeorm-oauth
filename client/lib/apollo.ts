@@ -13,11 +13,20 @@ export type ResolverContext = {
   res?: ServerResponse;
 };
 
+function createIsomorphLink(context: ResolverContext = {}) {
+  const { HttpLink } = require('@apollo/client');
+  return new HttpLink({
+    uri: `${process.env.NEXT_PUBLIC_API_BASE_URL}/graphql`,
+    credentials: 'include',
+  });
+}
+
 function createApolloClient(context?: ResolverContext) {
   return new ApolloClient({
     ssrMode: typeof window === 'undefined',
-    uri: `${process.env.NEXT_PUBLIC_API_BASE_URL}/graphql`,
-    credentials: 'include',
+    // uri: `${process.env.NEXT_PUBLIC_API_BASE_URL}/graphql`,
+    link: createIsomorphLink(context),
+    // credentials: 'include',
     cache: new InMemoryCache({
       typePolicies: {
         Query: {
