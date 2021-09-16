@@ -41,6 +41,7 @@ async function bootstrap() {
       store: new TypeormStore().connect(sessionRepo),
     }),
   );
+  app.setGlobalPrefix('api');
   app.use(passport.initialize());
   app.use(passport.session());
   await app.listen(process.env.PORT || 5000);

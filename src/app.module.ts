@@ -10,9 +10,13 @@ import { GraphQLModule } from '@nestjs/graphql';
 import { join } from 'path';
 import { PostModule } from './post/post.module';
 import { LikeModule } from './like/like.module';
+import { ServeStaticModule } from '@nestjs/serve-static';
 
 @Module({
   imports: [
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname, '..', 'client', 'out'),
+    }),
     UserModule,
     AuthModule,
     ConfigModule.forRoot({ envFilePath: '.env.development', isGlobal: true }),

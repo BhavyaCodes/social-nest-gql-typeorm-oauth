@@ -3,7 +3,7 @@
   "scripts": {
     "codegen": "graphql-let",
     "dev": "yarn codegen && next",
-    "build": "yarn codegen && next build",
+    "build": "yarn codegen && next build && next export",
     "test": "yarn codegen && jest",
     "start": "next start"
   },
