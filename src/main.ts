@@ -33,7 +33,7 @@ async function bootstrap() {
         domain:
           process.env.NODE_ENV === 'development'
             ? 'localhost'
-            : 'social-nest-gql-typeorm-oauth.vercel.app',
+            : 'whispering-falls-42804.herokuapp.com',
       },
       secret: process.env.COOKIE_KEY || 'asdfgsdgighuidfghdiugdf',
       resave: false,

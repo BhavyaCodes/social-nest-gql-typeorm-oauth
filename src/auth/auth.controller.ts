@@ -31,7 +31,7 @@ export class AuthController {
     // console.log(req.headers);
 
     console.log(this.configService.get('CLIENT_URL'));
-    res.redirect(200, this.configService.get('CLIENT_URL') as string);
+    res.redirect(this.configService.get('CLIENT_URL') as string);
   }
 
   /**
