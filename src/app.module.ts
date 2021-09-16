@@ -16,6 +16,7 @@ import { ServeStaticModule } from '@nestjs/serve-static';
   imports: [
     ServeStaticModule.forRoot({
       rootPath: join(__dirname, '..', 'client', 'out'),
+      exclude: ['/api*'],
     }),
     UserModule,
     AuthModule,
@@ -26,6 +27,7 @@ import { ServeStaticModule } from '@nestjs/serve-static';
       debug: false,
       playground: true,
       autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
+      useGlobalPrefix: true,
       cors: {
         origin: [
           'http://localhost:3000',
