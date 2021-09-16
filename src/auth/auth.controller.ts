@@ -27,7 +27,9 @@ export class AuthController {
   @UseGuards(GoogleAuthGuard)
   callback(@Req() req: Request, @Res() res: Response) {
     // res.redirect('/auth/whoami');
-    console.log(req.cookies);
+    // console.log(req.cookies);
+    // console.log(req.headers);
+
     console.log(this.configService.get('CLIENT_URL'));
     res.redirect(this.configService.get('CLIENT_URL') as string);
   }

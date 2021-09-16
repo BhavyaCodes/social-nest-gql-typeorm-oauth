@@ -30,10 +30,10 @@ async function bootstrap() {
         httpOnly: true,
         secure: process.env.NODE_ENV === 'development' ? false : true,
 
-        // domain:
-        //   process.env.NODE_ENV === 'development'
-        //     ? 'http://localhost:3000'
-        //     : 'https://social-nest-gql-typeorm-oauth.vercel.app',
+        domain:
+          process.env.NODE_ENV === 'development'
+            ? 'localhost:3000'
+            : 'social-nest-gql-typeorm-oauth.vercel.app',
       },
       secret: process.env.COOKIE_KEY || 'asdfgsdgighuidfghdiugdf',
       resave: false,
