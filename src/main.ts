@@ -32,7 +32,7 @@ async function bootstrap() {
 
         domain:
           process.env.NODE_ENV === 'development'
-            ? 'localhost:3000'
+            ? 'localhost'
             : 'social-nest-gql-typeorm-oauth.vercel.app',
       },
       secret: process.env.COOKIE_KEY || 'asdfgsdgighuidfghdiugdf',
