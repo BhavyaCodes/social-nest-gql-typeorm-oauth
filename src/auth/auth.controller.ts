@@ -57,6 +57,7 @@ export class AuthController {
   @Get('logout')
   logout(@Req() req: Request, @Res() res: Response) {
     req.logOut();
-    res.redirect(this.configService.get('CLIENT_URL') as string);
+    // res.redirect(this.configService.get('CLIENT_URL') as string);
+    res.redirect('/');
   }
 }
