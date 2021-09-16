@@ -29,7 +29,7 @@ import { LikeModule } from './like/like.module';
           'https://studio.apollographql.com',
           'https://social-nest-gql-typeorm-oauth.vercel.app',
         ],
-        credentials: false,
+        credentials: true,
       },
     }),
     PostModule,
