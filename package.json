@@ -5,6 +5,9 @@
   "author": "",
   "private": true,
   "license": "UNLICENSED",
+  "engines": {
+    "node": "14.x"
+  },
   "scripts": {
     "prebuild": "rimraf dist",
     "build": "nest build && yarn --cwd ./client install && yarn --cwd ./client build",
