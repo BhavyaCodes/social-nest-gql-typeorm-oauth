@@ -28,6 +28,7 @@ import { LikeModule } from './like/like.module';
           'http://localhost:5000',
           'https://studio.apollographql.com',
           'https://social-nest-gql-typeorm-oauth.vercel.app',
+          'https://whispering-falls-42804.herokuapp.com',
         ],
         credentials: true,
       },
