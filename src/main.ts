@@ -27,13 +27,13 @@ async function bootstrap() {
         maxAge: 86400000,
         // sameSite: process.env.NODE_ENV === 'development' ? true : 'none',
         sameSite: 'lax',
-        httpOnly: true,
-        secure: process.env.NODE_ENV === 'development' ? false : true,
+        // httpOnly: true,
+        // secure: process.env.NODE_ENV === 'development' ? false : true,
 
-        domain:
-          process.env.NODE_ENV === 'development'
-            ? 'localhost'
-            : 'whispering-falls-42804.herokuapp.com',
+        // domain:
+        //   process.env.NODE_ENV === 'development'
+        //     ? 'localhost'
+        //     : 'whispering-falls-42804.herokuapp.com',
       },
       secret: process.env.COOKIE_KEY || 'asdfgsdgighuidfghdiugdf',
       resave: false,
