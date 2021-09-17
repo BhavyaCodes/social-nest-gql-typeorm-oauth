@@ -26,6 +26,7 @@ import { ServeStaticModule } from '@nestjs/serve-static';
     GraphQLModule.forRoot({
       debug: false,
       playground: true,
+      introspection: true,
       autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
       useGlobalPrefix: true,
       cors: {
