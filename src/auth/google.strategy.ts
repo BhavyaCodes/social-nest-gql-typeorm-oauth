@@ -21,7 +21,7 @@ export class GoogleStrategy extends PassportStrategy(Strategy) {
       // }/auth/google/callback`,
 
       scope: ['email', 'profile'],
-      // proxy: true,
+      proxy: true,
     });
   }
 
