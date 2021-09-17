@@ -32,7 +32,6 @@ export default function PostComponent({
   const [unLikePostMutation] = useUnlikePostMutation();
 
   const deletePost = () => {
-    console.log(post.id);
     deletePostMutation({
       variables: {
         deletePostId: post.id,
@@ -44,7 +43,6 @@ export default function PostComponent({
         },
       },
       update(cache, { data }) {
-        console.log(data);
         const normalizedId = cache.identify({
           id: post.id,
           __typename: 'Post',
