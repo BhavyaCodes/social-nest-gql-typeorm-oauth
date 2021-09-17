@@ -16,7 +16,6 @@ export type ResolverContext = {
 function createIsomorphLink(context: ResolverContext = {}) {
   const { HttpLink } = require('@apollo/client');
   return new HttpLink({
-    // uri: `${process.env.NEXT_PUBLIC_API_BASE_URL}/graphql`,
     uri: `/api/graphql`,
     credentials: 'include',
   });
@@ -25,9 +24,7 @@ function createIsomorphLink(context: ResolverContext = {}) {
 function createApolloClient(context?: ResolverContext) {
   return new ApolloClient({
     ssrMode: typeof window === 'undefined',
-    // uri: `${process.env.NEXT_PUBLIC_API_BASE_URL}/graphql`,
     link: createIsomorphLink(context),
-    // credentials: 'include',
     cache: new InMemoryCache({
       typePolicies: {
         Query: {

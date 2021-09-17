@@ -24,11 +24,8 @@ export function UserProvider({ children }: { children: ReactElement }) {
   const [user, setUser] = useState<null | User>(null);
   const value = { user, setUser };
 
-  // const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
-
   useEffect(() => {
     axios
-      // .get<User>(`${apiBaseUrl}/auth/whoami`, { withCredentials: true })
       .get<User>(`api/auth/whoami`, { withCredentials: true })
       .then((res) => setUser(res.data))
       .catch((e) => {
