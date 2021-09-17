@@ -25,15 +25,7 @@ async function bootstrap() {
     session({
       cookie: {
         maxAge: 86400000,
-        // sameSite: process.env.NODE_ENV === 'development' ? true : 'none',
         sameSite: 'lax',
-        httpOnly: true,
-        secure: process.env.NODE_ENV === 'development' ? false : true,
-
-        domain:
-          process.env.NODE_ENV === 'development'
-            ? 'localhost'
-            : 'whispering-falls-42804.herokuapp.com',
       },
       secret: process.env.COOKIE_KEY || 'asdfgsdgighuidfghdiugdf',
       resave: false,
@@ -41,6 +33,7 @@ async function bootstrap() {
       store: new TypeormStore().connect(sessionRepo),
     }),
   );
+  app.setGlobalPrefix('api');
   app.use(passport.initialize());
   app.use(passport.session());
   await app.listen(process.env.PORT || 5000);

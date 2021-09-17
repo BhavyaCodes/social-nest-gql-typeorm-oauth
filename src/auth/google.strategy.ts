@@ -6,22 +6,13 @@ import { UserService } from 'src/user/user.service';
 
 @Injectable()
 export class GoogleStrategy extends PassportStrategy(Strategy) {
-  constructor(
-    private userService: UserService,
-    private configService: ConfigService,
-  ) {
+  constructor(private userService: UserService) {
     super({
       clientID: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-      // callbackURL: 'http://localhost:5000/auth/google/callback',
-      callbackURL: `${
-        configService.get('NODE_ENV') === 'production'
-          ? 'https://whispering-falls-42804.herokuapp.com'
-          : 'http://localhost:5000'
-      }/auth/google/callback`,
-
+      callbackURL: '/api/auth/google/callback',
       scope: ['email', 'profile'],
-      // proxy: true,
+      proxy: true,
     });
   }
 

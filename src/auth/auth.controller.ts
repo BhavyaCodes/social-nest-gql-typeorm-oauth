@@ -26,12 +26,7 @@ export class AuthController {
   @Get('/google/callback')
   @UseGuards(GoogleAuthGuard)
   callback(@Req() req: Request, @Res() res: Response) {
-    // res.redirect('/auth/whoami');
-    // console.log(req.cookies);
-    // console.log(req.headers);
-
-    console.log(this.configService.get('CLIENT_URL'));
-    res.redirect(this.configService.get('CLIENT_URL') as string);
+    res.redirect('/');
   }
 
   /**
@@ -45,10 +40,6 @@ export class AuthController {
     // @Req() req: Request,
     @CurrentUser() user: User,
   ) {
-    // if (!req.user) {
-    //   throw new UnauthorizedException();
-    // }
-    // return req.user;
     return user;
   }
 
@@ -56,6 +47,6 @@ export class AuthController {
   @Get('logout')
   logout(@Req() req: Request, @Res() res: Response) {
     req.logOut();
-    res.redirect(this.configService.get('CLIENT_URL') as string);
+    res.redirect('/');
   }
 }
