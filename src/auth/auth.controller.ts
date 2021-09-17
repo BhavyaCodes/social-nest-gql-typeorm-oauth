@@ -4,11 +4,9 @@ import { User } from 'src/user/user.entity';
 import { AuthenticationGuard } from './guards/Auth.guard';
 import { CurrentUser } from './decorators/current-user.decorator';
 import { GoogleAuthGuard } from './guards/GoogleAuth.guard';
-import { ConfigService } from '@nestjs/config';
 
 @Controller('auth')
 export class AuthController {
-  constructor(private readonly configService: ConfigService) {}
   /**
    * GET /auth/google
    * This is the route the user will visit to authenticate

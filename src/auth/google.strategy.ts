@@ -1,5 +1,4 @@
 import { Injectable } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
 import { PassportStrategy } from '@nestjs/passport';
 import { Strategy, VerifyCallback, Profile } from 'passport-google-oauth20';
 import { UserService } from 'src/user/user.service';
@@ -25,7 +24,6 @@ export class GoogleStrategy extends PassportStrategy(Strategy) {
     const { id, displayName } = profile;
 
     const foundUser = await this.userService.findUserByGoogleId(id);
-    console.log(foundUser);
 
     if (foundUser) {
       return done(null, foundUser);

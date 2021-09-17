@@ -20,7 +20,6 @@ async function bootstrap() {
     },
   });
   const sessionRepo = getRepository(AuthSession);
-  console.log('NODE_ENV', process.env.NODE_ENV);
   app.use(
     session({
       cookie: {
