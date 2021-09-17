@@ -11,9 +11,9 @@ export default function Header() {
       <p>Header</p>
       {user && <div>Logged In as {user.name}</div>}
       {user ? (
-        <a href={`api/auth/logout`}>Logout</a>
+        <a href={`/api/auth/logout`}>Logout</a>
       ) : (
-        <a href={`api/auth/google`}>Login</a>
+        <a href={`/api/auth/google`}>Login</a>
       )}
     </div>
   );
