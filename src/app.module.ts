@@ -15,12 +15,12 @@ import { ServeStaticModule } from '@nestjs/serve-static';
 @Module({
   imports: [
     ServeStaticModule.forRoot({
-      rootPath: join(__dirname, '..', 'client', 'out'),
+      rootPath: join(__dirname, '..', 'client', 'build'),
       exclude: ['/api*'],
-      serveStaticOptions: {
-        // index: true,
-        extensions: ['html'],
-      },
+      // serveStaticOptions: {
+      //   // index: true,
+      //   extensions: ['html'],
+      // },
     }),
     UserModule,
     AuthModule,

@@ -32,7 +32,7 @@
     "codegen": "graphql-let",
     "dev": "yarn codegen && BROWSER=none react-scripts start",
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "yarn codegen && react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
