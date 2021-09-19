@@ -18,6 +18,8 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import ShareIcon from '@mui/icons-material/Share';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import { Menu, MenuItem } from '@mui/material';
+import { useState } from 'react';
 
 export default function PostComponent({
   post,
@@ -29,6 +31,15 @@ export default function PostComponent({
   const [deletePostMutation] = useDeletePostMutation();
   const [likePostMutation] = useLikePostMutation();
   const [unLikePostMutation] = useUnlikePostMutation();
+
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
 
   const deletePost = () => {
     deletePostMutation({
@@ -110,7 +121,7 @@ export default function PostComponent({
   };
 
   return (
-    <Card>
+    <Card sx={{ my: 2 }}>
       <CardHeader
         avatar={
           <Avatar
@@ -120,9 +131,37 @@ export default function PostComponent({
           />
         }
         action={
-          <IconButton aria-label="settings">
-            <MoreVertIcon />
-          </IconButton>
+          user?.id === post.user.id && (
+            <>
+              <IconButton
+                aria-label="settings"
+                aria-controls="basic-menu"
+                aria-haspopup="true"
+                aria-expanded={open ? 'true' : undefined}
+                onClick={handleClick}
+              >
+                <MoreVertIcon />
+              </IconButton>
+              <Menu
+                id="basic-menu"
+                anchorEl={anchorEl}
+                open={open}
+                onClose={handleClose}
+                MenuListProps={{
+                  'aria-labelledby': 'basic-button',
+                }}
+              >
+                <MenuItem
+                  onClick={() => {
+                    handleClose();
+                    deletePost();
+                  }}
+                >
+                  Delete Post
+                </MenuItem>
+              </Menu>
+            </>
+          )
         }
         title={post.user.name}
         subheader={post.createdAt}
@@ -157,9 +196,10 @@ export default function PostComponent({
         </IconButton>
       </CardActions>
       <p>LikeCount: {post.likeCount}</p>
-      {user?.id === post.user.id && (
+
+      {/* {user?.id === post.user.id && (
         <button onClick={deletePost}>Delete Post</button>
-      )}
+      )} */}
       {/* <p>hasLiked: {JSON.stringify(post.hasLiked)}</p>
       {post.hasLiked === false && (
         <button onClick={handleLike}>Like Post</button>
