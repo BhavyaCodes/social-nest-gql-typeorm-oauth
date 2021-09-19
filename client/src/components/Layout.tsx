@@ -75,7 +75,46 @@ export default function Layout(props: Props) {
   const handleClose = () => {
     setAnchorEl(null);
   };
-  const { user } = useUser();
+
+  const { user, loading } = useUser();
+
+  const renderMenu = () => {
+    return user ? (
+      <>
+        <IconButton onClick={handleClick}>
+          <Avatar alt="Remy Sharp" src={user.imageUrl} />
+        </IconButton>
+        <Menu
+          id="basic-menu"
+          anchorEl={anchorEl}
+          open={open}
+          onClose={handleClose}
+          MenuListProps={{
+            'aria-labelledby': 'basic-button',
+          }}
+        >
+          <MenuItem onClick={handleClose}>
+            <Link
+              to={`/profile/${user.id}`}
+              style={{ textDecoration: 'none', color: 'inherit' }}
+            >
+              My Profile
+            </Link>
+          </MenuItem>
+          <MenuItem onClick={handleClose}>
+            <MuiLink color="inherit" underline="none" href="/api/auth/logout">
+              Logout
+            </MuiLink>
+          </MenuItem>
+        </Menu>
+      </>
+    ) : (
+      <Button href="/api/auth/google" color="inherit">
+        Login
+      </Button>
+    );
+  };
+
   return (
     <React.Fragment>
       <CssBaseline />
@@ -84,44 +123,8 @@ export default function Layout(props: Props) {
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             DevGram
           </Typography>
-          {user ? (
-            <>
-              <IconButton onClick={handleClick}>
-                <Avatar alt="Remy Sharp" src={user.imageUrl} />
-              </IconButton>
-              <Menu
-                id="basic-menu"
-                anchorEl={anchorEl}
-                open={open}
-                onClose={handleClose}
-                MenuListProps={{
-                  'aria-labelledby': 'basic-button',
-                }}
-              >
-                <MenuItem onClick={handleClose}>
-                  <Link
-                    to={`/profile/${user.id}`}
-                    style={{ textDecoration: 'none', color: 'inherit' }}
-                  >
-                    My Profile
-                  </Link>
-                </MenuItem>
-                <MenuItem onClick={handleClose}>
-                  <MuiLink
-                    color="inherit"
-                    underline="none"
-                    href="/api/auth/logout"
-                  >
-                    Logout
-                  </MuiLink>
-                </MenuItem>
-              </Menu>
-            </>
-          ) : (
-            <Button href="/api/auth/google" color="inherit">
-              Login
-            </Button>
-          )}
+
+          {!loading && renderMenu()}
         </Toolbar>
       </AppBar>
       <Toolbar id="back-to-top-anchor" />

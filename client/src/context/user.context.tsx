@@ -18,18 +18,24 @@ interface User {
 const UserContext = createContext<{
   user: User | null;
   setUser: Dispatch<SetStateAction<User | null>>;
+  loading: boolean;
 } | null>(null);
 
 export function UserProvider({ children }: { children: ReactElement }) {
   const [user, setUser] = useState<null | User>(null);
-  const value = { user, setUser };
+  const [loading, setLoading] = useState<boolean>(true);
+  const value = { user, setUser, loading };
 
   useEffect(() => {
     axios
       .get<User>(`api/auth/whoami`, { withCredentials: true })
-      .then((res) => setUser(res.data))
+      .then((res) => {
+        setUser(res.data);
+        setLoading(false);
+      })
       .catch((e) => {
         setUser(null);
+        setLoading(false);
       });
   }, []);
 
