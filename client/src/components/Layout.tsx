@@ -127,9 +127,10 @@ export default function Layout(props: Props) {
       <AppBar>
         <Toolbar>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            DevGram
+            <Link to="/" style={{ textDecoration: 'none', color: 'inherit' }}>
+              DevGram
+            </Link>
           </Typography>
-
           {!loading && renderMenu()}
         </Toolbar>
       </AppBar>
