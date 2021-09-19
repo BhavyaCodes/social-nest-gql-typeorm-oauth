@@ -2,6 +2,7 @@ import {
   BadRequestException,
   ConflictException,
   Injectable,
+  NotFoundException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Post } from 'src/post/entities/post.entity';
@@ -46,6 +47,10 @@ export class LikeService {
       where: { postId },
       relations: ['user'],
     });
+
+    if (docs.length === 0) {
+      throw new NotFoundException('Post not found');
+    }
 
     const users = docs.map((like) => like.user);
     return users;

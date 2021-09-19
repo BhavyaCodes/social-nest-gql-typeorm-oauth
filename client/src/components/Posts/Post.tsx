@@ -45,6 +45,16 @@ export default function PostComponent({
     setAnchorEl(null);
   };
 
+  const getLikeCountText = (number: number) => {
+    if (!number) {
+      return null;
+    }
+    if (number === 1) {
+      return '1 user likes this post';
+    }
+    return `${number} users like this post`;
+  };
+
   const deletePost = () => {
     deletePostMutation({
       variables: {
@@ -202,7 +212,13 @@ export default function PostComponent({
           <ShareIcon />
         </IconButton>
       </CardActions>
-      <p>LikeCount: {post.likeCount}</p>
+      {getLikeCountText(post.likeCount) && (
+        <Typography sx={{ mx: 2, mb: 1 }}>
+          {getLikeCountText(post.likeCount)}
+        </Typography>
+      )}
+
+      {/* <p>LikeCount: {post.likeCount}</p> */}
 
       {/* {user?.id === post.user.id && (
         <button onClick={deletePost}>Delete Post</button>
