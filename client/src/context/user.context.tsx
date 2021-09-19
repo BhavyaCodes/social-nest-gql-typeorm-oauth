@@ -28,7 +28,7 @@ export function UserProvider({ children }: { children: ReactElement }) {
 
   useEffect(() => {
     axios
-      .get<User>(`api/auth/whoami`, { withCredentials: true })
+      .get<User>('/api/auth/whoami', { withCredentials: true })
       .then((res) => {
         setUser(res.data);
         setLoading(false);
