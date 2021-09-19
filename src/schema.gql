@@ -50,6 +50,9 @@ type Query {
 
   """gets single post by id"""
   post(id: ID!): Post!
+
+  """gets users who like post with provided post Id"""
+  getUsersWhoLikedPost(id: ID!): [User!]!
 }
 
 type Mutation {

@@ -41,6 +41,16 @@ export class LikeService {
     return this.userRepo.findOneOrFail(userId);
   }
 
+  async getUsersWhoLikedPost(postId: string): Promise<User[]> {
+    const docs = await this.likeRepo.find({
+      where: { postId },
+      relations: ['user'],
+    });
+
+    const users = docs.map((like) => like.user);
+    return users;
+  }
+
   // findAll() {
   //   return `This action returns all like`;
   // }
