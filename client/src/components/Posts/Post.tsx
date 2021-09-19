@@ -218,7 +218,14 @@ export default function PostComponent({
         </IconButton>
       </CardActions>
       {getLikeCountText(post.likeCount) && (
-        <Typography sx={{ mx: 2, mb: 1 }} onClick={displayUsersWhoLikeThisPost}>
+        <Typography
+          sx={{
+            mx: 2,
+            mb: 1,
+            ':hover': { textDecoration: 'underline', cursor: 'pointer' },
+          }}
+          onClick={displayUsersWhoLikeThisPost}
+        >
           {getLikeCountText(post.likeCount)}
         </Typography>
       )}
