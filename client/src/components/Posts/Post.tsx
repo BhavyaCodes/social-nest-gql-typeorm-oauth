@@ -20,12 +20,16 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import { Menu, MenuItem } from '@mui/material';
 import { useState } from 'react';
+import TimeAgo from 'javascript-time-ago';
+import en from 'javascript-time-ago/locale/en';
 
 export default function PostComponent({
   post,
 }: {
   post: GetAllPostsQuery['getAllPosts'][0];
 }) {
+  TimeAgo.addLocale(en);
+  const timeAgo = new TimeAgo('en-US');
   const history = useHistory();
   const { user } = useUser();
   const [deletePostMutation] = useDeletePostMutation();
@@ -167,7 +171,7 @@ export default function PostComponent({
           )
         }
         title={post.user.name}
-        subheader={post.createdAt}
+        subheader={timeAgo.format(new Date(post.createdAt))}
       />
       <CardContent>
         <Typography variant="body2" color="text.secondary">
