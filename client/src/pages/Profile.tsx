@@ -2,7 +2,6 @@ import { useParams } from 'react-router-dom';
 import ProfileHeader from '../components/Profile/ProfileHeader';
 import ProfilePosts from '../components/Profile/ProfilePosts';
 import { useGetProfileWithPostsQuery } from '../__generated__/src/lib/queries.graphql';
-import Header from '../components/Header';
 
 export default function ProfilePage() {
   // const history = useHistory();
@@ -29,7 +28,6 @@ export default function ProfilePage() {
 
   return (
     <div>
-      <Header />
       <ProfileHeader
         imageUrl={data.getUserProfile?.imageUrl || undefined}
         name={data.getUserProfile.name}

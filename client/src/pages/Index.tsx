@@ -1,5 +1,3 @@
-// import { useUser } from '../context/user.context';
-import Header from '../components/Header';
 import PostForm from '../components/PostForm';
 import Posts from '../components/Posts';
 import { useGetAllPostsQuery } from '../__generated__/src/lib/queries.graphql';
@@ -22,7 +20,6 @@ export default function Index() {
 
   return (
     <div>
-      <Header />
       <PostForm />
       <Posts posts={data?.getAllPosts!} fetchMore={fetchMore} />
     </div>
