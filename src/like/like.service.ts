@@ -2,6 +2,7 @@ import {
   BadRequestException,
   ConflictException,
   Injectable,
+  NotFoundException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Post } from 'src/post/entities/post.entity';
@@ -39,6 +40,20 @@ export class LikeService {
 
   getUser(userId: string): Promise<User> {
     return this.userRepo.findOneOrFail(userId);
+  }
+
+  async getUsersWhoLikedPost(postId: string): Promise<User[]> {
+    const docs = await this.likeRepo.find({
+      where: { postId },
+      relations: ['user'],
+    });
+
+    if (docs.length === 0) {
+      throw new NotFoundException('Post not found');
+    }
+
+    const users = docs.map((like) => like.user);
+    return users;
   }
 
   // findAll() {

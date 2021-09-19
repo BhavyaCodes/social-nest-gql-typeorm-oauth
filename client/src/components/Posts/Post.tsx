@@ -22,6 +22,7 @@ import { Menu, MenuItem } from '@mui/material';
 import { useState } from 'react';
 import TimeAgo from 'javascript-time-ago';
 import en from 'javascript-time-ago/locale/en';
+import ViewLikes from './ViewLikes';
 
 export default function PostComponent({
   post,
@@ -35,6 +36,7 @@ export default function PostComponent({
   const [deletePostMutation] = useDeletePostMutation();
   const [likePostMutation] = useLikePostMutation();
   const [unLikePostMutation] = useUnlikePostMutation();
+  const [viewLikes, setViewLikes] = useState<boolean>(false);
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
@@ -43,6 +45,16 @@ export default function PostComponent({
   };
   const handleClose = () => {
     setAnchorEl(null);
+  };
+
+  const getLikeCountText = (number: number) => {
+    if (!number) {
+      return null;
+    }
+    if (number === 1) {
+      return '1 user likes this post';
+    }
+    return `${number} users like this post`;
   };
 
   const deletePost = () => {
@@ -124,6 +136,9 @@ export default function PostComponent({
     }).catch((e) => console.log(e));
   };
 
+  // const displayUsersWhoLikeThisPost = () => <ViewLikes postId={post.id} />;
+  const displayUsersWhoLikeThisPost = () => setViewLikes(true);
+
   return (
     <Card sx={{ my: 2 }}>
       <CardHeader
@@ -202,7 +217,16 @@ export default function PostComponent({
           <ShareIcon />
         </IconButton>
       </CardActions>
-      <p>LikeCount: {post.likeCount}</p>
+      {getLikeCountText(post.likeCount) && (
+        <Typography sx={{ mx: 2, mb: 1 }} onClick={displayUsersWhoLikeThisPost}>
+          {getLikeCountText(post.likeCount)}
+        </Typography>
+      )}
+      {viewLikes && (
+        <ViewLikes postId={post.id} onClose={() => setViewLikes(false)} />
+      )}
+
+      {/* <p>LikeCount: {post.likeCount}</p> */}
 
       {/* {user?.id === post.user.id && (
         <button onClick={deletePost}>Delete Post</button>

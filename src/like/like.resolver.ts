@@ -5,6 +5,7 @@ import {
   ResolveField,
   Parent,
   ID,
+  Query,
 } from '@nestjs/graphql';
 import { LikeService } from './like.service';
 import { Like } from './entities/like.entity';
@@ -49,6 +50,16 @@ export class LikeResolver {
   post(@Parent() like: Like, @CurrentUserGraphQL() user: User): Promise<Post> {
     // return this.likeService.getPost(like.postId);
     return this.postService.findOneWithHasLiked(like.postId, user.id);
+  }
+
+  @Query(() => [User], {
+    name: 'getUsersWhoLikedPost',
+    description: 'gets users who like post with provided post Id',
+  })
+  getUsersWhoLikedPost(
+    @Args('id', { type: () => ID, nullable: false }) id: string,
+  ) {
+    return this.likeService.getUsersWhoLikedPost(id);
   }
 
   // @Query(() => [Like], { name: 'like' })

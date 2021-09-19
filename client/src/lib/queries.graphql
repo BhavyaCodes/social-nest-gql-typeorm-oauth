@@ -72,3 +72,11 @@ query GetProfileWithPosts(
     likeCount
   }
 }
+
+query GetUsersWhoLikedPost($getUsersWhoLikedPostId: ID!) {
+  getUsersWhoLikedPost(id: $getUsersWhoLikedPostId) {
+    id
+    name
+    imageUrl
+  }
+}
