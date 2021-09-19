@@ -128,6 +128,9 @@ export default function PostComponent({
             onClick={() => history.push(`/profile/${post.user.id}`)}
             alt={post.user.name}
             src={post.user?.imageUrl as string}
+            imgProps={{
+              referrerPolicy: 'no-referrer',
+            }}
           />
         }
         action={

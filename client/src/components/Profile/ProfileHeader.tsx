@@ -6,7 +6,7 @@ interface Props {
 export default function ProfileHeader({ imageUrl, name }: Props) {
   return (
     <div>
-      <img src={imageUrl} alt={name} />
+      <img src={imageUrl} alt={name} referrerPolicy="no-referrer" />
       <p>{name}</p>
     </div>
   );

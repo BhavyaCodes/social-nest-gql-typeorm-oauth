@@ -82,7 +82,13 @@ export default function Layout(props: Props) {
     return user ? (
       <>
         <IconButton onClick={handleClick}>
-          <Avatar alt="Remy Sharp" src={user.imageUrl} />
+          <Avatar
+            alt={user.name}
+            src={user.imageUrl}
+            imgProps={{
+              referrerPolicy: 'no-referrer',
+            }}
+          />
         </IconButton>
         <Menu
           id="basic-menu"
