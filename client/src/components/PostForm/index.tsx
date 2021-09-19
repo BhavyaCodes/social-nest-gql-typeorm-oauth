@@ -3,7 +3,8 @@ import { v4 as uuidv4 } from 'uuid';
 import { FormEvent, useRef } from 'react';
 import { useCreatePostMutation } from '../../__generated__/src/lib/mutations.graphql';
 import { useUser } from '../../context/user.context';
-
+import { TextField, Box, Button } from '@mui/material';
+import { styled } from '@mui/system';
 export default function PostForm() {
   const inputRef = useRef<HTMLInputElement>(null);
   const [createPostMutation] = useCreatePostMutation();
@@ -65,10 +66,31 @@ export default function PostForm() {
     }).catch((e) => console.log(e));
   };
 
+  const Form = styled(Box)`
+    display: flex;
+    flex-direction: column;
+  `;
+
   return (
-    <form onSubmit={handleFormSubmit}>
-      <input type="text" id="new-post-form-content" ref={inputRef} />
-      <button type="submit">Submit</button>
-    </form>
+    <Form component="form" onSubmit={handleFormSubmit} my={2}>
+      {/* <input type="text" id="new-post-form-content" ref={inputRef} />
+       */}
+      <TextField
+        placeholder="Write a post"
+        type="text"
+        fullWidth
+        id="new-post-form-content"
+        inputRef={inputRef}
+        margin="normal"
+        required
+      />
+      <Button
+        type="submit"
+        variant="contained"
+        style={{ alignSelf: 'flex-end' }}
+      >
+        Submit
+      </Button>
+    </Form>
   );
 }
