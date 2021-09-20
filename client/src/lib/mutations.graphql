@@ -18,6 +18,15 @@ mutation likePost($likePostPostId: ID!) {
       }
       likeCount
       hasLiked
+      likes {
+        id
+        createdAt
+        user {
+          id
+          name
+          imageUrl
+        }
+      }
     }
   }
 }
@@ -37,6 +46,15 @@ mutation UnlikePost($unLikePostPostId: ID!) {
       likeCount
       hasLiked
       createdAt
+      likes {
+        id
+        createdAt
+        user {
+          id
+          name
+          imageUrl
+        }
+      }
     }
   }
 }

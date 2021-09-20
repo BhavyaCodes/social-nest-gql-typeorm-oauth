@@ -73,10 +73,25 @@ query GetProfileWithPosts(
   }
 }
 
-query GetUsersWhoLikedPost($getUsersWhoLikedPostId: ID!) {
-  getUsersWhoLikedPost(id: $getUsersWhoLikedPostId) {
+# query GetUsersWhoLikedPost($getUsersWhoLikedPostId: ID!) {
+#   getUsersWhoLikedPost(id: $getUsersWhoLikedPostId) {
+#     id
+#     name
+#     imageUrl
+#   }
+# }
+
+query GetLikesByPost($postId: ID!) {
+  post(id: $postId) {
     id
-    name
-    imageUrl
+    likes {
+      id
+      createdAt
+      user {
+        id
+        name
+        imageUrl
+      }
+    }
   }
 }

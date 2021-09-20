@@ -11,10 +11,10 @@ import PersonIcon from '@mui/icons-material/Person';
 import AddIcon from '@mui/icons-material/Add';
 import Typography from '@mui/material/Typography';
 import { blue } from '@mui/material/colors';
-import { useGetUsersWhoLikedPostQuery } from '../../__generated__/src/lib/queries.graphql';
+// import { useGetUsersWhoLikedPostLazyQuery } from '../../__generated__/src/lib/queries.graphql';
+import { useGetLikesByPostQuery } from '../../__generated__/src/lib/queries.graphql';
 import { useHistory } from 'react-router';
-
-const emails = ['username@gmail.com', 'user02@gmail.com'];
+// import { useEffect } from 'react';
 
 export interface ViewLikesProps {
   postId: string;
@@ -29,17 +29,17 @@ export default function ViewLikes(props: ViewLikesProps) {
     loading,
     data: getUsersWhoLikePostData,
     error,
-  } = useGetUsersWhoLikedPostQuery({
-    variables: { getUsersWhoLikedPostId: postId },
+  } = useGetLikesByPostQuery({
+    variables: { postId },
   });
+
+  console.log(getUsersWhoLikePostData?.post);
 
   const handleClose = () => {
     // onClose(selectedValue);
     onClose();
     setOpen(false);
   };
-
-  console.log('ViewLikes');
 
   if (loading) {
     return (
@@ -59,20 +59,23 @@ export default function ViewLikes(props: ViewLikesProps) {
 
   return (
     <Dialog onClose={handleClose} open={open}>
-      <DialogTitle>Users who likes this post</DialogTitle>
+      <DialogTitle>Users who like this post</DialogTitle>
       <List sx={{ pt: 0 }}>
-        {getUsersWhoLikePostData?.getUsersWhoLikedPost.map((user) => (
+        {getUsersWhoLikePostData?.post.likes.map((like) => (
           <ListItem
             button
-            onClick={() => history.push(`/profile/${user.id}`)}
-            key={user.id}
+            onClick={() => history.push(`/profile/${like.user.id}`)}
+            key={like.user.id}
           >
             <ListItemAvatar>
-              <Avatar src={user.imageUrl || undefined} alt={user.name}>
+              <Avatar
+                src={like.user.imageUrl || undefined}
+                alt={like.user.name}
+              >
                 <PersonIcon />
               </Avatar>
             </ListItemAvatar>
-            <ListItemText primary={user.name} />
+            <ListItemText primary={like.user.name} />
           </ListItem>
         ))}
       </List>

@@ -5,7 +5,10 @@ import {
   useLikePostMutation,
   useUnlikePostMutation,
 } from '../../__generated__/src/lib/mutations.graphql';
-import { GetAllPostsQuery } from '../../__generated__/src/lib/queries.graphql';
+import {
+  GetAllPostsQuery,
+  // GetUsersWhoLikedPostDocument,
+} from '../../__generated__/src/lib/queries.graphql';
 import { useHistory } from 'react-router-dom';
 import Avatar from '@mui/material/Avatar';
 import Card from '@mui/material/Card';
@@ -23,6 +26,7 @@ import { useState } from 'react';
 import TimeAgo from 'javascript-time-ago';
 import en from 'javascript-time-ago/locale/en';
 import ViewLikes from './ViewLikes';
+import gql from 'graphql-tag';
 
 export default function PostComponent({
   post,
@@ -101,9 +105,38 @@ export default function PostComponent({
             },
             likeCount: post.likeCount + 1,
             hasLiked: true,
+            likes: [],
           },
         },
       },
+      // refetchQueries: [GetUsersWhoLikedPostDocument, 'GetUsersWhoLikedPost'],
+
+      // }
+      // update(cache, { data }) {
+      //   const normalizedId = cache.identify({
+      //     id: post.id,
+      //     __typename: 'Post',
+      //   });
+      //   console.log(normalizedId)
+      //   cache.modify({
+      //     // id: post.id,
+      //     fields: {
+      //       getUsersWhoLikedPost(existingUsers = []) {
+      //         console.log(existingUsers);
+      //         // const userRef = cache.writeFragment({
+      //         //   // data: data?.likePost,
+      //         //   // fragment: gql`
+      //         //   //   fragment newUserLike on GetUsersWhoLikedPost(){
+
+      //         //   //   }
+      //         //   // `
+
+      //         // })
+      //         return [...existingUsers];
+      //       },
+      //     },
+      //   });
+      // },
     }).catch((e) => console.log(e));
   };
 
@@ -130,6 +163,7 @@ export default function PostComponent({
             likeCount: post.likeCount - 1,
             hasLiked: false,
             createdAt: post.createdAt,
+            likes: [],
           },
         },
       },
