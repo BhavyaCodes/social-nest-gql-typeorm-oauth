@@ -6,7 +6,7 @@ import {
   useUnlikePostMutation,
 } from '../../__generated__/src/lib/mutations.graphql';
 import { GetAllPostsQuery } from '../../__generated__/src/lib/queries.graphql';
-import { useHistory } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import Avatar from '@mui/material/Avatar';
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
@@ -175,6 +175,7 @@ export default function PostComponent({
         avatar={
           <Avatar
             onClick={() => history.push(`/profile/${post.user.id}`)}
+            sx={{ cursor: 'pointer' }}
             alt={post.user.name}
             src={post.user?.imageUrl as string}
             imgProps={{
@@ -215,7 +216,19 @@ export default function PostComponent({
             </>
           )
         }
-        title={post.user.name}
+        title={
+          <Link
+            style={{
+              cursor: 'pointer',
+              textDecoration: 'none',
+              color: 'inherit',
+            }}
+            to={`/profile/${post.user.id}`}
+          >
+            {post.user.name}
+          </Link>
+        }
+        // title={post.user.name}
         subheader={timeAgo.format(new Date(post.createdAt))}
       />
       <CardContent>
