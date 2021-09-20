@@ -1,4 +1,4 @@
-import { useState, useRef, useCallback, useEffect } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { useIntersection } from 'react-use';
 import { GetAllPostsQuery } from '../../__generated__/src/lib/queries.graphql';
 import PostComponent from './Post';
@@ -6,11 +6,9 @@ import PostComponent from './Post';
 export default function Posts({
   posts,
   fetchMore,
-}: // loading,
-{
+}: {
   posts: GetAllPostsQuery['getAllPosts'];
   fetchMore: Function;
-  // loading: boolean;
 }) {
   const [atLastPost, setAtLastPost] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);

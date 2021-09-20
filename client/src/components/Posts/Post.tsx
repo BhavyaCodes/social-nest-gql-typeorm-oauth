@@ -5,10 +5,7 @@ import {
   useLikePostMutation,
   useUnlikePostMutation,
 } from '../../__generated__/src/lib/mutations.graphql';
-import {
-  GetAllPostsQuery,
-  // GetUsersWhoLikedPostDocument,
-} from '../../__generated__/src/lib/queries.graphql';
+import { GetAllPostsQuery } from '../../__generated__/src/lib/queries.graphql';
 import { useHistory } from 'react-router-dom';
 import Avatar from '@mui/material/Avatar';
 import Card from '@mui/material/Card';
@@ -26,7 +23,6 @@ import { useState } from 'react';
 import TimeAgo from 'javascript-time-ago';
 import en from 'javascript-time-ago/locale/en';
 import ViewLikes from './ViewLikes';
-import gql from 'graphql-tag';
 
 export default function PostComponent({
   post,
