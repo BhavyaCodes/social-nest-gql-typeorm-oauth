@@ -21,7 +21,11 @@ export default function Index() {
   return (
     <div>
       <PostForm />
-      <Posts posts={data?.getAllPosts!} fetchMore={fetchMore} />
+      <Posts
+        posts={data?.getAllPosts!}
+        fetchMore={fetchMore}
+        // loading={loading}
+      />
     </div>
   );
 }
