@@ -8,10 +8,12 @@ import {
   JoinColumn,
   ManyToOne,
   PrimaryGeneratedColumn,
+  Unique,
 } from 'typeorm';
 
 @Entity({ name: 'likes' })
 @ObjectType()
+@Unique('user_id_post_id', ['userId', 'postId'])
 export class Like {
   @Field(() => ID, { nullable: false })
   @PrimaryGeneratedColumn('uuid')
