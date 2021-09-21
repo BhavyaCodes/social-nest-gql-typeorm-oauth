@@ -31,7 +31,6 @@ export class CommentService {
       relations: ['user'],
       where: { postId },
     });
-    console.log(comments);
     return comments;
   }
 
