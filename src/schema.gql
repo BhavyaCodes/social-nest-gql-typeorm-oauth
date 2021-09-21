@@ -2,6 +2,18 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type Comment {
+  id: ID!
+  content: String!
+  user: User!
+  createdAt: DateTime!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
 type Post {
   """Id of the post"""
   id: ID!
@@ -14,12 +26,8 @@ type Post {
   """Likes count"""
   likeCount: Int!
   hasLiked: Boolean
+  comments: [Comment!]!
 }
-
-"""
-A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
-"""
-scalar DateTime
 
 type Like {
   id: ID!
@@ -53,6 +61,7 @@ type Query {
 
   """gets users who like post with provided post Id"""
   getUsersWhoLikedPost(id: ID!): [User!]!
+  findCommentsByPost(postId: ID!): [Comment!]!
 }
 
 type Mutation {
@@ -60,9 +69,19 @@ type Mutation {
   deletePost(id: ID!): DeletedItem!
   likePost(postId: ID!): Like!
   unLikePost(postId: ID!): Like!
+  createComment(createCommentInput: CreateCommentInput!): Comment!
+  removeComment(id: ID!): Comment!
 }
 
 input CreatePostInput {
   """Text Content of the post"""
+  content: String!
+}
+
+input CreateCommentInput {
+  """id of post"""
+  postId: ID!
+
+  """Content of comment"""
   content: String!
 }

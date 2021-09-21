@@ -7,6 +7,7 @@ import {
 } from '@nestjs/graphql';
 import { Like } from 'src/like/entities/like.entity';
 import { User } from 'src/user/user.entity';
+import { Comment } from 'src/comment/entities/comment.entity';
 import {
   Column,
   CreateDateColumn,
@@ -25,7 +26,7 @@ export class Post {
   id: string;
 
   @Field(() => String, { nullable: false })
-  @Column()
+  @Column({ nullable: false, type: 'varchar', length: 500 })
   content: string;
 
   @Column({ nullable: false, name: 'user_id' })
@@ -57,4 +58,8 @@ export class Post {
 
   @Field(() => Boolean, { nullable: true })
   hasLiked?: boolean | null;
+
+  @OneToMany(() => Comment, (comment) => comment.post)
+  @Field(() => [Comment])
+  comments?: Comment[];
 }

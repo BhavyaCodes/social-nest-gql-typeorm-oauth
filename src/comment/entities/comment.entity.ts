@@ -1,4 +1,4 @@
-import { ObjectType, Field, GraphQLISODateTime, ID } from '@nestjs/graphql';
+import { ObjectType, Field, ID, GraphQLISODateTime } from '@nestjs/graphql';
 import { Post } from 'src/post/entities/post.entity';
 import { User } from 'src/user/user.entity';
 import {
@@ -8,28 +8,37 @@ import {
   JoinColumn,
   ManyToOne,
   PrimaryGeneratedColumn,
-  Unique,
 } from 'typeorm';
 
-@Entity({ name: 'likes' })
+@Entity({ name: 'comments' })
 @ObjectType()
-@Unique('user_id_post_id', ['userId', 'postId'])
-export class Like {
+export class Comment {
   @Field(() => ID, { nullable: false })
   @PrimaryGeneratedColumn('uuid')
   id: string;
+
+  @Field(() => String, { nullable: false })
+  @Column({ type: 'varchar', length: 300, nullable: false })
+  content: string;
 
   @Column({ nullable: false, name: 'user_id' })
   userId: string;
 
   @Field(() => User, { nullable: false })
-  @ManyToOne(() => User, (user) => user.likes, { nullable: false })
+  @ManyToOne(() => User, (user) => user.comments, { nullable: false })
   @JoinColumn({ name: 'user_id' })
   user: User;
 
-  // @CreateDateColumn({ nullable: false, name: 'created_at' })
-  // @Field(() => GraphQLISODateTime, { nullable: false })
-  // createdAt: Date;
+  @Column({ nullable: false, name: 'post_id' })
+  postId: string;
+
+  @ManyToOne(() => Post, (post) => post.comments, {
+    nullable: false,
+    onDelete: 'CASCADE',
+    orphanedRowAction: 'delete',
+  })
+  @JoinColumn({ name: 'post_id' })
+  post: Post;
 
   @CreateDateColumn({
     nullable: false,
@@ -38,16 +47,4 @@ export class Like {
   })
   @Field(() => GraphQLISODateTime, { nullable: false })
   createdAt: Date;
-
-  @Column({ nullable: false, name: 'post_id' })
-  postId: string;
-
-  // @Field(() => Post, { nullable: false })
-  @ManyToOne(() => Post, (post) => post.likes, {
-    nullable: false,
-    onDelete: 'CASCADE',
-    orphanedRowAction: 'delete',
-  })
-  @JoinColumn({ name: 'post_id' })
-  post: Post;
 }

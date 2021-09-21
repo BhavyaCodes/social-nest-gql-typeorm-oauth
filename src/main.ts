@@ -5,6 +5,7 @@ import { AppModule } from './app.module';
 import { getRepository } from 'typeorm';
 import { AuthSession } from './auth/AuthSession.entity';
 import { TypeormStore } from 'connect-typeorm';
+import { ValidationPipe } from '@nestjs/common';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
@@ -18,6 +19,13 @@ async function bootstrap() {
       credentials: true,
     },
   });
+
+  app.useGlobalPipes(
+    new ValidationPipe({
+      whitelist: true,
+    }),
+  );
+
   const sessionRepo = getRepository(AuthSession);
   app.use(
     session({
