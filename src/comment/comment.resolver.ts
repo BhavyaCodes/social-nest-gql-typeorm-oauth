@@ -18,13 +18,14 @@ export class CommentResolver {
     @Args('createCommentInput') createCommentInput: CreateCommentInput,
     @CurrentUserGraphQL() user: User,
   ) {
-    // console.log(user);
     return this.commentService.create(createCommentInput, user);
   }
 
-  @Query(() => [Comment], { name: 'comment' })
-  findAll() {
-    return this.commentService.findAll();
+  @Query(() => [Comment], { name: 'findCommentsByPost' })
+  findCommentsByPost(
+    @Args('postId', { type: () => ID, nullable: false }) postId: string,
+  ) {
+    return this.commentService.findCommentsByPost(postId);
   }
 
   @Query(() => Comment, { name: 'comment' })

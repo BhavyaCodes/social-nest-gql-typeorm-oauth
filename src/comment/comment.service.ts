@@ -26,8 +26,13 @@ export class CommentService {
     return this.commentRepo.save(newComment);
   }
 
-  findAll() {
-    return `This action returns all comment`;
+  async findCommentsByPost(postId: string) {
+    const comments = await this.commentRepo.find({
+      relations: ['user'],
+      where: { postId },
+    });
+    console.log(comments);
+    return comments;
   }
 
   findOne(id: number) {
