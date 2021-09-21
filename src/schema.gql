@@ -62,7 +62,6 @@ type Query {
   """gets users who like post with provided post Id"""
   getUsersWhoLikedPost(id: ID!): [User!]!
   findCommentsByPost(postId: ID!): [Comment!]!
-  comment(id: Int!): Comment!
 }
 
 type Mutation {
@@ -71,7 +70,6 @@ type Mutation {
   likePost(postId: ID!): Like!
   unLikePost(postId: ID!): Like!
   createComment(createCommentInput: CreateCommentInput!): Comment!
-  updateComment(updateCommentInput: UpdateCommentInput!): Comment!
   removeComment(id: ID!): Comment!
 }
 
@@ -86,13 +84,4 @@ input CreateCommentInput {
 
   """Content of comment"""
   content: String!
-}
-
-input UpdateCommentInput {
-  """id of post"""
-  postId: ID
-
-  """Content of comment"""
-  content: String
-  id: Int!
 }

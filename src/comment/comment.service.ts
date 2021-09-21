@@ -8,7 +8,7 @@ import { Comment } from 'src/comment/entities/comment.entity';
 import { User } from 'src/user/user.entity';
 import { Repository } from 'typeorm';
 import { CreateCommentInput } from './dto/create-comment.input';
-import { UpdateCommentInput } from './dto/update-comment.input';
+// import { UpdateCommentInput } from './dto/update-comment.input';
 
 @Injectable()
 export class CommentService {
@@ -34,13 +34,13 @@ export class CommentService {
     return comments;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} comment`;
-  }
+  // findOne(id: number) {
+  //   return `This action returns a #${id} comment`;
+  // }
 
-  update(id: number, updateCommentInput: UpdateCommentInput) {
-    return `This action updates a #${id} comment`;
-  }
+  // update(id: number, updateCommentInput: UpdateCommentInput) {
+  //   return `This action updates a #${id} comment`;
+  // }
 
   async remove(commentId: string, user: User) {
     const commentDoc = await this.commentRepo.findOne({

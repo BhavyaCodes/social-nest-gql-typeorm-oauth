@@ -1,8 +1,8 @@
-import { Resolver, Query, Mutation, Args, Int, ID } from '@nestjs/graphql';
+import { Resolver, Query, Mutation, Args, ID } from '@nestjs/graphql';
 import { CommentService } from './comment.service';
 import { Comment } from './entities/comment.entity';
 import { CreateCommentInput } from './dto/create-comment.input';
-import { UpdateCommentInput } from './dto/update-comment.input';
+// import { UpdateCommentInput } from './dto/update-comment.input';
 import { GraphQLAuthGuard } from 'src/auth/guards/GraphqlAuth.guard';
 import { UseGuards } from '@nestjs/common';
 import { CurrentUserGraphQL } from 'src/auth/decorators/graphql-current-user.decorator';
@@ -28,20 +28,20 @@ export class CommentResolver {
     return this.commentService.findCommentsByPost(postId);
   }
 
-  @Query(() => Comment, { name: 'comment' })
-  findOne(@Args('id', { type: () => Int }) id: number) {
-    return this.commentService.findOne(id);
-  }
+  // @Query(() => Comment, { name: 'comment' })
+  // findOne(@Args('id', { type: () => Int }) id: number) {
+  //   return this.commentService.findOne(id);
+  // }
 
-  @Mutation(() => Comment)
-  updateComment(
-    @Args('updateCommentInput') updateCommentInput: UpdateCommentInput,
-  ) {
-    return this.commentService.update(
-      updateCommentInput.id,
-      updateCommentInput,
-    );
-  }
+  // @Mutation(() => Comment)
+  // updateComment(
+  //   @Args('updateCommentInput') updateCommentInput: UpdateCommentInput,
+  // ) {
+  //   return this.commentService.update(
+  //     updateCommentInput.id,
+  //     updateCommentInput,
+  //   );
+  // }
 
   @UseGuards(GraphQLAuthGuard)
   @Mutation(() => Comment)
