@@ -11,6 +11,7 @@ import { join } from 'path';
 import { PostModule } from './post/post.module';
 import { LikeModule } from './like/like.module';
 import { ServeStaticModule } from '@nestjs/serve-static';
+import { CommentModule } from './comment/comment.module';
 
 @Module({
   imports: [
@@ -46,6 +47,7 @@ import { ServeStaticModule } from '@nestjs/serve-static';
     }),
     PostModule,
     LikeModule,
+    CommentModule,
   ],
   controllers: [AppController],
   providers: [AppService],
