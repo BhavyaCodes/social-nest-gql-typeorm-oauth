@@ -1,4 +1,8 @@
-import { Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Comment } from 'src/comment/entities/comment.entity';
 import { User } from 'src/user/user.entity';
@@ -20,7 +24,6 @@ export class CommentService {
     });
 
     return this.commentRepo.save(newComment);
-    // return 'This action adds a new comment';
   }
 
   findAll() {
@@ -35,7 +38,17 @@ export class CommentService {
     return `This action updates a #${id} comment`;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} comment`;
+  async remove(commentId: string, user: User) {
+    const commentDoc = await this.commentRepo.findOne({
+      user,
+      id: commentId,
+    });
+
+    if (!commentDoc) {
+      throw new NotFoundException('comment not found');
+    }
+
+    const removedComment = await this.commentRepo.remove(commentDoc);
+    return { ...removedComment, id: commentId, user };
   }
 }

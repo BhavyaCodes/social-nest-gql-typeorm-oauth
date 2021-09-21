@@ -71,7 +71,7 @@ type Mutation {
   unLikePost(postId: ID!): Like!
   createComment(createCommentInput: CreateCommentInput!): Comment!
   updateComment(updateCommentInput: UpdateCommentInput!): Comment!
-  removeComment(id: Int!): Comment!
+  removeComment(id: ID!): Comment!
 }
 
 input CreatePostInput {
