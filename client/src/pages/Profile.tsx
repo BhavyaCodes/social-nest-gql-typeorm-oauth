@@ -1,15 +1,13 @@
+import { Box, CircularProgress } from '@mui/material';
 import { useParams } from 'react-router-dom';
 import ProfileHeader from '../components/Profile/ProfileHeader';
 import ProfilePosts from '../components/Profile/ProfilePosts';
 import { useGetProfileWithPostsQuery } from '../__generated__/src/lib/queries.graphql';
 
 export default function ProfilePage() {
-  // const history = useHistory();
   const { profileId } = useParams<any>();
-  // const { profileId } = history.query;
-  // const { profileId } = params;
 
-  const { loading, error, data, fetchMore } = useGetProfileWithPostsQuery({
+  const { loading, data, error, fetchMore } = useGetProfileWithPostsQuery({
     variables: {
       getUserProfileGetUserProfileById: profileId as string,
       getAllPostsTimeStamp: null,
@@ -17,13 +15,26 @@ export default function ProfilePage() {
     },
   });
 
+  if (error) {
+    return <h2>An error occured</h2>;
+  }
+
   if (!data) {
-    return <p>Loading......</p>;
+    return (
+      <Box sx={{ display: 'flex', justifyContent: 'center' }} my={2}>
+        <CircularProgress />
+      </Box>
+    );
   }
 
   if (loading) {
-    return <p>Loading......</p>;
+    return (
+      <Box sx={{ display: 'flex', justifyContent: 'center' }} my={2}>
+        <CircularProgress />
+      </Box>
+    );
   }
+
   const posts = data.getAllPosts;
 
   return (

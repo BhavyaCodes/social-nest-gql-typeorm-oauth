@@ -48,7 +48,7 @@ export class PostService {
       ) AS l ON p.id = l.post_id
       WHERE (p.created_at < $1::TIMESTAMP AND p.user_id = $2 )
       ORDER BY p.created_at DESC
-      LIMIT(2);
+      LIMIT(5);
       `,
         [timeStamp, userId],
       );
@@ -70,7 +70,7 @@ export class PostService {
     ) AS l ON p.id = l.post_id
     WHERE (p.created_at < $1::TIMESTAMP )
     ORDER BY p.created_at DESC
-    LIMIT(2);
+    LIMIT(5);
     `,
       [timeStamp],
     );
@@ -106,7 +106,7 @@ export class PostService {
         ) AS l2 ON p.id = l2.post_id
         WHERE (p.created_at < $2::TIMESTAMP AND p.user_id = $3)
         ORDER BY p.created_at DESC
-        LIMIT(2);
+        LIMIT(5);
         `,
         [currentUser, timeStamp, userId],
       );
@@ -135,7 +135,7 @@ export class PostService {
       ) AS l2 ON p.id = l2.post_id
       WHERE (p.created_at < $2::TIMESTAMP )
       ORDER BY p.created_at DESC
-      LIMIT(2);
+      LIMIT(5);
       `,
       [currentUser, timeStamp],
     );

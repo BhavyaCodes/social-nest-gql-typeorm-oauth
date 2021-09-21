@@ -3,6 +3,7 @@ import { GetProfileWithPostsQuery } from '../../lib/queries.graphql';
 import PostComponent from '../Posts/Post';
 import { GetAllPostsFromUserDocument } from '../../__generated__/src/lib/queries.graphql';
 import { useIntersection } from 'react-use';
+import { Box, CircularProgress } from '@mui/material';
 export default function Posts({
   posts,
   fetchMore,
@@ -26,7 +27,6 @@ export default function Posts({
 
   useEffect(() => {
     if (isAtBottom && !loading && !atLastPost) {
-      setLoading(true);
       fetchMore({
         variables: {
           getAllPostsTimeStamp: getAllPostsTimeStamp,
@@ -39,6 +39,7 @@ export default function Posts({
           setAtLastPost(true);
         }
       });
+      setLoading(true);
     }
   }, [
     isAtBottom,
@@ -58,19 +59,11 @@ export default function Posts({
   return (
     <>
       <div>{renderPosts()}</div>
-      {/* <button
-        onClick={() =>
-          fetchMore({
-            variables: {
-              getAllPostsTimeStamp: getAllPostsTimeStamp,
-              getAllPostsUserId: user.id,
-            },
-            query: GetAllPostsFromUserDocument,
-          })
-        }
-      >
-        Load More
-      </button> */}
+      {loading && (
+        <Box sx={{ display: 'flex', justifyContent: 'center' }} my={2}>
+          <CircularProgress />
+        </Box>
+      )}
       <div ref={intersectionRef}></div>
     </>
   );

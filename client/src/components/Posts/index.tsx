@@ -1,3 +1,5 @@
+import { CircularProgress } from '@mui/material';
+import { Box } from '@mui/system';
 import { useState, useRef, useEffect } from 'react';
 import { useIntersection } from 'react-use';
 import { GetAllPostsQuery } from '../../__generated__/src/lib/queries.graphql';
@@ -23,7 +25,6 @@ export default function Posts({
 
   useEffect(() => {
     if (isAtBottom && !loading && !atLastPost) {
-      setLoading(true);
       fetchMore({
         variables: {
           getAllPostsTimeStamp: posts[posts.length - 1]?.createdAt || null,
@@ -34,6 +35,7 @@ export default function Posts({
           setAtLastPost(true);
         }
       });
+      setLoading(true);
     }
   }, [isAtBottom, fetchMore, posts, loading, atLastPost]);
 
@@ -43,17 +45,11 @@ export default function Posts({
   return (
     <>
       <div>{renderPosts()}</div>
-      {/* <button
-        onClick={() =>
-          fetchMore({
-            variables: {
-              getAllPostsTimeStamp: posts[posts.length - 1]?.createdAt || null,
-            },
-          })
-        }
-      >
-        Load More
-      </button> */}
+      {loading && (
+        <Box sx={{ display: 'flex', justifyContent: 'center' }} my={2}>
+          <CircularProgress />
+        </Box>
+      )}
       <div ref={intersectionRef}></div>
     </>
   );
