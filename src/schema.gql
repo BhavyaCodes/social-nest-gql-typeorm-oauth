@@ -2,6 +2,11 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type Comment {
+  id: ID!
+  user: User!
+}
+
 type Post {
   """Id of the post"""
   id: ID!
@@ -14,6 +19,7 @@ type Post {
   """Likes count"""
   likeCount: Int!
   hasLiked: Boolean
+  comments: [Comment!]!
 }
 
 """
@@ -53,6 +59,7 @@ type Query {
 
   """gets users who like post with provided post Id"""
   getUsersWhoLikedPost(id: ID!): [User!]!
+  comment(id: Int!): Comment!
 }
 
 type Mutation {
@@ -60,9 +67,23 @@ type Mutation {
   deletePost(id: ID!): DeletedItem!
   likePost(postId: ID!): Like!
   unLikePost(postId: ID!): Like!
+  createComment(createCommentInput: CreateCommentInput!): Comment!
+  updateComment(updateCommentInput: UpdateCommentInput!): Comment!
+  removeComment(id: Int!): Comment!
 }
 
 input CreatePostInput {
   """Text Content of the post"""
   content: String!
+}
+
+input CreateCommentInput {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+input UpdateCommentInput {
+  """Example field (placeholder)"""
+  exampleField: Int
+  id: Int!
 }

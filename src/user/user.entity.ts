@@ -1,6 +1,8 @@
 import { Field, ID, ObjectType } from '@nestjs/graphql';
 import { Like } from 'src/like/entities/like.entity';
 import { Post } from 'src/post/entities/post.entity';
+import { Comment } from 'src/comment/entities/comment.entity';
+
 import {
   Column,
   CreateDateColumn,
@@ -36,6 +38,9 @@ export class User {
 
   @OneToMany(() => Like, (like) => like.user)
   likes: Like[];
+
+  @OneToMany(() => Comment, (comment) => comment.user)
+  comments?: Comment[];
 
   @CreateDateColumn({ nullable: false, name: 'created_at' })
   createdAt: Date;
