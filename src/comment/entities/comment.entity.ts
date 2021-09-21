@@ -1,8 +1,9 @@
-import { ObjectType, Field, ID } from '@nestjs/graphql';
+import { ObjectType, Field, ID, GraphQLISODateTime } from '@nestjs/graphql';
 import { Post } from 'src/post/entities/post.entity';
 import { User } from 'src/user/user.entity';
 import {
   Column,
+  CreateDateColumn,
   Entity,
   JoinColumn,
   ManyToOne,
@@ -15,6 +16,10 @@ export class Comment {
   @Field(() => ID, { nullable: false })
   @PrimaryGeneratedColumn('uuid')
   id: string;
+
+  @Field(() => String, { nullable: false })
+  @Column({ type: 'varchar', length: 300, nullable: false })
+  content: string;
 
   @Column({ nullable: false, name: 'user_id' })
   userId: string;
@@ -34,4 +39,12 @@ export class Comment {
   })
   @JoinColumn({ name: 'post_id' })
   post: Post;
+
+  @CreateDateColumn({
+    nullable: false,
+    name: 'created_at',
+    type: 'timestamptz',
+  })
+  @Field(() => GraphQLISODateTime, { nullable: false })
+  createdAt: Date;
 }

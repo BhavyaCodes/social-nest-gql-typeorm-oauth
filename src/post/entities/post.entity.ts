@@ -26,7 +26,7 @@ export class Post {
   id: string;
 
   @Field(() => String, { nullable: false })
-  @Column()
+  @Column({ nullable: false, type: 'varchar', length: 500 })
   content: string;
 
   @Column({ nullable: false, name: 'user_id' })

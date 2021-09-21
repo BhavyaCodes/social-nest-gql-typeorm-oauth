@@ -27,7 +27,15 @@ export class Like {
   @JoinColumn({ name: 'user_id' })
   user: User;
 
-  @CreateDateColumn({ nullable: false, name: 'created_at' })
+  // @CreateDateColumn({ nullable: false, name: 'created_at' })
+  // @Field(() => GraphQLISODateTime, { nullable: false })
+  // createdAt: Date;
+
+  @CreateDateColumn({
+    nullable: false,
+    name: 'created_at',
+    type: 'timestamptz',
+  })
   @Field(() => GraphQLISODateTime, { nullable: false })
   createdAt: Date;
 

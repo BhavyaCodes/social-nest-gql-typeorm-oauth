@@ -18,17 +18,23 @@ export class User {
   @Field(() => ID, { nullable: false })
   id: string;
 
-  @Column({ name: 'google_id', unique: true, nullable: false })
+  @Column({
+    name: 'google_id',
+    unique: true,
+    nullable: false,
+    type: 'varchar',
+    length: 100,
+  })
   googleId: string;
 
-  @Column({ nullable: false })
+  @Column({ nullable: false, type: 'varchar', length: 100 })
   @Field()
   name: string;
 
-  @Column({ nullable: false })
+  @Column({ nullable: false, type: 'varchar', length: 100 })
   email: string;
 
-  @Column({ nullable: true, name: 'image_url' })
+  @Column({ nullable: true, name: 'image_url', type: 'varchar', length: 150 })
   @Field({ nullable: true })
   imageUrl: string;
 
@@ -42,6 +48,13 @@ export class User {
   @OneToMany(() => Comment, (comment) => comment.user)
   comments?: Comment[];
 
-  @CreateDateColumn({ nullable: false, name: 'created_at' })
+  @CreateDateColumn({
+    nullable: false,
+    name: 'created_at',
+    type: 'timestamptz',
+  })
   createdAt: Date;
+
+  // @CreateDateColumn({ nullable: false, name: 'created_at' })
+  // createdAt: Date;
 }
