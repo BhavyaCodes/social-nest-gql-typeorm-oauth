@@ -27,12 +27,9 @@ const client = new ApolloClient({
               return [...existing, ...incoming];
             },
           },
-          // getUsersWhoLikedPost:{
-          //   keyArgs: ['id']
-          //   merge(existing = [], incoming){
-          //     return []
-          //   }
-          // }
+          findCommentsByPost: {
+            keyArgs: ['postId'],
+          },
         },
       },
     },

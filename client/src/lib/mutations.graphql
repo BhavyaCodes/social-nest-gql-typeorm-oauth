@@ -79,3 +79,16 @@ mutation DeletePost($deletePostId: ID!) {
     id
   }
 }
+
+mutation CreateComment($createCommentInput: CreateCommentInput!) {
+  createComment(createCommentInput: $createCommentInput) {
+    id
+    content
+    user {
+      id
+      name
+      imageUrl
+    }
+    createdAt
+  }
+}

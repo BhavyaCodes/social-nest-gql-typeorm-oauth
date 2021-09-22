@@ -33,7 +33,7 @@ export default function Comments({ postId }: { postId: string }) {
   return (
     <Box px={2} mb={1}>
       {renderComments()}
-      <CommentForm />
+      <CommentForm postId={postId} comments={data?.findCommentsByPost} />
     </Box>
   );
 }

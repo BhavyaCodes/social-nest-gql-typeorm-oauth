@@ -264,7 +264,7 @@ export default function PostComponent({
           aria-label="view comments"
           onClick={() => setCommentsOpen((s) => !s)}
         >
-          <Badge badgeContent={post.commentCount} color="primary">
+          <Badge badgeContent={post.commentCount} color="secondary">
             <MessageIcon />
           </Badge>
         </IconButton>
