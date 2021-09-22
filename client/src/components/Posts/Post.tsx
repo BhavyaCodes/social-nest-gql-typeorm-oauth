@@ -7,6 +7,8 @@ import {
 } from '../../__generated__/src/lib/mutations.graphql';
 import { GetAllPostsQuery } from '../../__generated__/src/lib/queries.graphql';
 import { Link, useHistory } from 'react-router-dom';
+import Comments from './Comments';
+
 import Avatar from '@mui/material/Avatar';
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
@@ -15,14 +17,15 @@ import CardActions from '@mui/material/CardActions';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import FavoriteIcon from '@mui/icons-material/Favorite';
-import ShareIcon from '@mui/icons-material/Share';
+// import ShareIcon from '@mui/icons-material/Share';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
-import { Menu, MenuItem } from '@mui/material';
+import { Badge, Menu, MenuItem } from '@mui/material';
 import { useState } from 'react';
 import TimeAgo from 'javascript-time-ago';
 import en from 'javascript-time-ago/locale/en';
 import ViewLikes from './ViewLikes';
+import MessageIcon from '@mui/icons-material/Message';
 
 export default function PostComponent({
   post,
@@ -33,6 +36,7 @@ export default function PostComponent({
   const timeAgo = new TimeAgo('en-US');
   const history = useHistory();
   const { user } = useUser();
+  const [commentsOpen, setCommentsOpen] = useState<boolean>(false);
   const [deletePostMutation] = useDeletePostMutation();
   const [likePostMutation] = useLikePostMutation();
   const [unLikePostMutation] = useUnlikePostMutation();
@@ -256,8 +260,13 @@ export default function PostComponent({
             <FavoriteBorderIcon />
           </IconButton>
         )}
-        <IconButton aria-label="share">
-          <ShareIcon />
+        <IconButton
+          aria-label="view comments"
+          onClick={() => setCommentsOpen((s) => !s)}
+        >
+          <Badge badgeContent={post.commentCount} color="primary">
+            <MessageIcon />
+          </Badge>
         </IconButton>
       </CardActions>
       {getLikeCountText(post.likeCount) && (
@@ -288,6 +297,7 @@ export default function PostComponent({
       {post.hasLiked === true && (
         <button onClick={handleUnLike}>Unlike Post</button>
       )} */}
+      {commentsOpen && <Comments postId={post.id} />}
     </Card>
   );
 }

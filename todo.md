@@ -1,4 +1,4 @@
 # To Do
 
-- Add unique constraint to likes table (user_id + post_id)
+- Add delete modal
 - Try to fix N+1 problem

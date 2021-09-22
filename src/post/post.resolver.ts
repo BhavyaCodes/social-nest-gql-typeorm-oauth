@@ -6,6 +6,7 @@ import {
   ResolveField,
   Parent,
   ID,
+  Int,
 } from '@nestjs/graphql';
 import { PostService } from './post.service';
 import { Post } from './entities/post.entity';
@@ -16,10 +17,14 @@ import { CurrentUserGraphQL } from 'src/auth/decorators/graphql-current-user.dec
 import { User } from 'src/user/user.entity';
 import { Like } from 'src/like/entities/like.entity';
 import { DeletedItem } from 'src/entities/DeletedItem.entity';
+import { CommentService } from 'src/comment/comment.service';
 
 @Resolver(() => Post)
 export class PostResolver {
-  constructor(private readonly postService: PostService) {}
+  constructor(
+    private readonly postService: PostService,
+    private readonly commentService: CommentService,
+  ) {}
 
   @Mutation(() => Post)
   @UseGuards(GraphQLAuthGuard)
@@ -78,9 +83,22 @@ export class PostResolver {
     return this.postService.getLikes(post.id);
   }
 
-  @ResolveField((_returns) => [Like])
+  @ResolveField((_returns) => Int)
   likeCount(@Parent() post: Post): Promise<number> {
     return this.postService.getLikesCount(post.id);
+  }
+
+  @ResolveField((_returns) => Int)
+  commentCount(@Parent() post: Post): Promise<number> {
+    return this.postService.getCommentCount(post.id);
+  }
+
+  @ResolveField(() => [Comment], {
+    description: 'Comments belonging to post id',
+  })
+  comments(@Parent() post: Post) {
+    console.log(post);
+    return this.commentService.findCommentsByPost(post.id);
   }
 
   @ResolveField((_returns) => [Like])

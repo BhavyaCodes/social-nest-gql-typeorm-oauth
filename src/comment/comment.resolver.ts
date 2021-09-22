@@ -28,6 +28,13 @@ export class CommentResolver {
     return this.commentService.findCommentsByPost(postId);
   }
 
+  // @ResolveField(() => [Comment], {
+  //   description: 'Comments belonging to post id',
+  // })
+  // comments(@Parent() post: Post) {
+  //   return this.commentService.findCommentsByPost(post.id);
+  // }
+
   // @Query(() => Comment, { name: 'comment' })
   // findOne(@Args('id', { type: () => Int }) id: number) {
   //   return this.commentService.findOne(id);

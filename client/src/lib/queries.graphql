@@ -10,6 +10,7 @@ query GetAllPosts($getAllPostsTimeStamp: String) {
     createdAt
     likeCount
     hasLiked
+    commentCount
   }
 }
 
@@ -28,6 +29,7 @@ query GetAllPostsFromUser(
     createdAt
     likeCount
     hasLiked
+    commentCount
   }
 }
 
@@ -50,6 +52,7 @@ query GetUserProfile(
       createdAt
       likeCount
       hasLiked
+      commentCount
     }
   }
 }
@@ -70,6 +73,7 @@ query GetProfileWithPosts(
     createdAt
     hasLiked
     likeCount
+    commentCount
   }
 }
 
@@ -95,3 +99,31 @@ query GetLikesByPost($postId: ID!) {
     }
   }
 }
+
+query FindCommentsByPost($findCommentsByPostPostId: ID!) {
+  findCommentsByPost(postId: $findCommentsByPostPostId) {
+    id
+    content
+    user {
+      id
+      name
+      imageUrl
+    }
+  }
+}
+
+#query GetCommentsFromPostId($postId: ID!) {
+#  post(id: $postId) {
+#    commentCount
+#    comments {
+#      id
+#      content
+#      user {
+#        id
+#        name
+#        imageUrl
+#      }
+#      createdAt
+#    }
+#  }
+#}

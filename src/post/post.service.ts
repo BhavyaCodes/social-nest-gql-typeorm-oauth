@@ -4,6 +4,7 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { Comment } from 'src/comment/entities/comment.entity';
 import { Like } from 'src/like/entities/like.entity';
 import { User } from 'src/user/user.entity';
 import { Repository } from 'typeorm';
@@ -20,6 +21,8 @@ export class PostService {
     @InjectRepository(Post) private readonly postRepo: Repository<Post>,
     @InjectRepository(User) private readonly userRepo: Repository<User>,
     @InjectRepository(Like) private readonly likeRepo: Repository<Like>,
+    @InjectRepository(Comment)
+    private readonly commentRepo: Repository<Comment>,
   ) {}
   create(createPostInput: CreatePostInput, user: User): Promise<Post> {
     const newPost = this.postRepo.create({ ...createPostInput, user });
@@ -185,6 +188,10 @@ export class PostService {
 
   getLikesCount(postId: string): Promise<number> {
     return this.likeRepo.count({ postId });
+  }
+
+  getCommentCount(postId: string): Promise<number> {
+    return this.commentRepo.count({ postId });
   }
 
   async deletePost(postId: string, userId: string): Promise<Post> {

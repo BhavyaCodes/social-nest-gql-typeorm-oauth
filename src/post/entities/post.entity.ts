@@ -59,6 +59,12 @@ export class Post {
   @Field(() => Boolean, { nullable: true })
   hasLiked?: boolean | null;
 
+  @Field(() => Int, {
+    nullable: false,
+    description: 'comment count',
+  })
+  commentCount: number;
+
   @OneToMany(() => Comment, (comment) => comment.post)
   @Field(() => [Comment])
   comments?: Comment[];

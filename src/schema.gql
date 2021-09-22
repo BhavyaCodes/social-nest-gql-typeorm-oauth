@@ -26,6 +26,9 @@ type Post {
   """Likes count"""
   likeCount: Int!
   hasLiked: Boolean
+
+  """comment count"""
+  commentCount: Int!
   comments: [Comment!]!
 }
 
@@ -58,19 +61,19 @@ type Query {
 
   """gets single post by id"""
   post(id: ID!): Post!
+  findCommentsByPost(postId: ID!): [Comment!]!
 
   """gets users who like post with provided post Id"""
   getUsersWhoLikedPost(id: ID!): [User!]!
-  findCommentsByPost(postId: ID!): [Comment!]!
 }
 
 type Mutation {
   createPost(createPostInput: CreatePostInput!): Post!
   deletePost(id: ID!): DeletedItem!
-  likePost(postId: ID!): Like!
-  unLikePost(postId: ID!): Like!
   createComment(createCommentInput: CreateCommentInput!): Comment!
   removeComment(id: ID!): Comment!
+  likePost(postId: ID!): Like!
+  unLikePost(postId: ID!): Like!
 }
 
 input CreatePostInput {
