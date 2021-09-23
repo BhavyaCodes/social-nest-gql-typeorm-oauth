@@ -1,5 +1,6 @@
-import { Avatar, Box, Divider, Typography } from '@mui/material';
+import { Avatar, Box, Button, Divider, Typography } from '@mui/material';
 import { useHistory } from 'react-router';
+import { useRemoveCommentMutation } from '../../../__generated__/src/lib/mutations.graphql';
 import { FindCommentsByPostQuery } from '../../../__generated__/src/lib/queries.graphql';
 
 export function Comment({
@@ -8,6 +9,17 @@ export function Comment({
   comment: FindCommentsByPostQuery['findCommentsByPost'][0];
 }) {
   const history = useHistory();
+  const [removeCommentMutation] = useRemoveCommentMutation();
+  const handleDeleteComment = () => {
+    removeCommentMutation({
+      variables: {
+        removeCommentId: comment.id,
+      },
+    })
+      .then((data) => console.log(data))
+      .catch((e) => console.log(e));
+  };
+
   return (
     <Box>
       <Divider sx={{ marginBottom: 1, marginTop: 1 }} />
@@ -28,6 +40,9 @@ export function Comment({
         >
           <Typography variant="subtitle2">{comment.user.name}</Typography>
           <Typography variant="body2">{comment.content}</Typography>
+          <Button type="button" onClick={handleDeleteComment}>
+            Delete Comment
+          </Button>
         </Box>
       </Box>
     </Box>

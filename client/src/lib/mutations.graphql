@@ -80,6 +80,10 @@ mutation DeletePost($deletePostId: ID!) {
   }
 }
 
+#
+# Comments
+#
+
 mutation CreateComment($createCommentInput: CreateCommentInput!) {
   createComment(createCommentInput: $createCommentInput) {
     id
@@ -90,5 +94,11 @@ mutation CreateComment($createCommentInput: CreateCommentInput!) {
       imageUrl
     }
     createdAt
+  }
+}
+
+mutation RemoveComment($removeCommentId: ID!) {
+  removeComment(id: $removeCommentId) {
+    id
   }
 }
