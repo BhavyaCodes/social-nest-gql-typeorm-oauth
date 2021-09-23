@@ -4,12 +4,18 @@ import { UserProvider } from './context/user.context';
 import Layout from './components/Layout';
 import Profile from './pages/Profile';
 import { ThemeProvider } from '@emotion/react';
-import { lightTheme } from './themes';
+import { lightTheme, darkTheme } from './themes';
 import { CssBaseline } from '@mui/material';
+import { useLocalStorage } from 'react-use';
 function App() {
+  const [theme, setTheme] = useLocalStorage<'light' | 'dark'>(
+    'devgram-theme',
+    'dark',
+  );
+
   return (
     <UserProvider>
-      <ThemeProvider theme={lightTheme}>
+      <ThemeProvider theme={theme === 'light' ? lightTheme : darkTheme}>
         <Layout>
           <Switch>
             <Route path="/" exact>
