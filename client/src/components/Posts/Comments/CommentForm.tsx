@@ -41,7 +41,7 @@ export function CommentForm({
                 );
                 console.log(args);
                 if (args.postId !== postId) return;
-                return [toReference(data?.createComment!), ...existing];
+                return [...existing, toReference(data?.createComment!)];
               },
             },
           });
