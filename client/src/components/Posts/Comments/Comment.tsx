@@ -1,5 +1,6 @@
 import { Avatar, Box, Button, Divider, Typography } from '@mui/material';
 import { useHistory } from 'react-router';
+import { useUser } from '../../../context/user.context';
 import { useRemoveCommentMutation } from '../../../__generated__/src/lib/mutations.graphql';
 import { FindCommentsByPostQuery } from '../../../__generated__/src/lib/queries.graphql';
 
@@ -8,6 +9,7 @@ export function Comment({
 }: {
   comment: FindCommentsByPostQuery['findCommentsByPost'][0];
 }) {
+  const { user } = useUser();
   const history = useHistory();
   const [removeCommentMutation] = useRemoveCommentMutation();
   const handleDeleteComment = () => {
@@ -15,9 +17,21 @@ export function Comment({
       variables: {
         removeCommentId: comment.id,
       },
-    })
-      .then((data) => console.log(data))
-      .catch((e) => console.log(e));
+      update(cache, obj) {
+        const { data } = obj;
+        if (data) {
+          const normalizedId = cache.identify(data.removeComment);
+          cache.evict({ id: normalizedId });
+          cache.gc();
+        }
+      },
+      optimisticResponse: {
+        removeComment: {
+          __typename: 'Comment',
+          id: comment.id,
+        },
+      },
+    }).catch((e) => console.log(e));
   };
 
   return (
@@ -40,9 +54,11 @@ export function Comment({
         >
           <Typography variant="subtitle2">{comment.user.name}</Typography>
           <Typography variant="body2">{comment.content}</Typography>
-          <Button type="button" onClick={handleDeleteComment}>
-            Delete Comment
-          </Button>
+          {comment.user.id === user?.id && (
+            <Button type="button" onClick={handleDeleteComment}>
+              Delete Comment
+            </Button>
+          )}
         </Box>
       </Box>
     </Box>
