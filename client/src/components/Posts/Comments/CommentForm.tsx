@@ -1,3 +1,4 @@
+import { gql } from '@apollo/client';
 import { Button, TextField } from '@mui/material';
 import { Box } from '@mui/system';
 import { FormEvent, useRef } from 'react';
@@ -7,9 +8,11 @@ import { FindCommentsByPostQuery } from '../../../__generated__/src/lib/queries.
 export function CommentForm({
   postId,
   comments,
+  commentCount,
 }: {
   postId: string;
   comments?: FindCommentsByPostQuery['findCommentsByPost'];
+  commentCount: number;
 }) {
   const inputRef = useRef<null | HTMLInputElement>(null);
   const [createCommentMutation] = useCreateCommentMutation();
@@ -36,13 +39,25 @@ export function CommentForm({
                 const args = JSON.parse(
                   storeFieldName.replace('findCommentsByPost:', ''),
                 );
+                console.log(args);
                 if (args.postId !== postId) return;
                 return [toReference(data?.createComment!), ...existing];
               },
             },
           });
+          cache.writeFragment({
+            id: cache.identify({ __typename: 'Post', id: postId }),
+            fragment: gql`
+              fragment UpdateCommentCount on Post {
+                commentCount
+              }
+            `,
+            data: {
+              commentCount: commentCount + 1,
+            },
+          });
         },
-      });
+      }).catch((e) => console.log(e));
     }
   };
 

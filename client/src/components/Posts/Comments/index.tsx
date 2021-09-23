@@ -44,7 +44,11 @@ export default function Comments({
   return (
     <Box px={2} mb={1}>
       {renderComments()}
-      <CommentForm postId={postId} comments={data?.findCommentsByPost} />
+      <CommentForm
+        postId={postId}
+        comments={data?.findCommentsByPost}
+        commentCount={commentCount}
+      />
     </Box>
   );
 }
