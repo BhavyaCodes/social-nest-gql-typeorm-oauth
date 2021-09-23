@@ -1,5 +1,5 @@
 import { lime } from '@mui/material/colors';
-import { createTheme } from '@mui/material/styles';
+// import { createTheme } from '@mui/material/styles';
 
 // declare module '@mui/material/styles' {
 //   interface Theme {
@@ -23,14 +23,21 @@ import { createTheme } from '@mui/material/styles';
 //   }
 // }
 
-export const lightTheme = createTheme({
+// export const lightTheme = createTheme({
+//   palette: {
+//     secondary: lime,
+//   },
+// });
+
+export const lightThemeOptions = {
   palette: {
     secondary: lime,
   },
-});
+};
 
-export const darkTheme = createTheme({
+export const darkThemeOptions = {
   palette: {
     mode: 'dark',
+    secondary: lime,
   },
-});
+};

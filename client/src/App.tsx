@@ -4,22 +4,26 @@ import { UserProvider } from './context/user.context';
 import Layout from './components/Layout';
 import Profile from './pages/Profile';
 import { ThemeProvider } from '@emotion/react';
-import { lightTheme, darkTheme } from './themes';
-import { CssBaseline } from '@mui/material';
-import { useLocalStorage } from 'react-use';
+import { lightThemeOptions, darkThemeOptions } from './themes';
+import { createTheme, CssBaseline } from '@mui/material';
+import useLocalStorage from './hooks/useLocalStorage';
 function App() {
-  const [theme, setTheme] = useLocalStorage<'light' | 'dark'>(
+  const [darkMode, setDarkMode] = useLocalStorage<boolean>(
     'devgram-theme',
-    'dark',
+    true,
   );
+
+  console.log('App.tsx', darkMode);
+
+  const theme = createTheme(darkMode ? darkThemeOptions : lightThemeOptions);
 
   return (
     <UserProvider>
-      <ThemeProvider theme={theme === 'light' ? lightTheme : darkTheme}>
-        <Layout>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <Layout setDarkMode={setDarkMode}>
           <Switch>
             <Route path="/" exact>
-              <CssBaseline />
               <Index />
             </Route>
             <Route path="/profile/:profileId" exact>
