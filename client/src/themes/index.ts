@@ -39,6 +39,7 @@ export const lightThemeOptions: ThemeOptions = {
       dark: 'rgb(100, 141, 174)',
       contrastText: 'rgba(0, 0, 0, 0.87)',
     },
+    // secondary: lime,
   },
 };
 
@@ -51,5 +52,6 @@ export const darkThemeOptions: ThemeOptions = {
       dark: 'rgb(100, 141, 174)',
       contrastText: 'rgba(0, 0, 0, 0.87)',
     },
+    // secondary: lime,
   },
 };

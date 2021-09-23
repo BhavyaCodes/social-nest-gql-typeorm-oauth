@@ -1,9 +1,23 @@
+import { useState } from 'react';
 import { gql } from '@apollo/client';
-import { Avatar, Box, Button, Divider, Typography } from '@mui/material';
+// import { createStyles, makeStyles } from '@mui/styles';
+// import { useTheme } from '@mui/styles';
+import {
+  Avatar,
+  Box,
+  Divider,
+  IconButton,
+  Paper,
+  // Theme,
+  Typography,
+} from '@mui/material';
 import { useHistory } from 'react-router';
 import { useUser } from '../../../context/user.context';
 import { useRemoveCommentMutation } from '../../../__generated__/src/lib/mutations.graphql';
 import { FindCommentsByPostQuery } from '../../../__generated__/src/lib/queries.graphql';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
+import MoreVertIcon from '@mui/icons-material/MoreVert';
 
 export function Comment({
   comment,
@@ -14,6 +28,14 @@ export function Comment({
   postId: string;
   commentCount: number;
 }) {
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
   const { user } = useUser();
   const history = useHistory();
   const [removeCommentMutation] = useRemoveCommentMutation();
@@ -63,19 +85,66 @@ export function Comment({
             referrerPolicy: 'no-referrer',
           }}
         />
-        <Box
-          mx={2}
-          p={1}
-          sx={{ backgroundColor: 'pink', flexGrow: 1, borderRadius: 1 }}
+        <Paper
+          sx={{
+            p: 1,
+            mx: 2,
+            flexGrow: 1,
+            borderRadius: 1,
+            bgcolor: 'secondary.light',
+            // color: 'secondary.contrastText',
+            // bgcolor: (t) => t.palette.secondary.light,
+          }}
         >
-          <Typography variant="subtitle2">{comment.user.name}</Typography>
-          <Typography variant="body2">{comment.content}</Typography>
-          {comment.user.id === user?.id && (
-            <Button type="button" onClick={handleDeleteComment}>
-              Delete Comment
-            </Button>
-          )}
-        </Box>
+          <Box sx={{ display: 'flex', color: 'secondary.contrastText' }}>
+            <Box sx={{ flexGrow: 1 }}>
+              <Typography
+                variant="subtitle2"
+                sx={{ color: 'secondary.contrastText' }}
+              >
+                {comment.user.name}
+              </Typography>
+              <Typography
+                variant="body2"
+                sx={{ color: 'secondary.contrastText' }}
+              >
+                {comment.content}
+              </Typography>
+            </Box>
+
+            {comment.user.id === user?.id && (
+              // <Button
+              //   type="button"
+              //   onClick={handleDeleteComment}
+              //   variant="contained"
+              //   // color="secondary"
+              // >
+              //   Delete Comment
+              // </Button>
+              <IconButton
+                aria-label="more"
+                // id="long-button"
+                aria-controls="long-menu"
+                aria-expanded={open ? 'true' : undefined}
+                aria-haspopup="true"
+                onClick={handleClick}
+              >
+                <MoreVertIcon
+                // sx={{ color: 'theme.secondary.contrastText' }}
+                // color={}
+                />
+              </IconButton>
+            )}
+          </Box>
+          <Menu
+            id="comment-menu"
+            anchorEl={anchorEl}
+            open={open}
+            onClose={handleClose}
+          >
+            <MenuItem onClick={handleClose}>Delete Comment</MenuItem>
+          </Menu>
+        </Paper>
       </Box>
     </Box>
   );
