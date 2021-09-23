@@ -106,6 +106,7 @@ export default function PostComponent({
             likeCount: post.likeCount + 1,
             hasLiked: true,
             likes: [],
+            commentCount: post.commentCount,
           },
         },
       },
@@ -164,6 +165,7 @@ export default function PostComponent({
             hasLiked: false,
             createdAt: post.createdAt,
             likes: [],
+            commentCount: post.commentCount,
           },
         },
       },
@@ -297,7 +299,9 @@ export default function PostComponent({
       {post.hasLiked === true && (
         <button onClick={handleUnLike}>Unlike Post</button>
       )} */}
-      {commentsOpen && <Comments postId={post.id} />}
+      {commentsOpen && (
+        <Comments postId={post.id} commentCount={post.commentCount} />
+      )}
     </Card>
   );
 }

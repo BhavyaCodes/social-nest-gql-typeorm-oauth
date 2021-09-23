@@ -35,6 +35,7 @@ export default function PostForm() {
           createdAt: new Date().toISOString(),
           likeCount: 0,
           hasLiked: false,
+          commentCount: 0,
         },
       },
       update(cache, { data }) {

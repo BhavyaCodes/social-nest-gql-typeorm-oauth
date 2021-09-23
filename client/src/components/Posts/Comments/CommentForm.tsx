@@ -1,6 +1,6 @@
+import { gql } from '@apollo/client';
 import { Button, TextField } from '@mui/material';
 import { Box } from '@mui/system';
-import gql from 'graphql-tag';
 import { FormEvent, useRef } from 'react';
 import { useCreateCommentMutation } from '../../../__generated__/src/lib/mutations.graphql';
 import { FindCommentsByPostQuery } from '../../../__generated__/src/lib/queries.graphql';
@@ -8,9 +8,11 @@ import { FindCommentsByPostQuery } from '../../../__generated__/src/lib/queries.
 export function CommentForm({
   postId,
   comments,
+  commentCount,
 }: {
   postId: string;
   comments?: FindCommentsByPostQuery['findCommentsByPost'];
+  commentCount: number;
 }) {
   const inputRef = useRef<null | HTMLInputElement>(null);
   const [createCommentMutation] = useCreateCommentMutation();
@@ -18,7 +20,6 @@ export function CommentForm({
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
     if (inputRef.current) {
-      // console.log(inputRef.current.value);
       const content: string = inputRef.current!.value;
       inputRef.current.value = '';
       createCommentMutation({
@@ -44,8 +45,19 @@ export function CommentForm({
               },
             },
           });
+          cache.writeFragment({
+            id: cache.identify({ __typename: 'Post', id: postId }),
+            fragment: gql`
+              fragment UpdateCommentCount on Post {
+                commentCount
+              }
+            `,
+            data: {
+              commentCount: commentCount + 1,
+            },
+          });
         },
-      });
+      }).catch((e) => console.log(e));
     }
   };
 
