@@ -16,6 +16,7 @@ mutation likePost($likePostPostId: ID!) {
         name
         imageUrl
       }
+      commentCount
       likeCount
       hasLiked
       likes {
@@ -43,6 +44,7 @@ mutation UnlikePost($unLikePostPostId: ID!) {
         name
         imageUrl
       }
+      commentCount
       likeCount
       hasLiked
       createdAt
@@ -68,6 +70,7 @@ mutation CreatePost($createPostCreatePostInput: CreatePostInput!) {
       name
       imageUrl
     }
+    commentCount
     createdAt
     likeCount
     hasLiked

@@ -25,6 +25,7 @@ export default function Comments({
 
   const renderComments = () => {
     if (data) {
+      if (data.findCommentsByPost.length === 0) return null;
       return data.findCommentsByPost.map((comment) => (
         <Comment
           key={comment.id}
@@ -37,9 +38,9 @@ export default function Comments({
     return null;
   };
 
-  if (data?.findCommentsByPost.length === 0) {
-    return <p>no comments</p>;
-  }
+  // if (data?.findCommentsByPost.length === 0) {
+  //   return <p>no comments</p>;
+  // }
 
   return (
     <Box px={2} mb={1}>
