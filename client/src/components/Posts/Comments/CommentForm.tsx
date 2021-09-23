@@ -2,6 +2,7 @@ import { gql } from '@apollo/client';
 import { Button, TextField } from '@mui/material';
 import { Box } from '@mui/system';
 import { FormEvent, useRef } from 'react';
+import { useUser } from '../../../context/user.context';
 import { useCreateCommentMutation } from '../../../__generated__/src/lib/mutations.graphql';
 import { FindCommentsByPostQuery } from '../../../__generated__/src/lib/queries.graphql';
 
@@ -14,11 +15,15 @@ export function CommentForm({
   comments?: FindCommentsByPostQuery['findCommentsByPost'];
   commentCount: number;
 }) {
+  const { user } = useUser();
   const inputRef = useRef<null | HTMLInputElement>(null);
   const [createCommentMutation] = useCreateCommentMutation();
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
+    if (!user) {
+      return alert('Please long to comment');
+    }
     if (inputRef.current) {
       const content: string = inputRef.current!.value;
       inputRef.current.value = '';
