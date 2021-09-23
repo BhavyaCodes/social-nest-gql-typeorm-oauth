@@ -3,7 +3,13 @@ import { useFindCommentsByPostQuery } from '../../../__generated__/src/lib/queri
 import { Comment } from './Comment';
 import { CommentForm } from './CommentForm';
 
-export default function Comments({ postId }: { postId: string }) {
+export default function Comments({
+  postId,
+  commentCount,
+}: {
+  postId: string;
+  commentCount: number;
+}) {
   const { data, loading, error } = useFindCommentsByPostQuery({
     variables: {
       findCommentsByPostPostId: postId,
@@ -20,7 +26,12 @@ export default function Comments({ postId }: { postId: string }) {
   const renderComments = () => {
     if (data) {
       return data.findCommentsByPost.map((comment) => (
-        <Comment key={comment.id} comment={comment} />
+        <Comment
+          key={comment.id}
+          postId={postId}
+          comment={comment}
+          commentCount={commentCount}
+        />
       ));
     }
     return null;

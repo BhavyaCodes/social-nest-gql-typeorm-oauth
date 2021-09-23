@@ -1,3 +1,4 @@
+import { gql } from '@apollo/client';
 import { Avatar, Box, Button, Divider, Typography } from '@mui/material';
 import { useHistory } from 'react-router';
 import { useUser } from '../../../context/user.context';
@@ -6,8 +7,12 @@ import { FindCommentsByPostQuery } from '../../../__generated__/src/lib/queries.
 
 export function Comment({
   comment,
+  postId,
+  commentCount,
 }: {
   comment: FindCommentsByPostQuery['findCommentsByPost'][0];
+  postId: string;
+  commentCount: number;
 }) {
   const { user } = useUser();
   const history = useHistory();
@@ -24,6 +29,17 @@ export function Comment({
           cache.evict({ id: normalizedId });
           cache.gc();
         }
+        cache.writeFragment({
+          id: cache.identify({ __typename: 'Post', id: postId }),
+          fragment: gql`
+            fragment UpdateCommentCount on Post {
+              commentCount
+            }
+          `,
+          data: {
+            commentCount: commentCount - 1,
+          },
+        });
       },
       optimisticResponse: {
         removeComment: {

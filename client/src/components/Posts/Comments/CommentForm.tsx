@@ -1,6 +1,5 @@
 import { Button, TextField } from '@mui/material';
 import { Box } from '@mui/system';
-import gql from 'graphql-tag';
 import { FormEvent, useRef } from 'react';
 import { useCreateCommentMutation } from '../../../__generated__/src/lib/mutations.graphql';
 import { FindCommentsByPostQuery } from '../../../__generated__/src/lib/queries.graphql';
@@ -18,7 +17,6 @@ export function CommentForm({
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
     if (inputRef.current) {
-      // console.log(inputRef.current.value);
       const content: string = inputRef.current!.value;
       inputRef.current.value = '';
       createCommentMutation({
@@ -38,7 +36,6 @@ export function CommentForm({
                 const args = JSON.parse(
                   storeFieldName.replace('findCommentsByPost:', ''),
                 );
-                console.log(args);
                 if (args.postId !== postId) return;
                 return [toReference(data?.createComment!), ...existing];
               },
