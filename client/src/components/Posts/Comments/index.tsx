@@ -17,7 +17,7 @@ export default function Comments({
   });
 
   if (loading) {
-    return <p>loading</p>;
+    return null;
   }
   if (error) {
     return <p>error</p>;
