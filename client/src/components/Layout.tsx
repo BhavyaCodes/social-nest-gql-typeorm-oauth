@@ -20,9 +20,13 @@ import {
   Menu,
   MenuItem,
   Tooltip,
+  useMediaQuery,
 } from '@mui/material';
 import { Link } from 'react-router-dom';
 import { useTheme } from '@mui/material/styles';
+import GitHubIcon from '@mui/icons-material/GitHub';
+import LinkedInIcon from '@mui/icons-material/LinkedIn';
+import TwitterIcon from '@mui/icons-material/Twitter';
 
 interface Props {
   /**
@@ -63,7 +67,7 @@ function ScrollTop(props: Props) {
       <Box
         onClick={handleClick}
         role="presentation"
-        sx={{ position: 'fixed', bottom: 16, right: 16 }}
+        sx={{ position: 'fixed', zIndex: 10000, bottom: 16, right: 16 }}
       >
         {children}
       </Box>
@@ -74,6 +78,7 @@ function ScrollTop(props: Props) {
 export default function Layout(props: Props) {
   const { setDarkMode } = props;
   const theme = useTheme();
+  const matches = useMediaQuery(theme.breakpoints.down('xl'));
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -131,28 +136,67 @@ export default function Layout(props: Props) {
   return (
     <React.Fragment>
       <CssBaseline />
-      <AppBar>
-        <Toolbar>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            <Link to="/" style={{ textDecoration: 'none', color: 'inherit' }}>
-              DevGram
-            </Link>
-          </Typography>
-          <Tooltip title="Dark Mode">
-            <IconButton onClick={() => setDarkMode((s) => !s)}>
-              {theme.palette.mode === 'dark' ? (
-                <LightModeIcon />
-              ) : (
-                <DarkModeIcon />
-              )}
-            </IconButton>
-          </Tooltip>
+      <Box
+        sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}
+      >
+        <AppBar>
+          <Toolbar>
+            <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+              <Link to="/" style={{ textDecoration: 'none', color: 'inherit' }}>
+                DevGram
+              </Link>
+            </Typography>
+            <Tooltip title="Dark Mode">
+              <IconButton onClick={() => setDarkMode((s) => !s)}>
+                {theme.palette.mode === 'dark' ? (
+                  <LightModeIcon />
+                ) : (
+                  <DarkModeIcon />
+                )}
+              </IconButton>
+            </Tooltip>
 
-          {!loading && renderMenu()}
-        </Toolbar>
-      </AppBar>
-      <Toolbar id="back-to-top-anchor" />
-      <Container>{props.children}</Container>
+            {!loading && renderMenu()}
+          </Toolbar>
+        </AppBar>
+        <Toolbar id="back-to-top-anchor" />
+        <Container sx={{ flexGrow: 1 }}>{props.children}</Container>
+        <Toolbar></Toolbar>
+        <AppBar
+          component="footer"
+          sx={{
+            bottom: 0,
+            position: 'sticky',
+            top: 'auto',
+            // bgcolor: (t) => (matches ? t.palette.grey[900] : 'rgba(0,0,0,0)'),
+          }}
+        >
+          <Toolbar
+            variant="dense"
+            // disableGutters
+            sx={
+              {
+                // position: 'fixed',
+                // bottom: 0,
+                // zIndex: 10,
+                // width: '100%',
+                // bgcolor: (t) => (matches ? t.palette.grey[800] : 'rgba(0,0,0,0)'),
+              }
+            }
+          >
+            <IconButton>
+              <GitHubIcon />
+            </IconButton>
+            <IconButton>
+              <LinkedInIcon />
+            </IconButton>
+            <IconButton>
+              <TwitterIcon />
+            </IconButton>
+          </Toolbar>
+        </AppBar>
+      </Box>
+
       <ScrollTop {...props}>
         <Fab color="secondary" size="small" aria-label="scroll back to top">
           <KeyboardArrowUpIcon />

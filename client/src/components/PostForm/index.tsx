@@ -83,7 +83,7 @@ export default function PostForm() {
         required
         multiline
         InputLabelProps={{ required: false }}
-        color="secondary"
+        // color="secondary"
       />
       <Button
         type="submit"

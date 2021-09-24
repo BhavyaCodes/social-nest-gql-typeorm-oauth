@@ -37,7 +37,7 @@ export function CommentForm({
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
     if (!user) {
-      return alert('Please long to comment');
+      return alert('Please login to comment');
     }
     if (inputRef.current) {
       const content: string = inputRef.current!.value;
