@@ -20,7 +20,6 @@ import {
   Menu,
   MenuItem,
   Tooltip,
-  useMediaQuery,
 } from '@mui/material';
 import { Link } from 'react-router-dom';
 import { useTheme } from '@mui/material/styles';
@@ -78,7 +77,6 @@ function ScrollTop(props: Props) {
 export default function Layout(props: Props) {
   const { setDarkMode } = props;
   const theme = useTheme();
-  const matches = useMediaQuery(theme.breakpoints.down('xl'));
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
