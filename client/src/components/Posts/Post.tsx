@@ -17,10 +17,15 @@ import CardActions from '@mui/material/CardActions';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import FavoriteIcon from '@mui/icons-material/Favorite';
-// import ShareIcon from '@mui/icons-material/Share';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
-import { Badge, Menu, MenuItem, Tooltip } from '@mui/material';
+import { Badge, Button, Menu, MenuItem, Tooltip } from '@mui/material';
 import { useState } from 'react';
 import TimeAgo from 'javascript-time-ago';
 import en from 'javascript-time-ago/locale/en';
@@ -171,141 +176,169 @@ export default function PostComponent({
       },
     }).catch((e) => console.log(e));
   };
+  //modal
+  const [modalOpen, setModalOpen] = useState(false);
+
+  const handleModalOpen = () => {
+    setModalOpen(true);
+  };
+
+  const handleModalClose = () => {
+    setModalOpen(false);
+  };
 
   // const displayUsersWhoLikeThisPost = () => <ViewLikes postId={post.id} />;
   const displayUsersWhoLikeThisPost = () => setViewLikes(true);
 
   return (
-    <Card sx={{ my: 2 }}>
-      <CardHeader
-        avatar={
-          <Avatar
-            onClick={() => history.push(`/profile/${post.user.id}`)}
-            sx={{ cursor: 'pointer' }}
-            alt={post.user.name}
-            src={post.user?.imageUrl as string}
-            imgProps={{
-              referrerPolicy: 'no-referrer',
-            }}
-          />
-        }
-        action={
-          user?.id === post.user.id && (
-            <>
-              <IconButton
-                aria-label="settings"
-                aria-controls="basic-menu"
-                aria-haspopup="true"
-                aria-expanded={open ? 'true' : undefined}
-                onClick={handleClick}
-              >
-                <MoreVertIcon />
-              </IconButton>
-              <Menu
-                id="basic-menu"
-                anchorEl={anchorEl}
-                open={open}
-                onClose={handleClose}
-                MenuListProps={{
-                  'aria-labelledby': 'basic-button',
-                }}
-              >
-                <MenuItem
-                  onClick={() => {
-                    handleClose();
-                    deletePost();
+    <>
+      <Card sx={{ my: 2 }}>
+        <CardHeader
+          avatar={
+            <Avatar
+              onClick={() => history.push(`/profile/${post.user.id}`)}
+              sx={{ cursor: 'pointer' }}
+              alt={post.user.name}
+              src={post.user?.imageUrl as string}
+              imgProps={{
+                referrerPolicy: 'no-referrer',
+              }}
+            />
+          }
+          action={
+            user?.id === post.user.id && (
+              <>
+                <IconButton
+                  aria-label="settings"
+                  aria-controls="basic-menu"
+                  aria-haspopup="true"
+                  aria-expanded={open ? 'true' : undefined}
+                  onClick={handleClick}
+                >
+                  <MoreVertIcon />
+                </IconButton>
+                <Menu
+                  id="basic-menu"
+                  anchorEl={anchorEl}
+                  open={open}
+                  onClose={handleClose}
+                  MenuListProps={{
+                    'aria-labelledby': 'basic-button',
                   }}
                 >
-                  Delete Post
-                </MenuItem>
-              </Menu>
-            </>
-          )
-        }
-        title={
-          <Link
-            style={{
-              cursor: 'pointer',
-              textDecoration: 'none',
-              color: 'inherit',
-            }}
-            to={`/profile/${post.user.id}`}
-          >
-            {post.user.name}
-          </Link>
-        }
-        // title={post.user.name}
-        subheader={timeAgo.format(new Date(post.createdAt))}
-      />
-      <CardContent>
-        <Typography variant="body2" color="text.secondary">
-          {post.content}
-        </Typography>
-      </CardContent>
-      <CardActions disableSpacing>
-        <Tooltip title={post.hasLiked ? 'unlike post' : 'like post'}>
-          {user ? (
-            <IconButton
-              aria-label={post.hasLiked ? 'Like Post' : 'unlike Post'}
-              onClick={post.hasLiked ? handleUnLike : handleLike}
+                  <MenuItem
+                    onClick={() => {
+                      handleClose();
+                      // deletePost();
+                      handleModalOpen();
+                    }}
+                  >
+                    Delete Post
+                  </MenuItem>
+                </Menu>
+              </>
+            )
+          }
+          title={
+            <Link
+              style={{
+                cursor: 'pointer',
+                textDecoration: 'none',
+                color: 'inherit',
+              }}
+              to={`/profile/${post.user.id}`}
             >
-              {post.hasLiked ? (
-                <FavoriteIcon color="error" />
-              ) : (
+              {post.user.name}
+            </Link>
+          }
+          // title={post.user.name}
+          subheader={timeAgo.format(new Date(post.createdAt))}
+        />
+        <CardContent>
+          <Typography variant="body2" color="text.secondary">
+            {post.content}
+          </Typography>
+        </CardContent>
+        <CardActions disableSpacing>
+          <Tooltip title={post.hasLiked ? 'unlike post' : 'like post'}>
+            {user ? (
+              <IconButton
+                aria-label={post.hasLiked ? 'Like Post' : 'unlike Post'}
+                onClick={post.hasLiked ? handleUnLike : handleLike}
+              >
+                {post.hasLiked ? (
+                  <FavoriteIcon color="error" />
+                ) : (
+                  <FavoriteBorderIcon />
+                )}
+              </IconButton>
+            ) : (
+              <IconButton
+                aria-label="Like Post"
+                onClick={() => alert('please login first')}
+              >
                 <FavoriteBorderIcon />
-              )}
-            </IconButton>
-          ) : (
+              </IconButton>
+            )}
+          </Tooltip>
+          <Tooltip title="comments">
             <IconButton
-              aria-label="Like Post"
-              onClick={() => alert('please login first')}
+              aria-label="view comments"
+              onClick={() => setCommentsOpen((s) => !s)}
             >
-              <FavoriteBorderIcon />
+              <Badge badgeContent={post.commentCount} color="secondary">
+                <MessageIcon />
+              </Badge>
             </IconButton>
-          )}
-        </Tooltip>
-        <Tooltip title="comments">
-          <IconButton
-            aria-label="view comments"
-            onClick={() => setCommentsOpen((s) => !s)}
+          </Tooltip>
+        </CardActions>
+        {getLikeCountText(post.likeCount) && (
+          <Typography
+            sx={{
+              mx: 2,
+              mb: 1,
+              ':hover': { textDecoration: 'underline', cursor: 'pointer' },
+            }}
+            onClick={displayUsersWhoLikeThisPost}
           >
-            <Badge badgeContent={post.commentCount} color="secondary">
-              <MessageIcon />
-            </Badge>
-          </IconButton>
-        </Tooltip>
-      </CardActions>
-      {getLikeCountText(post.likeCount) && (
-        <Typography
-          sx={{
-            mx: 2,
-            mb: 1,
-            ':hover': { textDecoration: 'underline', cursor: 'pointer' },
-          }}
-          onClick={displayUsersWhoLikeThisPost}
-        >
-          {getLikeCountText(post.likeCount)}
-        </Typography>
-      )}
-      {viewLikes && (
-        <ViewLikes postId={post.id} onClose={() => setViewLikes(false)} />
-      )}
-
-      {/* <p>LikeCount: {post.likeCount}</p> */}
-
-      {/* {user?.id === post.user.id && (
-        <button onClick={deletePost}>Delete Post</button>
-      )} */}
-      {/* <p>hasLiked: {JSON.stringify(post.hasLiked)}</p>
-      {post.hasLiked === false && (
-        <button onClick={handleLike}>Like Post</button>
-      )}
-      {post.hasLiked === true && (
-        <button onClick={handleUnLike}>Unlike Post</button>
-      )} */}
-      {commentsOpen && (
-        <Comments postId={post.id} commentCount={post.commentCount} />
-      )}
-    </Card>
+            {getLikeCountText(post.likeCount)}
+          </Typography>
+        )}
+        {viewLikes && (
+          <ViewLikes postId={post.id} onClose={() => setViewLikes(false)} />
+        )}
+        {commentsOpen && (
+          <Comments postId={post.id} commentCount={post.commentCount} />
+        )}
+      </Card>
+      {/* modal */}
+      <Dialog
+        open={modalOpen}
+        onClose={handleModalOpen}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">
+          {'Are you sure you want to delete this post?'}
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            {post.content}
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleModalClose}>cancel</Button>
+          <Button
+            onClick={() => {
+              deletePost();
+              handleModalClose();
+            }}
+            autoFocus
+          >
+            delete
+          </Button>
+        </DialogActions>
+      </Dialog>
+    </>
   );
 }
