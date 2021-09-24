@@ -40,6 +40,7 @@ export function Comment({
   const history = useHistory();
   const [removeCommentMutation] = useRemoveCommentMutation();
   const handleDeleteComment = () => {
+    console.log('here?');
     removeCommentMutation({
       variables: {
         removeCommentId: comment.id,
@@ -142,7 +143,14 @@ export function Comment({
             open={open}
             onClose={handleClose}
           >
-            <MenuItem onClick={handleClose}>Delete Comment</MenuItem>
+            <MenuItem
+              onClick={() => {
+                handleDeleteComment();
+                handleClose();
+              }}
+            >
+              Delete Comment
+            </MenuItem>
           </Menu>
         </Paper>
       </Box>
