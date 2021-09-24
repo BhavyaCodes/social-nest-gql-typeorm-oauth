@@ -1,3 +1,4 @@
+import { v4 as uuidv4 } from 'uuid';
 import { gql } from '@apollo/client';
 import { useTheme } from '@mui/material/styles';
 import {
@@ -48,6 +49,20 @@ export function CommentForm({
             content,
           },
         },
+        optimisticResponse: {
+          createComment: {
+            __typename: 'Comment',
+            id: uuidv4(),
+            content,
+            user: {
+              id: user.id,
+              name: user.name,
+              imageUrl: user.imageUrl,
+            },
+            createdAt: new Date().toISOString(),
+          },
+        },
+
         update(cache, { data }) {
           cache.modify({
             fields: {
