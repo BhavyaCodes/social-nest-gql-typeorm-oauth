@@ -1,5 +1,5 @@
 import { ThemeOptions } from '@mui/material';
-import { lime } from '@mui/material/colors';
+// import { lime } from '@mui/material/colors';
 // import { createTheme } from '@mui/material/styles';
 
 // declare module '@mui/material/styles' {
