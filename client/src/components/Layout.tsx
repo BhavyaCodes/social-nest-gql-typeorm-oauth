@@ -184,15 +184,51 @@ export default function Layout(props: Props) {
               }
             }
           >
-            <IconButton>
-              <GitHubIcon />
-            </IconButton>
-            <IconButton>
-              <LinkedInIcon />
-            </IconButton>
-            <IconButton>
-              <TwitterIcon />
-            </IconButton>
+            <MuiLink
+              href="https://github.com/BhavyaCodes/social-nest-gql-typeorm-oauth"
+              target="_blank"
+              rel="noopener noreferrer"
+              color="inherit"
+            >
+              <IconButton
+                aria-label="Github repository link"
+                aria-controls="menu-appbar"
+                aria-haspopup="true"
+                color="inherit"
+              >
+                <GitHubIcon />
+              </IconButton>
+            </MuiLink>
+            <MuiLink
+              href="https://www.linkedin.com/in/bhavya-tomar"
+              target="_blank"
+              rel="noopener noreferrer"
+              color="inherit"
+            >
+              <IconButton
+                aria-label="Github repository link"
+                aria-controls="menu-appbar"
+                aria-haspopup="true"
+                color="inherit"
+              >
+                <LinkedInIcon />
+              </IconButton>
+            </MuiLink>
+            <MuiLink
+              href="https://twitter.com/bhavyacodes"
+              target="_blank"
+              rel="noopener noreferrer"
+              color="inherit"
+            >
+              <IconButton
+                aria-label="Github repository link"
+                aria-controls="menu-appbar"
+                aria-haspopup="true"
+                color="inherit"
+              >
+                <TwitterIcon />
+              </IconButton>
+            </MuiLink>
           </Toolbar>
         </AppBar>
       </Box>
