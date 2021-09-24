@@ -5,6 +5,12 @@ import { gql } from '@apollo/client';
 import {
   Avatar,
   Box,
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
   Divider,
   IconButton,
   Paper,
@@ -71,6 +77,17 @@ export function Comment({
         },
       },
     }).catch((e) => console.log(e));
+  };
+
+  //modal
+  const [modalOpen, setModalOpen] = useState(false);
+
+  const handleModalOpen = () => {
+    setModalOpen(true);
+  };
+
+  const handleModalClose = () => {
+    setModalOpen(false);
   };
 
   return (
@@ -144,16 +161,45 @@ export function Comment({
             onClose={handleClose}
           >
             <MenuItem
-              onClick={() => {
-                handleDeleteComment();
-                handleClose();
-              }}
+              // onClick={() => {
+              //   // handleDeleteComment();
+              //   // handleClose();
+              // }}
+              onClick={handleModalOpen}
             >
               Delete Comment
             </MenuItem>
           </Menu>
         </Paper>
       </Box>
+      {/* modal */}
+      <Dialog
+        open={modalOpen}
+        onClose={handleModalOpen}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">
+          {'Are you sure you want to delete this comment?'}
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            {comment.content}
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleModalClose}>cancel</Button>
+          <Button
+            onClick={() => {
+              handleDeleteComment();
+              handleModalClose();
+            }}
+            autoFocus
+          >
+            delete
+          </Button>
+        </DialogActions>
+      </Dialog>
     </Box>
   );
 }
