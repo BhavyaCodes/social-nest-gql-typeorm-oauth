@@ -19,6 +19,7 @@ import {
   Link as MuiLink,
   Menu,
   MenuItem,
+  Tooltip,
 } from '@mui/material';
 import { Link } from 'react-router-dom';
 import { useTheme } from '@mui/material/styles';
@@ -146,22 +147,25 @@ export default function Layout(props: Props) {
               DevGram
             </Link>
           </Typography>
-          <IconButton
-            onClick={() =>
-              // setTheme((theme) => {
-              //   console.log(theme);
-              //   return theme === 'dark' ? 'dark' : 'light';
-              // })
-              setDarkMode((s) => !s)
-            }
-            // onClick={handleThemeChange}
-          >
-            {theme.palette.mode === 'dark' ? (
-              <LightModeIcon />
-            ) : (
-              <DarkModeIcon />
-            )}
-          </IconButton>
+          <Tooltip title="Dark Mode">
+            <IconButton
+              onClick={() =>
+                // setTheme((theme) => {
+                //   console.log(theme);
+                //   return theme === 'dark' ? 'dark' : 'light';
+                // })
+                setDarkMode((s) => !s)
+              }
+              // onClick={handleThemeChange}
+            >
+              {theme.palette.mode === 'dark' ? (
+                <LightModeIcon />
+              ) : (
+                <DarkModeIcon />
+              )}
+            </IconButton>
+          </Tooltip>
+
           {!loading && renderMenu()}
         </Toolbar>
       </AppBar>

@@ -20,7 +20,7 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 // import ShareIcon from '@mui/icons-material/Share';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
-import { Badge, Menu, MenuItem } from '@mui/material';
+import { Badge, Menu, MenuItem, Tooltip } from '@mui/material';
 import { useState } from 'react';
 import TimeAgo from 'javascript-time-ago';
 import en from 'javascript-time-ago/locale/en';
@@ -243,33 +243,37 @@ export default function PostComponent({
         </Typography>
       </CardContent>
       <CardActions disableSpacing>
-        {user ? (
-          <IconButton
-            aria-label={post.hasLiked ? 'Like Post' : 'unlike Post'}
-            onClick={post.hasLiked ? handleUnLike : handleLike}
-          >
-            {post.hasLiked ? (
-              <FavoriteIcon color="error" />
-            ) : (
+        <Tooltip title={post.hasLiked ? 'unlike post' : 'like post'}>
+          {user ? (
+            <IconButton
+              aria-label={post.hasLiked ? 'Like Post' : 'unlike Post'}
+              onClick={post.hasLiked ? handleUnLike : handleLike}
+            >
+              {post.hasLiked ? (
+                <FavoriteIcon color="error" />
+              ) : (
+                <FavoriteBorderIcon />
+              )}
+            </IconButton>
+          ) : (
+            <IconButton
+              aria-label="Like Post"
+              onClick={() => alert('please login first')}
+            >
               <FavoriteBorderIcon />
-            )}
-          </IconButton>
-        ) : (
+            </IconButton>
+          )}
+        </Tooltip>
+        <Tooltip title="comments">
           <IconButton
-            aria-label="Like Post"
-            onClick={() => alert('please login first')}
+            aria-label="view comments"
+            onClick={() => setCommentsOpen((s) => !s)}
           >
-            <FavoriteBorderIcon />
+            <Badge badgeContent={post.commentCount} color="secondary">
+              <MessageIcon />
+            </Badge>
           </IconButton>
-        )}
-        <IconButton
-          aria-label="view comments"
-          onClick={() => setCommentsOpen((s) => !s)}
-        >
-          <Badge badgeContent={post.commentCount} color="secondary">
-            <MessageIcon />
-          </Badge>
-        </IconButton>
+        </Tooltip>
       </CardActions>
       {getLikeCountText(post.likeCount) && (
         <Typography
