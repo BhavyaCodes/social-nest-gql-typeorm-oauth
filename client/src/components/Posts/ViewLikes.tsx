@@ -30,7 +30,6 @@ export default function ViewLikes(props: ViewLikesProps) {
   console.log(getUsersWhoLikePostData?.post);
 
   const handleClose = () => {
-    // onClose(selectedValue);
     onClose();
     setOpen(false);
   };

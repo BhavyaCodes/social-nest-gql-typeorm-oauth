@@ -10,6 +10,8 @@ import Fab from '@mui/material/Fab';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import Zoom from '@mui/material/Zoom';
 import { useUser } from '../context/user.context';
+import LightModeIcon from '@mui/icons-material/LightMode';
+import DarkModeIcon from '@mui/icons-material/DarkMode';
 import {
   Avatar,
   Button,
@@ -17,8 +19,10 @@ import {
   Link as MuiLink,
   Menu,
   MenuItem,
+  Tooltip,
 } from '@mui/material';
 import { Link } from 'react-router-dom';
+import { useTheme } from '@mui/material/styles';
 
 interface Props {
   /**
@@ -27,6 +31,7 @@ interface Props {
    */
   window?: () => Window;
   children: React.ReactElement;
+  setDarkMode: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 function ScrollTop(props: Props) {
@@ -67,6 +72,8 @@ function ScrollTop(props: Props) {
 }
 
 export default function Layout(props: Props) {
+  const { setDarkMode } = props;
+  const theme = useTheme();
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -131,6 +138,16 @@ export default function Layout(props: Props) {
               DevGram
             </Link>
           </Typography>
+          <Tooltip title="Dark Mode">
+            <IconButton onClick={() => setDarkMode((s) => !s)}>
+              {theme.palette.mode === 'dark' ? (
+                <LightModeIcon />
+              ) : (
+                <DarkModeIcon />
+              )}
+            </IconButton>
+          </Tooltip>
+
           {!loading && renderMenu()}
         </Toolbar>
       </AppBar>
