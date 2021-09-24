@@ -187,7 +187,6 @@ export default function PostComponent({
     setModalOpen(false);
   };
 
-  // const displayUsersWhoLikeThisPost = () => <ViewLikes postId={post.id} />;
   const displayUsersWhoLikeThisPost = () => setViewLikes(true);
 
   return (
@@ -229,7 +228,6 @@ export default function PostComponent({
                   <MenuItem
                     onClick={() => {
                       handleClose();
-                      // deletePost();
                       handleModalOpen();
                     }}
                   >
@@ -251,7 +249,6 @@ export default function PostComponent({
               {post.user.name}
             </Link>
           }
-          // title={post.user.name}
           subheader={timeAgo.format(new Date(post.createdAt))}
         />
         <CardContent>

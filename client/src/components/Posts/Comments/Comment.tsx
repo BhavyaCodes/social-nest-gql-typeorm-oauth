@@ -110,8 +110,6 @@ export function Comment({
             flexGrow: 1,
             borderRadius: 1,
             bgcolor: 'secondary.light',
-            // color: 'secondary.contrastText',
-            // bgcolor: (t) => t.palette.secondary.light,
           }}
         >
           <Box sx={{ display: 'flex', color: 'secondary.contrastText' }}>
@@ -131,14 +129,6 @@ export function Comment({
             </Box>
 
             {comment.user.id === user?.id && (
-              // <Button
-              //   type="button"
-              //   onClick={handleDeleteComment}
-              //   variant="contained"
-              //   // color="secondary"
-              // >
-              //   Delete Comment
-              // </Button>
               <IconButton
                 aria-label="more"
                 // id="long-button"
@@ -147,10 +137,7 @@ export function Comment({
                 aria-haspopup="true"
                 onClick={handleClick}
               >
-                <MoreVertIcon
-                // sx={{ color: 'theme.secondary.contrastText' }}
-                // color={}
-                />
+                <MoreVertIcon />
               </IconButton>
             )}
           </Box>
@@ -160,15 +147,7 @@ export function Comment({
             open={open}
             onClose={handleClose}
           >
-            <MenuItem
-              // onClick={() => {
-              //   // handleDeleteComment();
-              //   // handleClose();
-              // }}
-              onClick={handleModalOpen}
-            >
-              Delete Comment
-            </MenuItem>
+            <MenuItem onClick={handleModalOpen}>Delete Comment</MenuItem>
           </Menu>
         </Paper>
       </Box>

@@ -85,15 +85,6 @@ export default function Layout(props: Props) {
 
   const { user, loading } = useUser();
 
-  // const handleThemeChange = () => {
-  //   setDarkMode((s) => {
-  //     console.log('handleThemeChange', s);
-
-  //     // return !s === 'dark' ? 'light' : 'dark';
-  //     return !s;
-  //   });
-  // };
-
   const renderMenu = () => {
     return user ? (
       <>
@@ -148,16 +139,7 @@ export default function Layout(props: Props) {
             </Link>
           </Typography>
           <Tooltip title="Dark Mode">
-            <IconButton
-              onClick={() =>
-                // setTheme((theme) => {
-                //   console.log(theme);
-                //   return theme === 'dark' ? 'dark' : 'light';
-                // })
-                setDarkMode((s) => !s)
-              }
-              // onClick={handleThemeChange}
-            >
+            <IconButton onClick={() => setDarkMode((s) => !s)}>
               {theme.palette.mode === 'dark' ? (
                 <LightModeIcon />
               ) : (

@@ -38,10 +38,6 @@ export default function Comments({
     return null;
   };
 
-  // if (data?.findCommentsByPost.length === 0) {
-  //   return <p>no comments</p>;
-  // }
-
   return (
     <Box px={2} mb={1}>
       {renderComments()}
