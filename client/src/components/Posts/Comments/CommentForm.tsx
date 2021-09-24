@@ -1,7 +1,17 @@
 import { gql } from '@apollo/client';
-import { Button, TextField } from '@mui/material';
+import { useTheme } from '@mui/material/styles';
+import {
+  Avatar,
+  Button,
+  IconButton,
+  TextField,
+  useMediaQuery,
+} from '@mui/material';
+import SendIcon from '@mui/icons-material/Send';
+
 import { Box } from '@mui/system';
 import { FormEvent, useRef } from 'react';
+import { useHistory } from 'react-router';
 import { useUser } from '../../../context/user.context';
 import { useCreateCommentMutation } from '../../../__generated__/src/lib/mutations.graphql';
 import { FindCommentsByPostQuery } from '../../../__generated__/src/lib/queries.graphql';
@@ -15,6 +25,10 @@ export function CommentForm({
   comments?: FindCommentsByPostQuery['findCommentsByPost'];
   commentCount: number;
 }) {
+  const theme = useTheme();
+  const matches = useMediaQuery(theme.breakpoints.down('sm'));
+
+  const history = useHistory();
   const { user } = useUser();
   const inputRef = useRef<null | HTMLInputElement>(null);
   const [createCommentMutation] = useCreateCommentMutation();
@@ -67,13 +81,33 @@ export function CommentForm({
   };
 
   return (
-    <Box component="form" onSubmit={handleSubmit}>
+    <Box component="form" onSubmit={handleSubmit} sx={{ display: 'flex' }}>
+      {user && (
+        <Avatar
+          onClick={() => history.push(`/profile/${user.id}`)}
+          sx={{ cursor: 'pointer', width: 24, height: 24, my: 1 }}
+          alt={user.name}
+          src={user?.imageUrl as string}
+          imgProps={{
+            referrerPolicy: 'no-referrer',
+          }}
+        />
+      )}
+
       <TextField
-        placeholder="comment on this post"
+        placeholder="comment"
         required={true}
         inputRef={inputRef}
+        multiline
+        sx={{ flexGrow: 1, p: 1, mx: 1 }}
       />
-      <Button type="submit">Comment</Button>
+      {matches ? (
+        <IconButton type="submit">
+          <SendIcon />
+        </IconButton>
+      ) : (
+        <Button type="submit">Comment</Button>
+      )}
     </Box>
   );
 }

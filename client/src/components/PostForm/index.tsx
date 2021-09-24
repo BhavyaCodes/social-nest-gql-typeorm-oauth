@@ -74,16 +74,16 @@ export default function PostForm() {
 
   return (
     <Form component="form" onSubmit={handleFormSubmit} my={2}>
-      {/* <input type="text" id="new-post-form-content" ref={inputRef} />
-       */}
       <TextField
-        placeholder="Write a post"
+        label="Write a post"
         type="text"
         fullWidth
-        id="new-post-form-content"
         inputRef={inputRef}
         margin="normal"
         required
+        multiline
+        InputLabelProps={{ required: false }}
+        color="secondary"
       />
       <Button
         type="submit"

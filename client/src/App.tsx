@@ -3,7 +3,7 @@ import Index from './pages/Index';
 import { UserProvider } from './context/user.context';
 import Layout from './components/Layout';
 import Profile from './pages/Profile';
-import { ThemeProvider } from '@emotion/react';
+import { ThemeProvider } from '@mui/material';
 import { lightThemeOptions, darkThemeOptions } from './themes';
 import { createTheme, CssBaseline } from '@mui/material';
 import useLocalStorage from './hooks/useLocalStorage';
